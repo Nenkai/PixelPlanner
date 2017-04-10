@@ -10,18 +10,28 @@
         <!-- Status -->
         <Border BorderBrush="Gray" DockPanel.Dock="Bottom" BorderThickness="2">
             <StackPanel MinHeight="25">
-                <Label x:Name="PosLabel" Content="Label"/>
+                <Label x:Name="PosLabel" Content="Position"/>
             </StackPanel>
         </Border>
 
-        <!-- Left Tools -->
-        <Border MinWidth="260" BorderBrush="Gray" DockPanel.Dock="Left" BorderThickness="1" Width="114">
-            <Grid Height="697" VerticalAlignment="Top">
-                <ComboBox x:Name="ComboTypes" HorizontalAlignment="Left" Margin="61,398,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboTypes_SelectionChanged"/>
+        <!-- Top Menu -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" />
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+        </Menu>
 
-                <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="262" Margin="10,425,0,0" VerticalAlignment="Bottom" Width="238">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,0,0,-1" Height="261" VerticalAlignment="Top">
-                        <Canvas x:Name="TileCanvas" MouseDown="TileSelect_OnClick"/>
+        <!-- Left Tools -->
+        <Border MinWidth="260" BorderBrush="Gray" BorderThickness="1,1,1,0" DockPanel.Dock="Left" Width="114">
+            <Grid Height="671" VerticalAlignment="Bottom" Margin="9,0">
+                <ComboBox x:Name="ComboTypes" HorizontalAlignment="Left" Margin="10,306,0,0" VerticalAlignment="Top" Width="220" SelectionChanged="ComboTypes_SelectionChanged"/>
+                <Border BorderBrush="Gray" BorderThickness="2" HorizontalAlignment="Left" Height="328" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="220">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="-2,-1,-1,-3" Height="328" VerticalAlignment="Top">
+                        <Canvas x:Name="TileCanvas" MouseDown="TileSelect_OnClick" Height="312" Width="205"/>
                     </ScrollViewer>
                 </Border>
             </Grid>
@@ -29,7 +39,7 @@
 
         <!-- Planner -->
         <ScrollViewer x:Name="sv" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Canvas x:Name="MainCanvas" DockPanel.Dock="Right" Background="White" MouseMove="MainCanvas_MouseMove" MouseDown="MainCanvas_MouseDown"/>
+            <Canvas x:Name="MainCanvas" DockPanel.Dock="Right" Background="White" MouseMove="MainCanvas_MouseMove" MouseDown="MainCanvas_MouseDown" Height="679"/>
         </ScrollViewer>
 
 

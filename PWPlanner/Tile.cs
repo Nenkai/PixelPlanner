@@ -37,6 +37,50 @@ namespace PWPlanner
         }
 
     }
+
+    public static class TileTypeMethods
+    {
+        public static System.Drawing.Bitmap GetResourceForType(TileType tt)
+        {
+            if (tt == TileType.Background)
+            {
+                return Properties.Resources.Backgrounds as System.Drawing.Bitmap;
+            }
+            else if (tt == TileType.Foreground)
+            {
+                return Properties.Resources.Blocks as System.Drawing.Bitmap;
+            }
+
+            return null;
+        }
+
+        public static Image GetImageForType(TileType tt)
+        {
+            System.Drawing.Bitmap image = GetResourceForType(tt);
+            Image SpriteSheet = new Image();
+            switch (tt)
+            {
+                case TileType.Background:
+                    SpriteSheet = new Image
+                    {
+                        Width = image.Width,
+                        Height = image.Height,
+                        Source = new BitmapImage(new Uri(@"/Resources/Backgrounds.png", UriKind.Relative)),
+                    };
+                    break;
+                case TileType.Foreground:
+                    SpriteSheet = new Image
+                    {
+                        Width = image.Width,
+                        Height = image.Height,
+                        Source = new BitmapImage(new Uri(@"/Resources/Blocks.png", UriKind.Relative)),
+                    };
+                    break;
+            }
+            return SpriteSheet;
+        }
+    }
+
     public enum TileType
     {
         None,

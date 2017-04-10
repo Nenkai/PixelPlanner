@@ -13,18 +13,7 @@ namespace PWPlanner
         {
 
             Rectangle cropRect = new Rectangle(X, Y, 32, 32);
-            Bitmap src;
-            switch (type) {
-                case TileType.Background:
-                    src = Properties.Resources.Backgrounds as Bitmap;
-                    break;
-                case TileType.Foreground:
-                    src = Properties.Resources.Blocks as Bitmap;
-                    break;
-                default:
-                    src = Properties.Resources.Backgrounds as Bitmap;
-                    break;
-            }
+            Bitmap src = TileTypeMethods.GetResourceForType(type);
 
             Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
 

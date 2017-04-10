@@ -8,7 +8,7 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Input;
 
-namespace PWPlanner2
+namespace PWPlanner
 {
     public partial class MainWindow : Window
     {

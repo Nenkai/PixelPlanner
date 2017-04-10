@@ -19,6 +19,7 @@ namespace PWPlanner
         {
             InitializeComponent();
             DrawGrid();
+            _selectedTile.Type = TileType.Background;
             GenerateSelector();
             ComboTypes.SelectedIndex = 0;
         }

@@ -8,7 +8,7 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Input;
 
-namespace PWPlanner2
+namespace PWPlanner
 {
     public partial class MainWindow : Window
     {
@@ -22,14 +22,7 @@ namespace PWPlanner2
             ComboTypes.Items.Add("Blocks");
             ComboTypes.SelectedIndex = 0;
 
-            System.Drawing.Image image = Properties.Resources.Backgrounds;
-
-            SpriteSheet = new Image
-            {
-                Width = image.Width,
-                Height = image.Height,
-                Source = new BitmapImage(new Uri(@"/Resources/Backgrounds.png", UriKind.Relative)),
-            };
+            SpriteSheet = TileTypeMethods.GetImageForType(TileType.Background);
 
             TileCanvas.MinWidth = SpriteSheet.Width;
             TileCanvas.MinHeight = SpriteSheet.Height;
@@ -80,43 +73,24 @@ namespace PWPlanner2
             FirstSelected = false;
             TileCanvas.Children.Remove(SpriteSheet);
 
-            if (ComboTypes.SelectedIndex == 0)
+            switch (ComboTypes.SelectedIndex)
             {
-                _selectedTile.Type = TileType.Background;
-                System.Drawing.Image image = Properties.Resources.Backgrounds;
-
-                Image SpriteSheet = new Image
-                {
-                    Width = image.Width,
-                    Height = image.Height,
-                    Source = new BitmapImage(new Uri(@"/Resources/Backgrounds.png", UriKind.Relative)),
-                };
-
-                TileCanvas.MinWidth = SpriteSheet.Width;
-                TileCanvas.MinHeight = SpriteSheet.Height;
-                Canvas.SetTop(SpriteSheet, 0);
-                Canvas.SetLeft(SpriteSheet, 0);
-                TileCanvas.Children.Add(SpriteSheet);
-            }
-            else if (ComboTypes.SelectedIndex == 1)
-            {
-                _selectedTile.Type = TileType.Foreground;
-                System.Drawing.Image image = Properties.Resources.Blocks;
-
-                SpriteSheet = new Image
-                {
-                    Width = image.Width,
-                    Height = image.Height,
-                    Source = new BitmapImage(new Uri(@"/Resources/Blocks.png", UriKind.Relative)),
-                };
-
-                TileCanvas.MinWidth = SpriteSheet.Width;
-                TileCanvas.MinHeight = SpriteSheet.Height;
-                Canvas.SetTop(SpriteSheet, 0);
-                Canvas.SetLeft(SpriteSheet, 0);
-                TileCanvas.Children.Add(SpriteSheet);
+                case 0:
+                    SpriteSheet = TileTypeMethods.GetImageForType(TileType.Background);
+                    _selectedTile.Type = TileType.Background;
+                    break;
+                case 1:
+                    SpriteSheet = TileTypeMethods.GetImageForType(TileType.Foreground);
+                    _selectedTile.Type = TileType.Foreground;
+                    break;
             }
 
+            TileCanvas.MinWidth = SpriteSheet.Width;
+            TileCanvas.MinHeight = SpriteSheet.Height;
+            Canvas.SetTop(SpriteSheet, 0);
+            Canvas.SetLeft(SpriteSheet, 0);
+            TileCanvas.Children.Add(SpriteSheet);
+            
         }
     }
 }
