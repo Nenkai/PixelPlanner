@@ -1,9 +1,7 @@
-﻿using PWPlanner;
-using System.Diagnostics;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Windows;
+using Microsoft.Win32;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.Windows.Shapes;
@@ -119,6 +117,37 @@ namespace PWPlanner
                 CanvasPos pos = new CanvasPos(e.GetPosition(MainCanvas));
                 PosLabel.Content = $"({pos.X},{pos.Y})";
                 RemoveSameTileTypeAt(_selectedTile, pos.X, pos.Y);
+            }
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "PNG Files (*.png)|*.png";
+            dialog.DefaultExt = "png";
+            dialog.FileName = "World.png";
+            dialog.RestoreDirectory = true;
+            Nullable<bool> Selected = dialog.ShowDialog();
+            string path = dialog.FileName;
+
+            if (Selected == true)
+            {
+                RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+                             (int)MainCanvas.ActualWidth, (int)MainCanvas.ActualHeight,
+                              96d, 96d, PixelFormats.Pbgra32);
+
+                MainCanvas.Measure(new Size((int)MainCanvas.ActualWidth, (int)MainCanvas.ActualHeight));
+                MainCanvas.Arrange(new Rect(new Size((int)MainCanvas.ActualWidth, (int)MainCanvas.ActualHeight)));
+
+                renderBitmap.Render(MainCanvas);
+
+                PngBitmapEncoder imageEncoder = new PngBitmapEncoder();
+                imageEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+
+                using (var fs = File.OpenWrite(path))
+                {
+                    imageEncoder.Save(fs);
+                }
             }
         }
     }
