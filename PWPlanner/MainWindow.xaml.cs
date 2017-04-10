@@ -120,6 +120,7 @@ namespace PWPlanner
             }
         }
 
+        //Save Entire Canvas to PNG
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
@@ -148,6 +149,7 @@ namespace PWPlanner
                 {
                     imageEncoder.Save(fs);
                 }
+                MessageBox.Show("Image saved successfully at\n" + path, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }
