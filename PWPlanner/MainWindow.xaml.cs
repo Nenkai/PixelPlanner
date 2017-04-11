@@ -127,15 +127,10 @@ namespace PWPlanner
                     }
                 } 
             }
-        }
 
-        //Delete Tiles
-        private void MainCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-        {
+            //Delete Tiles
             if (e.RightButton == MouseButtonState.Pressed)
             {
-                CanvasPos pos = new CanvasPos(e.GetPosition(MainCanvas));
-                PosLabel.Content = $"({pos.X},{pos.Y})";
                 RemoveSameTileTypeAt(_selectedTile, pos.X, pos.Y);
             }
         }
