@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\DataHandler.cs" />
     <Compile Include="Core\Selector.cs" />
     <Compile Include="Core\TileGrid.cs" />
     <Compile Include="Utils.cs" />

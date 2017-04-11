@@ -79,27 +79,34 @@ namespace PWPlanner
         {
             if (TileData[X, Y] != null)
             {
+                //If there are both types on 1 tile, and the current selected is a background, leave the foreground only
                 if ((TileData[X, Y].Type == TileType.Both) && (tile.Type == TileType.Background))
                 {
                     MainCanvas.Children.Remove(TileData[X, Y].Background);
                     TileData[X, Y].Type = TileType.Foreground;
                     TileData[X, Y].Background = null;
+                    TileData[X, Y].Positions.DeleteBackgroundPositions();
                 }
+                //If there are both types on 1 tile, and the current selected is a foreground, leave the background only
                 else if ((TileData[X, Y].Type == TileType.Both) && (tile.Type == TileType.Foreground))
                 {
                     MainCanvas.Children.Remove(TileData[X,Y].Foreground);
                     TileData[X, Y].Type = TileType.Background;
                     TileData[X, Y].Foreground = null;
+                    TileData[X, Y].Positions.DeleteForegroundPositions();
                 }
+                //If there is only one type, just erase the tile.
                 else if (TileData[X, Y].Type == tile.Type)
                 {
                     switch (tile.Type)
                     {
                         case TileType.Background:
                             MainCanvas.Children.Remove(TileData[X, Y].Background);
+                            TileData[X, Y].Positions.DeleteBackgroundPositions();
                             break;
                         case TileType.Foreground:
                             MainCanvas.Children.Remove(TileData[X, Y].Foreground);
+                            TileData[X, Y].Positions.DeleteForegroundPositions();
                             break;
                     }
                     TileData[X, Y] = null;

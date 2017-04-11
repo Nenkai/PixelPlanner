@@ -38,22 +38,8 @@ namespace PWPlanner
             int Y = (int)Math.Floor(p.Y / 32);
 
             System.Drawing.Bitmap bmp = Utils.GetCroppedBitmap(_selectedTile.Type, X * 32, Y * 32);
-
-            var bi = new BitmapImage();
-            using (var ms = new MemoryStream())
-            {
-                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                ms.Position = 0;
-
-                bi.BeginInit();
-                bi.CacheOption = BitmapCacheOption.OnLoad;
-                bi.StreamSource = ms;
-                bi.EndInit();
-            }
-
-            Image image = new Image();
-            image.Source = bi;
-
+            Image image = Utils.BitmapToImageControl(bmp);
+            
             TileType tt = TileType.None;
             switch (ComboTypes.SelectedIndex)
             {
@@ -66,6 +52,8 @@ namespace PWPlanner
             }
             FirstSelected = true;
             _selectedTile = new Tile(tt, image);
+            _selectedTile.X = (int) p.X / 32;
+            _selectedTile.Y = (int) p.Y / 32;
         }
 
         private void ComboTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)

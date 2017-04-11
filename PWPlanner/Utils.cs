@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
+using System.IO;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace PWPlanner
 {
     public class Utils
     {
-        public static Bitmap GetCroppedBitmap(TileType type, int X, int Y)
+        public static System.Drawing.Bitmap GetCroppedBitmap(TileType type, int X, int Y)
         {
 
             Rectangle cropRect = new Rectangle(X, Y, 32, 32);
@@ -25,7 +23,25 @@ namespace PWPlanner
             }
             return target;
         }
-        
 
+        public static System.Windows.Controls.Image BitmapToImageControl(Bitmap bmp)
+        {
+
+            var bi = new BitmapImage();
+            using (var ms = new MemoryStream())
+            {
+                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                ms.Position = 0;
+
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.StreamSource = ms;
+                bi.EndInit();
+            }
+
+            System.Windows.Controls.Image image = new System.Windows.Controls.Image();
+            image.Source = bi;
+            return image;
+        }
     }
 }
