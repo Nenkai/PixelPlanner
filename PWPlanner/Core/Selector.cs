@@ -54,6 +54,7 @@ namespace PWPlanner
             _selectedTile = new Tile(tt, image);
             _selectedTile.X = (int) p.X / 32;
             _selectedTile.Y = (int) p.Y / 32;
+            bmp.Dispose();
         }
 
         private void ComboTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)

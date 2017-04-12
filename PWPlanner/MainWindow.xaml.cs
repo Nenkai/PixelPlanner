@@ -14,43 +14,14 @@ namespace PWPlanner
 {
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             InitializeComponent();
-            DrawGrid();
+            DrawGrid(TileDB.Height, TileDB.Width);
+            DrawBedrock();
             _selectedTile.Type = TileType.Background;
             GenerateSelector();
             ComboTypes.SelectedIndex = 0;
-        }
-
-        private void DrawGrid()
-        {
-            MainCanvas.Height = 32 * 59;
-            MainCanvas.Width = 32 * 80;
-            for (int i = 32; i <= MainCanvas.Width; i += 32)
-            {
-                Line vertLine = new Line();
-                vertLine.Stroke = Brushes.Gray;
-                vertLine.X1 = i;
-                vertLine.X2 = i;
-                vertLine.Y1 = 0;
-                vertLine.Y2 = MainCanvas.Height;
-                vertLine.StrokeThickness = 1;
-                MainCanvas.Children.Add(vertLine);
-            }
-
-            for (int i = 32; i <= MainCanvas.Height; i += 32)
-            {
-                Line horiLine = new Line();
-                horiLine.Stroke = Brushes.Gray;
-                horiLine.X1 = 0;
-                horiLine.X2 = MainCanvas.Width;
-                horiLine.Y1 = i;
-                horiLine.Y2 = i;
-                horiLine.StrokeThickness = 1;
-                MainCanvas.Children.Add(horiLine);
-            }
         }
 
         //Painter
@@ -85,42 +56,42 @@ namespace PWPlanner
                                 image.SetValue(Canvas.ZIndexProperty, 10);
                                 if (HasForegroundAt(pos.X, pos.Y))
                                 {
-                                    TileData[pos.X, pos.Y].Type = TileType.Both;
-                                    TileData[pos.X, pos.Y].Background = image;
-                                    if (TileData[pos.X, pos.Y].Positions == null)
+                                    TileDB.Tiles[pos.X, pos.Y].Type = TileType.Both;
+                                    TileDB.Tiles[pos.X, pos.Y].Background = image;
+                                    if (TileDB.Tiles[pos.X, pos.Y].Positions == null)
                                     {
-                                        TileData[pos.X, pos.Y].Positions = new TilePosition(_selectedTile.Type, pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
+                                        TileDB.Tiles[pos.X, pos.Y].Positions = new TilePosition(_selectedTile.Type, pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
                                     } else
                                     {
-                                        TileData[pos.X, pos.Y].Positions.SetBackgroundPositions(pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
+                                        TileDB.Tiles[pos.X, pos.Y].Positions.SetBackgroundPositions(pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
                                     }
 
                                 }
                                 else
                                 {
                                     TilePosition Position = new TilePosition(_selectedTile.Type, pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
-                                    TileData[pos.X, pos.Y] = new Tile(TileType.Background, image, Position);
+                                    TileDB.Tiles[pos.X, pos.Y] = new Tile(TileType.Background, image, Position);
                                 }
                                 break;
                             case TileType.Foreground:
                                 image.SetValue(Canvas.ZIndexProperty, 20);
                                 if (HasBackgroundAt(pos.X, pos.Y))
                                 {
-                                    TileData[pos.X, pos.Y].Type = TileType.Both;
-                                    TileData[pos.X, pos.Y].Foreground = image;
-                                    if (TileData[pos.X, pos.Y].Positions == null)
+                                    TileDB.Tiles[pos.X, pos.Y].Type = TileType.Both;
+                                    TileDB.Tiles[pos.X, pos.Y].Foreground = image;
+                                    if (TileDB.Tiles[pos.X, pos.Y].Positions == null)
                                     {
-                                        TileData[pos.X, pos.Y].Positions = new TilePosition(_selectedTile.Type, pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
+                                        TileDB.Tiles[pos.X, pos.Y].Positions = new TilePosition(_selectedTile.Type, pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
                                     }
                                     else
                                     {
-                                        TileData[pos.X, pos.Y].Positions.SetForegroundPositions(pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
+                                        TileDB.Tiles[pos.X, pos.Y].Positions.SetForegroundPositions(pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
                                     }
                                 }
                                 else
                                 {
                                     TilePosition Position = new TilePosition(_selectedTile.Type, pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
-                                    TileData[pos.X, pos.Y] = new Tile(TileType.Foreground, image, Position);
+                                    TileDB.Tiles[pos.X, pos.Y] = new Tile(TileType.Foreground, image, Position);
                                 }
                                 break;
                         }
@@ -180,7 +151,7 @@ namespace PWPlanner
             string path = dialog.FileName;
             if (Selected == true)
             {
-                DataHandler.SaveWorld(TileData, path);
+                DataHandler.SaveWorld(TileDB, path);
                 MessageBox.Show("Image saved successfully at\n" + path, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
@@ -197,33 +168,35 @@ namespace PWPlanner
             if (Selected == true)
             {
                 MainCanvas.Children.Clear();
-                DrawGrid();
-                TileData = (Tile[,])DataHandler.LoadWorld(path);
-                for (int i = 0; i < TileData.GetLength(0); i++)
+                TileDB = (TileData)DataHandler.LoadWorld(path);
+                DrawGrid(TileDB.Height, TileDB.Width);
+                for (int i = 0; i < TileDB.Tiles.GetLength(0); i++)
                 {
-                    for (int j = 0; j < TileData.GetLength(1); j++)
+                    for (int j = 0; j < TileDB.Tiles.GetLength(1); j++)
                     {
-                        if (TileData[i, j] != null)
+                        if (TileDB.Tiles[i, j] != null)
                         {
-                            if (TileData[i, j].Type == TileType.Background || TileData[i, j].Type == TileType.Both)
+                            if (TileDB.Tiles[i, j].Type == TileType.Background || TileDB.Tiles[i, j].Type == TileType.Both)
                             {
-                                System.Drawing.Bitmap bmp = Utils.GetCroppedBitmap(TileType.Background, TileData[i, j].Positions.BackgroundSpriteX.Value * 32, TileData[i, j].Positions.BackgroundSpriteY.Value * 32);
+                                System.Drawing.Bitmap bmp = Utils.GetCroppedBitmap(TileType.Background, TileDB.Tiles[i, j].Positions.BackgroundSpriteX.Value * 32, TileDB.Tiles[i, j].Positions.BackgroundSpriteY.Value * 32);
                                 Image image = Utils.BitmapToImageControl(bmp);
-                                Canvas.SetTop(image, TileData[i, j].Positions.BackgroundY.Value * 32);
-                                Canvas.SetLeft(image, TileData[i, j].Positions.BackgroundX.Value * 32);
+                                Canvas.SetTop(image, TileDB.Tiles[i, j].Positions.BackgroundY.Value * 32);
+                                Canvas.SetLeft(image, TileDB.Tiles[i, j].Positions.BackgroundX.Value * 32);
                                 image.SetValue(Canvas.ZIndexProperty, 10);
                                 MainCanvas.Children.Add(image);
-                                TileData[i, j].Background = image;
+                                TileDB.Tiles[i, j].Background = image;
+                                bmp.Dispose();
                             }
-                            if (TileData[i, j].Type == TileType.Foreground || TileData[i, j].Type == TileType.Both)
+                            if (TileDB.Tiles[i, j].Type == TileType.Foreground || TileDB.Tiles[i, j].Type == TileType.Both)
                             {
-                                System.Drawing.Bitmap bmp = Utils.GetCroppedBitmap(TileType.Foreground, TileData[i, j].Positions.ForegroundSpriteX.Value * 32, TileData[i, j].Positions.ForegroundSpriteY.Value * 32);
+                                System.Drawing.Bitmap bmp = Utils.GetCroppedBitmap(TileType.Foreground, TileDB.Tiles[i, j].Positions.ForegroundSpriteX.Value * 32, TileDB.Tiles[i, j].Positions.ForegroundSpriteY.Value * 32);
                                 Image image = Utils.BitmapToImageControl(bmp);
-                                Canvas.SetTop(image, TileData[i, j].Positions.ForegroundY.Value * 32);
-                                Canvas.SetLeft(image, TileData[i, j].Positions.ForegroundX.Value * 32);
+                                Canvas.SetTop(image, TileDB.Tiles[i, j].Positions.ForegroundY.Value * 32);
+                                Canvas.SetLeft(image, TileDB.Tiles[i, j].Positions.ForegroundX.Value * 32);
                                 image.SetValue(Canvas.ZIndexProperty, 20);
                                 MainCanvas.Children.Add(image);
-                                TileData[i, j].Foreground = image;
+                                TileDB.Tiles[i, j].Foreground = image;
+                                bmp.Dispose();
                             }
                         }
                     }

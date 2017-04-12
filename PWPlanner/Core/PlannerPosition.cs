@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 
-
 namespace PWPlanner
 {
     public class CanvasPos

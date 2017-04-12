@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Core\DataHandler.cs" />
     <Compile Include="Core\Selector.cs" />
+    <Compile Include="Core\TileData.cs" />
     <Compile Include="Core\TileGrid.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Tile.cs" />
@@ -100,10 +101,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\Backgrounds.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Blocks.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
