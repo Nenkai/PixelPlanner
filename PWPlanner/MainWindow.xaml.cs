@@ -15,7 +15,8 @@ namespace PWPlanner
     public partial class MainWindow : Window
     {
         private bool isRendered = false;
-
+        private Tile LastPlacedOrRemoved;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -45,64 +46,7 @@ namespace PWPlanner
                     //Check if the tile selected can be placed at a position
                     if (!SameTypeAt(_selectedTile, pos.X, pos.Y) && !AlreadyHasBothTypes(pos.X, pos.Y))
                     {
-                        Image image = new Image();
-                        if (_selectedTile.Type == TileType.Background)
-                        {
-                            image.Source = _selectedTile.Background.Source;
-                        }
-                        else if (_selectedTile.Type == TileType.Foreground)
-                        {
-                            image.Source = _selectedTile.Foreground.Source;
-                        }
-                        Canvas.SetTop(image, pos.Y * 32);
-                        Canvas.SetLeft(image, pos.X * 32);
-                        MainCanvas.Children.Add(image);
-
-                        switch (_selectedTile.Type)
-                        {
-                            case TileType.Background:
-                                image.SetValue(Canvas.ZIndexProperty, 10);
-                                if (HasForegroundAt(pos.X, pos.Y))
-                                {
-                                    TileDB.Tiles[pos.X, pos.Y].Type = TileType.Both;
-                                    TileDB.Tiles[pos.X, pos.Y].Background = image;
-                                    if (TileDB.Tiles[pos.X, pos.Y].Positions == null)
-                                    {
-                                        TileDB.Tiles[pos.X, pos.Y].Positions = new TilePosition(_selectedTile.Type, pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
-                                    } else
-                                    {
-                                        TileDB.Tiles[pos.X, pos.Y].Positions.SetBackgroundPositions(pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
-                                    }
-
-                                }
-                                else
-                                {
-                                    TilePosition Position = new TilePosition(_selectedTile.Type, pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
-                                    TileDB.Tiles[pos.X, pos.Y] = new Tile(TileType.Background, image, Position);
-                                }
-                                break;
-                            case TileType.Foreground:
-                                image.SetValue(Canvas.ZIndexProperty, 20);
-                                if (HasBackgroundAt(pos.X, pos.Y))
-                                {
-                                    TileDB.Tiles[pos.X, pos.Y].Type = TileType.Both;
-                                    TileDB.Tiles[pos.X, pos.Y].Foreground = image;
-                                    if (TileDB.Tiles[pos.X, pos.Y].Positions == null)
-                                    {
-                                        TileDB.Tiles[pos.X, pos.Y].Positions = new TilePosition(_selectedTile.Type, pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
-                                    }
-                                    else
-                                    {
-                                        TileDB.Tiles[pos.X, pos.Y].Positions.SetForegroundPositions(pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
-                                    }
-                                }
-                                else
-                                {
-                                    TilePosition Position = new TilePosition(_selectedTile.Type, pos.X, pos.Y, _selectedTile.X, _selectedTile.Y);
-                                    TileDB.Tiles[pos.X, pos.Y] = new Tile(TileType.Foreground, image, Position);
-                                }
-                                break;
-                        }
+                        PlaceAt(pos.X, pos.Y, _selectedTile);
                     }
                 } 
             }
@@ -110,7 +54,7 @@ namespace PWPlanner
             //Delete Tiles
             if (e.RightButton == MouseButtonState.Pressed)
             {
-                RemoveSameTileTypeAt(_selectedTile, pos.X, pos.Y);
+                DeleteAt(pos.X, pos.Y, _selectedTile);
             }
         }
 
@@ -252,6 +196,27 @@ namespace PWPlanner
             }
         }
 
+        private void Undo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Redo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Grid_Click(object sender, RoutedEventArgs e)
+        {
+            if (gridButton.IsChecked)
+            {
+                RemoveGrid();
+            }
+            else
+            {
+                DrawGrid(TileDB.Height, TileDB.Width);
+            }
+        }
     }
 }
 

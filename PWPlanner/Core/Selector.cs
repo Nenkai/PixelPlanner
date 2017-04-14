@@ -39,34 +39,39 @@ namespace PWPlanner
             int X = (int)Math.Floor(p.X / 32);
             int Y = (int)Math.Floor(p.Y / 32);
 
-            TileCanvas.Children.Remove(selectBorder);
-
-            selectBorder = new Border();
-            selectBorder.BorderBrush = Brushes.SkyBlue;
-            selectBorder.BorderThickness = new Thickness(2);
-            selectBorder.Width = 32;
-            selectBorder.Height = 32;
-            Canvas.SetTop(selectBorder, Y * 32);
-            Canvas.SetLeft(selectBorder, X * 32);
-
-            TileCanvas.Children.Add(selectBorder);
             System.Drawing.Bitmap bmp = Utils.GetCroppedBitmap(_selectedTile.Type, X * 32, Y * 32);
-            Image image = Utils.BitmapToImageControl(bmp);
-            
-            TileType tt = TileType.None;
-            switch (ComboTypes.SelectedIndex)
+
+            //Check if the image is nothing, before trying to use it
+            if (!Utils.IsBitmapVoid(bmp))
             {
-                case 0:
-                    tt = TileType.Background;
-                    break;
-                case 1:
-                    tt = TileType.Foreground;
-                    break;
+                Image image = Utils.BitmapToImageControl(bmp);
+
+                TileType tt = TileType.None;
+                switch (ComboTypes.SelectedIndex)
+                {
+                    case 0:
+                        tt = TileType.Background;
+                        break;
+                    case 1:
+                        tt = TileType.Foreground;
+                        break;
+                }
+                TileCanvas.Children.Remove(selectBorder);
+
+                selectBorder = new Border();
+                selectBorder.BorderBrush = Brushes.SkyBlue;
+                selectBorder.BorderThickness = new Thickness(2);
+                selectBorder.Width = 32;
+                selectBorder.Height = 32;
+                Canvas.SetTop(selectBorder, Y * 32);
+                Canvas.SetLeft(selectBorder, X * 32);
+
+                TileCanvas.Children.Add(selectBorder);
+                FirstSelected = true;
+                _selectedTile = new Tile(tt, image);
+                _selectedTile.X = (int)p.X / 32;
+                _selectedTile.Y = (int)p.Y / 32;
             }
-            FirstSelected = true;
-            _selectedTile = new Tile(tt, image);
-            _selectedTile.X = (int) p.X / 32;
-            _selectedTile.Y = (int) p.Y / 32;
             bmp.Dispose();
         }
 
@@ -75,16 +80,13 @@ namespace PWPlanner
             FirstSelected = false;
             TileCanvas.Children.Remove(SpriteSheet);
 
-            switch (ComboTypes.SelectedIndex)
-            {
-                case 0:
-                    SpriteSheet = TileTypeMethods.GetImageForType(TileType.Background);
-                    _selectedTile.Type = TileType.Background;
-                    break;
-                case 1:
-                    SpriteSheet = TileTypeMethods.GetImageForType(TileType.Foreground);
-                    _selectedTile.Type = TileType.Foreground;
-                    break;
+            if (ComboTypes.SelectedIndex == 0) {
+                SpriteSheet = TileTypeMethods.GetImageForType(TileType.Background);
+                _selectedTile.Type = TileType.Background;
+            }
+            else if (ComboTypes.SelectedIndex == 1) {
+                SpriteSheet = TileTypeMethods.GetImageForType(TileType.Foreground);
+                _selectedTile.Type = TileType.Foreground;
             }
 
             TileCanvas.MinWidth = SpriteSheet.Width;

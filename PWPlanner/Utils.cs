@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.IO;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -43,5 +44,21 @@ namespace PWPlanner
             image.Source = bi;
             return image;
         }
+
+        public static bool IsBitmapVoid(System.Drawing.Bitmap bmp)
+        {
+            for (int y = 0; y < bmp.Height; y++)
+            {
+                for (int x = 0; x < bmp.Width; x++)
+                {
+                    Color color = bmp.GetPixel(x, y);
+                    if (color.R > 0 && color.G > 0 && color.B > 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } 
     }
 }

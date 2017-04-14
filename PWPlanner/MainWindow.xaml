@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Pixel Worlds Planner" Height="760.431" Width="1000.824"
         ContentRendered="Window_ContentRendered">
+
     <DockPanel LastChildFill="true" >
         <!-- Status -->
         <Border BorderBrush="Gray" DockPanel.Dock="Bottom" BorderThickness="2">
@@ -24,6 +25,12 @@
                 <MenuItem Header="_Save to Image" Click="SaveImage_Click" />
                 <Separator />
                 <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Undo" Name="undoButton" Click="Undo_Click" IsEnabled="False"/>
+                <MenuItem Header="Redo" Name="redoButton" Click="Redo_Click" IsEnabled="False"/>
+                <Separator/>
+                <MenuItem Header="Grid" Name="gridButton" Click="Grid_Click" IsChecked="True"/>
             </MenuItem>
         </Menu>
 
@@ -48,5 +55,5 @@
 
     </DockPanel>
 
-
 </Window>
+
