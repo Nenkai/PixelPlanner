@@ -14,14 +14,22 @@ namespace PWPlanner
 {
     public partial class MainWindow : Window
     {
+        private bool isRendered = false;
+
         public MainWindow()
         {
             InitializeComponent();
             DrawGrid(TileDB.Height, TileDB.Width);
             DrawBedrock();
+            MainCanvas.Background = new SolidColorBrush(Color.FromRgb(140, 226, 249));
             _selectedTile.Type = TileType.Background;
             GenerateSelector();
             ComboTypes.SelectedIndex = 0;
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            isRendered = true;
         }
 
         //Painter
@@ -104,6 +112,12 @@ namespace PWPlanner
             {
                 RemoveSameTileTypeAt(_selectedTile, pos.X, pos.Y);
             }
+        }
+
+        //Pass Click to Move
+        private void MainCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainCanvas_MouseMove(sender, e);
         }
 
         //Save Entire Canvas to PNG
@@ -203,6 +217,41 @@ namespace PWPlanner
                 }
             }
         }
+
+        //Zoom
+        private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (isRendered)
+            {
+                ScaleTransform scale;
+                if (e.NewValue > e.OldValue)
+                {
+                    scale = new ScaleTransform(MainCanvas.LayoutTransform.Value.M11 + 0.13, MainCanvas.LayoutTransform.Value.M22 + 0.13);
+                } else
+                {
+                    scale = new ScaleTransform(MainCanvas.LayoutTransform.Value.M11 - 0.13, MainCanvas.LayoutTransform.Value.M22 -0.13);
+                }
+                MainCanvas.LayoutTransform = scale;
+                MainCanvas.UpdateLayout();
+            }
+        }
+
+        //Zoom on Shift+Wheel
+        private void MainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                if (e.Delta > 0)
+                {
+                    zoomSlider.Value += 10;
+                }
+                else
+                {
+                    zoomSlider.Value -= 10;
+                }
+            }
+        }
+
     }
 }
 

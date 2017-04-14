@@ -14,6 +14,7 @@ namespace PWPlanner
     {
         public Tile _selectedTile = new Tile();
         public Image SpriteSheet;
+        public Border selectBorder = new Border();
         public bool FirstSelected = false;
 
         private void GenerateSelector()
@@ -29,6 +30,7 @@ namespace PWPlanner
             Canvas.SetTop(SpriteSheet, 0);
             Canvas.SetLeft(SpriteSheet, 0);
             TileCanvas.Children.Add(SpriteSheet);
+
         }
 
         private void TileSelect_OnClick(object sender, MouseEventArgs e)
@@ -37,6 +39,17 @@ namespace PWPlanner
             int X = (int)Math.Floor(p.X / 32);
             int Y = (int)Math.Floor(p.Y / 32);
 
+            TileCanvas.Children.Remove(selectBorder);
+
+            selectBorder = new Border();
+            selectBorder.BorderBrush = Brushes.SkyBlue;
+            selectBorder.BorderThickness = new Thickness(2);
+            selectBorder.Width = 32;
+            selectBorder.Height = 32;
+            Canvas.SetTop(selectBorder, Y * 32);
+            Canvas.SetLeft(selectBorder, X * 32);
+
+            TileCanvas.Children.Add(selectBorder);
             System.Drawing.Bitmap bmp = Utils.GetCroppedBitmap(_selectedTile.Type, X * 32, Y * 32);
             Image image = Utils.BitmapToImageControl(bmp);
             
