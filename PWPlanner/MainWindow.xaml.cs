@@ -1,5 +1,6 @@
 ﻿using System;
-using PWPlanner;
+using GuiLabs.Undo;
+using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -15,17 +16,21 @@ namespace PWPlanner
     public partial class MainWindow : Window
     {
         private bool isRendered = false;
-        private Tile LastPlacedOrRemoved;
-        
+        private Matrix defaultMatrix;
+        private ActionManager actionManager = new ActionManager();
+        private CallMethodAction action;
+
         public MainWindow()
         {
             InitializeComponent();
             DrawGrid(TileDB.Height, TileDB.Width);
             DrawBedrock();
             MainCanvas.Background = new SolidColorBrush(Color.FromRgb(140, 226, 249));
+            defaultMatrix = MainCanvas.LayoutTransform.Value;
             _selectedTile.Type = TileType.Background;
             GenerateSelector();
             ComboTypes.SelectedIndex = 0;
+
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
@@ -46,7 +51,14 @@ namespace PWPlanner
                     //Check if the tile selected can be placed at a position
                     if (!SameTypeAt(_selectedTile, pos.X, pos.Y) && !AlreadyHasBothTypes(pos.X, pos.Y))
                     {
-                        PlaceAt(pos.X, pos.Y, _selectedTile);
+                        action = new CallMethodAction(
+                        () => PlaceAt(pos.X, pos.Y, _selectedTile),
+                        () => DeleteAt(pos.X, pos.Y, _selectedTile));
+                        
+                        actionManager.Execute(action);
+
+                        UpdateUndoRedoButtons();
+
                     }
                 } 
             }
@@ -54,7 +66,15 @@ namespace PWPlanner
             //Delete Tiles
             if (e.RightButton == MouseButtonState.Pressed)
             {
-                DeleteAt(pos.X, pos.Y, _selectedTile);
+                if (SameTypeAt(_selectedTile, pos.X, pos.Y))
+                {
+                    action = new CallMethodAction(
+                       () => DeleteAt(pos.X, pos.Y, _selectedTile),
+                       () => PlaceAt(pos.X, pos.Y, _selectedTile));
+                    actionManager.Execute(action);
+
+                    UpdateUndoRedoButtons();
+                }
             }
         }
 
@@ -66,7 +86,11 @@ namespace PWPlanner
 
         //Save Entire Canvas to PNG
         private void SaveImage_Click(object sender, RoutedEventArgs e)
-        {
+        { 
+            //Apply default scale to allow 1:1 pixel world saving.
+            MainCanvas.LayoutTransform = new ScaleTransform(defaultMatrix.M11, defaultMatrix.M22);
+            MainCanvas.UpdateLayout();
+
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "PNG Files (*.png)|*.png";
             dialog.DefaultExt = "png";
@@ -123,9 +147,11 @@ namespace PWPlanner
             dialog.RestoreDirectory = true;
             Nullable<bool> Selected = dialog.ShowDialog();
             string path = dialog.FileName;
+
             if (Selected == true)
             {
                 MainCanvas.Children.Clear();
+                actionManager.Clear();
                 TileDB = (TileData)DataHandler.LoadWorld(path);
                 DrawGrid(TileDB.Height, TileDB.Width);
                 for (int i = 0; i < TileDB.Tiles.GetLength(0); i++)
@@ -158,6 +184,7 @@ namespace PWPlanner
                             }
                         }
                     }
+                    UpdateUndoRedoButtons();
                 }
             }
         }
@@ -198,12 +225,20 @@ namespace PWPlanner
 
         private void Undo_Click(object sender, RoutedEventArgs e)
         {
-
+            if (undoButton.IsEnabled)
+            {
+                actionManager.Undo();
+                UpdateUndoRedoButtons();
+            }
         }
 
         private void Redo_Click(object sender, RoutedEventArgs e)
         {
-
+            if (redoButton.IsEnabled)
+            {
+                actionManager.Redo();
+                UpdateUndoRedoButtons();
+            }
         }
 
         private void Grid_Click(object sender, RoutedEventArgs e)
@@ -216,6 +251,21 @@ namespace PWPlanner
             {
                 DrawGrid(TileDB.Height, TileDB.Width);
             }
+        }
+
+        private void UndoShortcut_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Undo_Click(sender, e);
+        }
+        private void RedoShortcut_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Redo_Click(sender, e);
+        }
+
+        void UpdateUndoRedoButtons()
+        {
+            undoButton.IsEnabled = actionManager.CanUndo;
+            redoButton.IsEnabled = actionManager.CanRedo;
         }
     }
 }
