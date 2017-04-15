@@ -1,6 +1,7 @@
 ﻿using System;
 using GuiLabs.Undo;
 using System.Linq;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -55,12 +56,8 @@ namespace PWPlanner
                         //So we can make sure to put a confirm box if the user makes a new world or opens one
                         if (!firstPlaced) firstPlaced = true;
 
-                        action = new CallMethodAction(
-                        () => PlaceAt(pos.X, pos.Y, _selectedTile),
-                        () => DeleteAt(pos.X, pos.Y, _selectedTile));
+                        PlaceAt(pos.X, pos.Y, _selectedTile);
                         
-                        actionManager.Execute(action);
-
                         UpdateUndoRedoButtons();
 
                     }
@@ -72,12 +69,7 @@ namespace PWPlanner
             {
                 if (SameTypeAt(_selectedTile, pos.X, pos.Y))
                 {
-                    action = new CallMethodAction(
-                       () => DeleteAt(pos.X, pos.Y, _selectedTile),
-                       () => PlaceAt(pos.X, pos.Y, _selectedTile));
-                    actionManager.Execute(action);
-
-                    UpdateUndoRedoButtons();
+                    DeleteAt(pos.X, pos.Y, _selectedTile);
                 }
             }
         }
@@ -238,8 +230,7 @@ namespace PWPlanner
         {
             if (undoButton.IsEnabled)
             {
-                actionManager.Undo();
-                UpdateUndoRedoButtons();
+                
             }
         }
 
@@ -247,8 +238,7 @@ namespace PWPlanner
         {
             if (redoButton.IsEnabled)
             {
-                actionManager.Redo();
-                UpdateUndoRedoButtons();
+                
             }
         }
 
@@ -268,6 +258,7 @@ namespace PWPlanner
         {
             Undo_Click(sender, e);
         }
+
         private void RedoShortcut_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Redo_Click(sender, e);
