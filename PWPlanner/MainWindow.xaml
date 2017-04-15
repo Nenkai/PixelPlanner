@@ -20,17 +20,19 @@
     
     <DockPanel LastChildFill="true" >
         <!-- Status -->
-        <Border BorderBrush="Gray" DockPanel.Dock="Bottom" BorderThickness="2">
-            <StackPanel MinHeight="25">
+        <StatusBar DockPanel.Dock="Bottom" Height="30">
+            <StackPanel MinHeight="20">
                 <Label x:Name="PosLabel" Content="Position"/>
             </StackPanel>
-        </Border>
+        </StatusBar>
 
         <!-- Top Menu -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open World" Click="LoadWorld_Click"/>
-                <MenuItem Header="_Save World" Click="SaveWorld_Click"/>
+                <MenuItem Header="New World.." Click="NewWorld_Click"/>
+                <Separator />
+                <MenuItem Header="_Open World.." Click="LoadWorld_Click"/>
+                <MenuItem Header="_Save World.." Click="SaveWorld_Click"/>
                 <Separator />
                 <MenuItem Header="_Save to Image" Click="SaveImage_Click" />
                 <Separator />
@@ -41,6 +43,9 @@
                 <MenuItem Header="Redo" Name="redoButton" Click="Redo_Click" IsEnabled="False" Command="Redo" InputGestureText="Ctrl+Y"/>
                 <Separator/>
                 <MenuItem Header="Grid" Name="gridButton" Click="Grid_Click" IsChecked="True"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" Name="about" Click="About_Click"/>
             </MenuItem>
         </Menu>
 

@@ -16,6 +16,7 @@ namespace PWPlanner
     public partial class MainWindow : Window
     {
         private bool isRendered = false;
+        private bool firstPlaced = false;
         private Matrix defaultMatrix;
         private ActionManager actionManager = new ActionManager();
         private CallMethodAction action;
@@ -51,6 +52,9 @@ namespace PWPlanner
                     //Check if the tile selected can be placed at a position
                     if (!SameTypeAt(_selectedTile, pos.X, pos.Y) && !AlreadyHasBothTypes(pos.X, pos.Y))
                     {
+                        //So we can make sure to put a confirm box if the user makes a new world or opens one
+                        if (!firstPlaced) firstPlaced = true;
+
                         action = new CallMethodAction(
                         () => PlaceAt(pos.X, pos.Y, _selectedTile),
                         () => DeleteAt(pos.X, pos.Y, _selectedTile));
@@ -134,13 +138,18 @@ namespace PWPlanner
             if (Selected == true)
             {
                 DataHandler.SaveWorld(TileDB, path);
-                MessageBox.Show("Image saved successfully at\n" + path, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("World saved successfully at\n" + path, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
         //World Load
         private void LoadWorld_Click(object sender, RoutedEventArgs e)
         {
+            if (firstPlaced && MessageBox.Show("Are you sure to load a new world? You may lose all your unsaved progress!", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                return;
+            }
+
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "Pixel Worlds World (*.pww)|*.pww";
             dialog.DefaultExt = "pww";
@@ -150,6 +159,7 @@ namespace PWPlanner
 
             if (Selected == true)
             {
+
                 MainCanvas.Children.Clear();
                 actionManager.Clear();
                 TileDB = (TileData)DataHandler.LoadWorld(path);
@@ -184,6 +194,7 @@ namespace PWPlanner
                             }
                         }
                     }
+                    firstPlaced = false;
                     UpdateUndoRedoButtons();
                 }
             }
@@ -266,6 +277,30 @@ namespace PWPlanner
         {
             undoButton.IsEnabled = actionManager.CanUndo;
             redoButton.IsEnabled = actionManager.CanRedo;
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.Show();
+        }
+
+        private void NewWorld_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to create a new world? You may lose all your unsaved progress!", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                MainCanvas.Children.Clear();
+                actionManager.Clear();
+                TileDB = new TileData(80, 60);
+                DrawGrid(TileDB.Height, TileDB.Width);
+                DrawBedrock();
+                MainCanvas.Background = new SolidColorBrush(Color.FromRgb(140, 226, 249));
+                defaultMatrix = MainCanvas.LayoutTransform.Value;
+                _selectedTile.Type = TileType.Background;
+                ComboTypes.SelectedIndex = 0;
+                UpdateUndoRedoButtons();
+                firstPlaced = false;
+            }
         }
     }
 }

@@ -1,0 +1,23 @@
+﻿<Window x:Class="PWPlanner.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PWPlanner"
+        mc:Ignorable="d"
+        Title="AboutWindow" Height="260" Width="300">
+    <Grid>
+        <Label Content="PixelPlanner" FontSize="42" HorizontalContentAlignment="Center" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" Height="57"/>
+        <Label Content="0.1.4 Pre-Release" HorizontalAlignment="Left" Margin="10,67,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="272" Height="27"/>
+        <TextBlock Margin="10,99,10,67" FontSize="11"> 
+            Made by Nenkai#4915 on Discord.<LineBreak/>
+            Github : <Hyperlink NavigateUri="https://github.com/Nenkai/PixelPlanner" Click="github_Click">https://github.com/Nenkai/PixelPlanner<LineBreak/></Hyperlink>
+            Pixel Worlds Forums: <Hyperlink NavigateUri="http://forums.pixelworldsgame.com/index.php?threads/0-1-4-windows-pixelplanner.23000/" Click="forumsURL_Click">Thread<LineBreak/></Hyperlink>
+        </TextBlock>
+        <Label Content="Please report any issue or suggestion to the links above." FontWeight="DemiBold" FontSize="10.3"  HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top" Width="272"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,181,0,0" FontStyle="Italic" FontSize="10.8" Foreground="Gray" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" Height="36">
+            The assets are used from permission from Kukouri Mobile Entertainment, and shall not be used anywhere else.
+        </TextBlock>
+
+    </Grid>
+</Window>

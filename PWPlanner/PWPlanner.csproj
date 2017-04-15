@@ -61,12 +61,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Core\DataHandler.cs" />
     <Compile Include="Core\Selector.cs" />
     <Compile Include="Core\TileData.cs" />
     <Compile Include="Core\TileGrid.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Tile.cs" />
+    <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
