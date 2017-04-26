@@ -27,6 +27,7 @@ namespace PWPlanner
             InitializeComponent();
             DrawGrid(TileDB.Height, TileDB.Width);
             DrawBedrock();
+            ColorSelector.SelectedColor = Color.FromRgb(140, 226, 249);
             MainCanvas.Background = new SolidColorBrush(Color.FromRgb(140, 226, 249));
             defaultMatrix = MainCanvas.LayoutTransform.Value;
             _selectedTile.Type = TileType.Background;
@@ -156,6 +157,7 @@ namespace PWPlanner
                 actionManager.Clear();
                 TileDB = (TileData)DataHandler.LoadWorld(path);
                 DrawGrid(TileDB.Height, TileDB.Width);
+                MainCanvas.Background = new SolidColorBrush(Utils.IntToARGBColor(TileDB.ARGBBackgroundColor));
                 for (int i = 0; i < TileDB.Tiles.GetLength(0); i++)
                 {
                     for (int j = 0; j < TileDB.Tiles.GetLength(1); j++)
@@ -186,6 +188,7 @@ namespace PWPlanner
                             }
                         }
                     }
+                    ColorSelector.SelectedColor = Utils.IntToARGBColor(TileDB.ARGBBackgroundColor);
                     firstPlaced = false;
                     UpdateUndoRedoButtons();
                 }
@@ -285,6 +288,7 @@ namespace PWPlanner
                 TileDB = new TileData(80, 60);
                 DrawGrid(TileDB.Height, TileDB.Width);
                 DrawBedrock();
+                ColorSelector.SelectedColor = Color.FromRgb(140, 226, 249);
                 MainCanvas.Background = new SolidColorBrush(Color.FromRgb(140, 226, 249));
                 defaultMatrix = MainCanvas.LayoutTransform.Value;
                 _selectedTile.Type = TileType.Background;
@@ -292,6 +296,12 @@ namespace PWPlanner
                 UpdateUndoRedoButtons();
                 firstPlaced = false;
             }
+        }
+
+        private void OnColorSelect(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            MainCanvas.Background = new SolidColorBrush(e.NewValue.Value);
+            TileDB.ARGBBackgroundColor = Utils.ARGBColortoInt(e.NewValue.Value);
         }
     }
 }

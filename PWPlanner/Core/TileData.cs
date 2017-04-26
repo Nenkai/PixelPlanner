@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PWPlanner
 {
@@ -10,6 +11,7 @@ namespace PWPlanner
     public class TileData
     {
         public Tile[,] Tiles;
+        public int ARGBBackgroundColor;
         public int Width;
         public int Height;
 

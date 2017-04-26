@@ -1,23 +1,24 @@
-﻿<Window x:Class="PWPlanner.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PWPlanner"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="PWPlanner.MainWindow"
         mc:Ignorable="d"
         Title="Pixel Worlds Planner" Height="760.431" Width="1000.824"
         ContentRendered="Window_ContentRendered">
-    
+
     <!-- Shortcuts -->
     <Window.CommandBindings>
-        <CommandBinding Command="Undo" Executed="UndoShortcut_Executed"></CommandBinding>
-        <CommandBinding Command="Redo" Executed="RedoShortcut_Executed"></CommandBinding>
+        <CommandBinding Command="Undo" Executed="UndoShortcut_Executed"/>
+        <CommandBinding Command="Redo" Executed="RedoShortcut_Executed"/>
     </Window.CommandBindings>
     <Window.InputBindings>
-        <KeyBinding Key="Z" Modifiers="Control" Command="Undo"></KeyBinding>
-        <KeyBinding Key="Y" Modifiers="Control" Command="Redo"></KeyBinding>
+        <KeyBinding Key="Z" Modifiers="Control" Command="Undo"/>
+        <KeyBinding Key="Y" Modifiers="Control" Command="Redo"/>
     </Window.InputBindings>
-    
+
     <DockPanel LastChildFill="true" >
         <!-- Status -->
         <StatusBar DockPanel.Dock="Bottom" Height="30">
@@ -39,13 +40,13 @@
                 <MenuItem Header="_Exit" />
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem Header="Undo" Name="undoButton" Click="Undo_Click" IsEnabled="False" Command="Undo" InputGestureText="Ctrl+Z"/>
-                <MenuItem Header="Redo" Name="redoButton" Click="Redo_Click" IsEnabled="False" Command="Redo" InputGestureText="Ctrl+Y"/>
+                <MenuItem Header="Undo" x:Name="undoButton" Click="Undo_Click" IsEnabled="False" Command="Undo" InputGestureText="Ctrl+Z"/>
+                <MenuItem Header="Redo" x:Name="redoButton" Click="Redo_Click" IsEnabled="False" Command="Redo" InputGestureText="Ctrl+Y"/>
                 <Separator/>
-                <MenuItem Header="Grid" Name="gridButton" Click="Grid_Click" IsChecked="True"/>
+                <MenuItem Header="Grid" x:Name="gridButton" Click="Grid_Click" IsChecked="True"/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About" Name="about" Click="About_Click"/>
+                <MenuItem Header="About" x:Name="about" Click="About_Click"/>
             </MenuItem>
         </Menu>
 
@@ -58,8 +59,10 @@
                         <Canvas x:Name="TileCanvas" MouseDown="TileSelect_OnClick" Height="312" Width="205"/>
                     </ScrollViewer>
                 </Border>
-                <Slider HorizontalAlignment="Left" Margin="53,280,0,0" VerticalAlignment="Top" Width="177" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="21"/>
+                <Label Content="Background Color" HorizontalAlignment="Left" Margin="10,245,0,0" VerticalAlignment="Top"/>
+                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Left" Margin="120,249,0,0" VerticalAlignment="Top" Width="110" SelectedColorChanged="OnColorSelect" />
                 <Label Content="Zoom" HorizontalAlignment="Left" Margin="10,275,0,0" VerticalAlignment="Top"/>
+                <Slider HorizontalAlignment="Left" Margin="53,280,0,0" VerticalAlignment="Top" Width="177" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="21"/>
             </Grid>
         </Border>
 

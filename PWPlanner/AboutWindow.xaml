@@ -8,7 +8,7 @@
         Title="AboutWindow" Height="260" Width="300">
     <Grid>
         <Label Content="PixelPlanner" FontSize="42" HorizontalContentAlignment="Center" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" Height="57"/>
-        <Label Content="0.1.4 Pre-Release" HorizontalAlignment="Left" Margin="10,67,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="272" Height="27"/>
+        <Label Content="0.1.6 Pre-Release" HorizontalAlignment="Left" Margin="10,67,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="272" Height="27"/>
         <TextBlock Margin="10,99,10,67" FontSize="11"> 
             Made by Nenkai#4915 on Discord.<LineBreak/>
             Github : <Hyperlink NavigateUri="https://github.com/Nenkai/PixelPlanner" Click="github_Click">https://github.com/Nenkai/PixelPlanner<LineBreak/></Hyperlink>
