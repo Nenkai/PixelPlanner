@@ -10,14 +10,6 @@
         ContentRendered="Window_ContentRendered">
 
     <!-- Shortcuts -->
-    <Window.CommandBindings>
-        <CommandBinding Command="Undo" Executed="UndoShortcut_Executed"/>
-        <CommandBinding Command="Redo" Executed="RedoShortcut_Executed"/>
-    </Window.CommandBindings>
-    <Window.InputBindings>
-        <KeyBinding Key="Z" Modifiers="Control" Command="Undo"/>
-        <KeyBinding Key="Y" Modifiers="Control" Command="Redo"/>
-    </Window.InputBindings>
 
     <DockPanel LastChildFill="true" >
         <!-- Status -->
@@ -30,39 +22,117 @@
         <!-- Top Menu -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="New World.." Click="NewWorld_Click"/>
+                <MenuItem Header="New World.." Click="NewWorld_Click">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.add.png" Width="20" Height="20"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                
                 <Separator />
-                <MenuItem Header="_Open World.." Click="LoadWorld_Click"/>
-                <MenuItem Header="_Save World.." Click="SaveWorld_Click"/>
+                <MenuItem Header="_Open World.." Click="LoadWorld_Click">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.folder.open.png"  Width="20" Height="20"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                
+                <MenuItem Header="_Save World.." Click="SaveWorld_Click">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.save.png"  Width="20" Height="20"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            <Separator />
+                <MenuItem Header="_Save to Image" Click="SaveImage_Click" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.image.png" Width="20" Height="20" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator />
-                <MenuItem Header="_Save to Image" Click="SaveImage_Click" />
-                <Separator />
-                <MenuItem Header="_Exit" />
+                <MenuItem Header="_Exit" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.door.leave.png" Width="20" Height="20" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem Header="Undo" x:Name="undoButton" Click="Undo_Click" IsEnabled="False" Command="Undo" InputGestureText="Ctrl+Z"/>
-                <MenuItem Header="Redo" x:Name="redoButton" Click="Redo_Click" IsEnabled="False" Command="Redo" InputGestureText="Ctrl+Y"/>
-                <Separator/>
                 <MenuItem Header="Grid" x:Name="gridButton" Click="Grid_Click" IsChecked="True"/>
+                <Separator/>
+                <MenuItem Header="Orbs" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/Icons/Forest.png"/>
+                    </MenuItem.Icon>
+                    <MenuItem.Resources>
+                        <RadioButton x:Key="RadioButtonResource" x:Shared="false" HorizontalAlignment="Center" GroupName="MenuItemRadio" IsHitTestVisible="False"/>
+                    </MenuItem.Resources>
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Icon" Value="{DynamicResource RadioButtonResource}"/>
+                            <EventSetter Event="Click" Handler="OrbsRadioButton_Click"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                    
+                    <MenuItem Header="Forest" x:Name="Forest">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/Resources/Icons/Forest.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Header="Night" x:Name="Night">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/Resources/Icons/Night.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Header="Star" x:Name="Star">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/Resources/Icons/Star.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Header="Candy" x:Name="Candy">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/Resources/Icons/Candy.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Header="Winter" x:Name="Winter">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/Resources/Icons/Winter.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Header="Alien" x:Name="Alien">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/Resources/Icons/Alien.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About" x:Name="about" Click="About_Click"/>
+                <MenuItem Header="About" x:Name="about" Click="About_Click" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.information.png" Width="20" Height="20" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
         <!-- Left Tools -->
         <Border MinWidth="260" BorderBrush="Gray" BorderThickness="1,1,1,0" DockPanel.Dock="Left" Width="114">
             <Grid Height="671" VerticalAlignment="Bottom" Margin="9,0">
-                <ComboBox x:Name="ComboTypes" HorizontalAlignment="Left" Margin="10,306,0,0" VerticalAlignment="Top" Width="220" SelectionChanged="ComboTypes_SelectionChanged"/>
-                <Border BorderBrush="Gray" BorderThickness="2" HorizontalAlignment="Left" Height="328" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="220">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="41*"/>
+                    <ColumnDefinition Width="199*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="ComboTypes" HorizontalAlignment="Left" Margin="10,306,0,0" VerticalAlignment="Top" Width="220" SelectionChanged="ComboTypes_SelectionChanged" Grid.ColumnSpan="2"/>
+                <Border BorderBrush="Gray" BorderThickness="2" HorizontalAlignment="Left" Height="328" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="220" Grid.ColumnSpan="2">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="-2,-1,-1,-3" Height="328" VerticalAlignment="Top">
                         <Canvas x:Name="TileCanvas" MouseDown="TileSelect_OnClick" Height="312" Width="205"/>
                     </ScrollViewer>
                 </Border>
-                <Label Content="Background Color" HorizontalAlignment="Left" Margin="10,245,0,0" VerticalAlignment="Top"/>
-                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Left" Margin="120,249,0,0" VerticalAlignment="Top" Width="110" SelectedColorChanged="OnColorSelect" />
-                <Label Content="Zoom" HorizontalAlignment="Left" Margin="10,275,0,0" VerticalAlignment="Top"/>
-                <Slider HorizontalAlignment="Left" Margin="53,280,0,0" VerticalAlignment="Top" Width="177" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="21"/>
+                <Label Content="Background Color" HorizontalAlignment="Left" Margin="10,245,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Left" Margin="79,249,0,0" VerticalAlignment="Top" Width="110" SelectedColorChanged="OnColorSelect" Grid.Column="1" />
+                <Label Content="Zoom" HorizontalAlignment="Left" Margin="10,275,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                <Slider HorizontalAlignment="Left" Margin="12,280,0,0" VerticalAlignment="Top" Width="177" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="21" Grid.Column="1"/>
             </Grid>
         </Border>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using GuiLabs.Undo;
+using PWPlanner;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,17 +19,18 @@ namespace PWPlanner
     {
         private bool isRendered = false;
         private bool firstPlaced = false;
+        private bool isLoading = false;
         private Matrix defaultMatrix;
-        private ActionManager actionManager = new ActionManager();
-        private CallMethodAction action;
 
         public MainWindow()
         {
             InitializeComponent();
             DrawGrid(TileDB.Height, TileDB.Width);
             DrawBedrock();
-            ColorSelector.SelectedColor = Color.FromRgb(140, 226, 249);
-            MainCanvas.Background = new SolidColorBrush(Color.FromRgb(140, 226, 249));
+            MainCanvas.Background = BackgroundData.GetBackground(BackgroundData.BackgroundType.Forest);
+            TileDB.MainBackground = BackgroundData.BackgroundType.Forest;
+            TileDB.hasMainBackground = true;
+
             defaultMatrix = MainCanvas.LayoutTransform.Value;
             _selectedTile.Type = TileType.Background;
             GenerateSelector();
@@ -58,8 +60,6 @@ namespace PWPlanner
                         if (!firstPlaced) firstPlaced = true;
 
                         PlaceAt(pos.X, pos.Y, _selectedTile);
-                        
-                        UpdateUndoRedoButtons();
 
                     }
                 } 
@@ -143,6 +143,8 @@ namespace PWPlanner
                 return;
             }
 
+            isLoading = true;
+
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "Pixel Worlds World (*.pww)|*.pww";
             dialog.DefaultExt = "pww";
@@ -154,10 +156,18 @@ namespace PWPlanner
             {
 
                 MainCanvas.Children.Clear();
-                actionManager.Clear();
                 TileDB = (TileData)DataHandler.LoadWorld(path);
                 DrawGrid(TileDB.Height, TileDB.Width);
-                MainCanvas.Background = new SolidColorBrush(Utils.IntToARGBColor(TileDB.ARGBBackgroundColor));
+
+                if (!TileDB.hasMainBackground)
+                {
+                    MainCanvas.Background = new SolidColorBrush(Utils.IntToARGBColor(TileDB.ARGBBackgroundColor));
+                }
+                else
+                {
+                    MainCanvas.Background = BackgroundData.GetBackground(TileDB.MainBackground);
+                }
+
                 for (int i = 0; i < TileDB.Tiles.GetLength(0); i++)
                 {
                     for (int j = 0; j < TileDB.Tiles.GetLength(1); j++)
@@ -189,10 +199,10 @@ namespace PWPlanner
                         }
                     }
                     ColorSelector.SelectedColor = Utils.IntToARGBColor(TileDB.ARGBBackgroundColor);
-                    firstPlaced = false;
-                    UpdateUndoRedoButtons();
+                    
                 }
             }
+            isLoading = false;
         }
 
         //Zoom
@@ -229,22 +239,7 @@ namespace PWPlanner
             }
         }
 
-        private void Undo_Click(object sender, RoutedEventArgs e)
-        {
-            if (undoButton.IsEnabled)
-            {
-                
-            }
-        }
-
-        private void Redo_Click(object sender, RoutedEventArgs e)
-        {
-            if (redoButton.IsEnabled)
-            {
-                
-            }
-        }
-
+        //Disable/Enable Grid
         private void Grid_Click(object sender, RoutedEventArgs e)
         {
             if (gridButton.IsChecked)
@@ -257,51 +252,89 @@ namespace PWPlanner
             }
         }
 
-        private void UndoShortcut_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            Undo_Click(sender, e);
-        }
-
-        private void RedoShortcut_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            Redo_Click(sender, e);
-        }
-
-        void UpdateUndoRedoButtons()
-        {
-            undoButton.IsEnabled = actionManager.CanUndo;
-            redoButton.IsEnabled = actionManager.CanRedo;
-        }
-
+        //About Window
         private void About_Click(object sender, RoutedEventArgs e)
         {
             AboutWindow aboutWindow = new AboutWindow();
             aboutWindow.Show();
         }
 
+        //New World
         private void NewWorld_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure to create a new world? You may lose all your unsaved progress!", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 MainCanvas.Children.Clear();
-                actionManager.Clear();
                 TileDB = new TileData(80, 60);
                 DrawGrid(TileDB.Height, TileDB.Width);
                 DrawBedrock();
-                ColorSelector.SelectedColor = Color.FromRgb(140, 226, 249);
-                MainCanvas.Background = new SolidColorBrush(Color.FromRgb(140, 226, 249));
+                MainCanvas.Background = BackgroundData.GetBackground(TileDB.MainBackground);
                 defaultMatrix = MainCanvas.LayoutTransform.Value;
                 _selectedTile.Type = TileType.Background;
                 ComboTypes.SelectedIndex = 0;
-                UpdateUndoRedoButtons();
                 firstPlaced = false;
             }
         }
 
+        //Background color picker
         private void OnColorSelect(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
+            if (isLoading) return;
+
+            if (TileDB.MainBackground != BackgroundData.BackgroundType.None)
+            {
+                TileDB.hasMainBackground = false;
+                TileDB.MainBackground = BackgroundData.BackgroundType.None;
+            }
+
             MainCanvas.Background = new SolidColorBrush(e.NewValue.Value);
             TileDB.ARGBBackgroundColor = Utils.ARGBColortoInt(e.NewValue.Value);
+        }
+
+        //Orb Picker
+        private void OrbsRadioButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            MenuItem mi = sender as MenuItem;
+            if (mi != null)
+            {
+                RadioButton rb = mi.Icon as RadioButton;
+                if (rb != null)
+                {
+                    rb.IsChecked = true;
+                }
+            }
+
+            BackgroundData.BackgroundType bt;
+            switch (mi.Name)
+            {
+                case "Forest":
+                    bt = BackgroundData.BackgroundType.Forest;
+                    break;
+                case "Night":
+                    bt = BackgroundData.BackgroundType.Night;
+                    break;
+                case "Star":
+                    bt = BackgroundData.BackgroundType.Star;
+                    break;
+                case "Candy":
+                    bt = BackgroundData.BackgroundType.Candy;
+                    break;
+                case "Winter":
+                    bt = BackgroundData.BackgroundType.Winter;
+                    break;
+                case "Alien":
+                    bt = BackgroundData.BackgroundType.Alien;
+                    break;
+
+                default:
+                    bt = BackgroundData.BackgroundType.Forest;
+                    break;
+            }
+
+            MainCanvas.Background = BackgroundData.GetBackground(bt);
+            TileDB.hasMainBackground = true;
+            TileDB.MainBackground = bt;
+            
         }
     }
 }

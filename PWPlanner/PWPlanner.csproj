@@ -83,6 +83,7 @@
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\DataHandler.cs" />
+    <Compile Include="Core\MainBackground.cs" />
     <Compile Include="Core\Selector.cs" />
     <Compile Include="Core\TileData.cs" />
     <Compile Include="Core\TileGrid.cs" />
@@ -139,6 +140,60 @@
   <ItemGroup>
     <Resource Include="Resources\Backgrounds.png" />
     <Resource Include="Resources\Blocks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Backgrounds\Forest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Backgrounds\Night.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Forest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Night.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Winter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Candy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Alien.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Backgrounds\Star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Backgrounds\Candy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Backgrounds\Winter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\UI\appbar.image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\UI\appbar.add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\UI\appbar.folder.open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\UI\appbar.save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\UI\appbar.door.leave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\UI\appbar.information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Backgrounds\Alien.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.5\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.5\build\dotnet\Fody.targets')" />
