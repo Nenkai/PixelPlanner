@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="GuiLabs.Undo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GuiLabs.Undo.1.0.1\lib\dotnet\GuiLabs.Undo.dll</HintPath>
     </Reference>
@@ -196,13 +199,11 @@
     <Resource Include="Resources\Backgrounds\Alien.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Fody.2.0.5\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.5\build\dotnet\Fody.targets')" />
+  <Import Project="..\packages\Fody.2.0.6\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.6\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+      <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.2.0.5\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.0.5\build\dotnet\Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\Costura.Fody.1.4.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.1.4.0\build\Costura.Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.2.0.6\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.0.6\build\dotnet\Fody.targets'))" />
   </Target>
-  <Import Project="..\packages\Costura.Fody.1.4.0\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.1.4.0\build\Costura.Fody.targets')" />
 </Project>

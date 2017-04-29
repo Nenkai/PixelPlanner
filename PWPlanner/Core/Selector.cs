@@ -79,6 +79,7 @@ namespace PWPlanner
         {
             FirstSelected = false;
             TileCanvas.Children.Remove(SpriteSheet);
+            TileCanvas.Children.Clear();
 
             if (ComboTypes.SelectedIndex == 0) {
                 SpriteSheet = TileTypeMethods.GetImageForType(TileType.Background);
