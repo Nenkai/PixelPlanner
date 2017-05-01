@@ -35,7 +35,12 @@ namespace PWPlanner
             Stream downloaded = client.OpenRead(URL);
             latest = GetVersionFromXml(downloaded);
 
-            if (latest != current)
+            var v1 = Version.Parse(latest);
+            var v2 = Version.Parse(current);
+
+            var result = v1.CompareTo(v2);
+
+            if (result > 0)
             {
                 return true;
             }

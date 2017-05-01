@@ -16,6 +16,7 @@ namespace PWPlanner
         public AboutWindow()
         {
             InitializeComponent();
+            version.Content = UpdateChecker.current;
         }
 
         public void forumsURL_Click(object sender, RoutedEventArgs e)
