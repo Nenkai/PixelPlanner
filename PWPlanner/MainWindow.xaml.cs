@@ -1,6 +1,4 @@
 ﻿using System;
-using GuiLabs.Undo;
-using PWPlanner;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +7,7 @@ using System.Windows;
 using Microsoft.Win32;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
-using System.Windows.Shapes;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Input;
 
@@ -41,6 +39,14 @@ namespace PWPlanner
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             isRendered = true;
+            if (UpdateChecker.CheckForUpdates())
+            {
+                MessageBoxResult result = MessageBox.Show($"Found a new version ({UpdateChecker.latest}), currently using {UpdateChecker.current}. Would you like to update?", "Update", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Process.Start($"https://github.com/Nenkai/PixelPlanner/releases/download/{UpdateChecker.latest}/PWPlanner.exe");
+                }
+            }
         }
 
         //Painter
@@ -336,6 +342,7 @@ namespace PWPlanner
             TileDB.MainBackground = bt;
             
         }
+
     }
 }
 
