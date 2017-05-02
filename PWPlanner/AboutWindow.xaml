@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PWPlanner"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
         Title="AboutWindow" Height="260" Width="300">
     <Grid>
         <Label Content="PixelPlanner" FontSize="42" HorizontalContentAlignment="Center" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" Height="57"/>

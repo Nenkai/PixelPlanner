@@ -42,6 +42,7 @@ namespace PWPlanner
 
             System.Windows.Controls.Image image = new System.Windows.Controls.Image();
             image.Source = bi;
+
             return image;
         }
 

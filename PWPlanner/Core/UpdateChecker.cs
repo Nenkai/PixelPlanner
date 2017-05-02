@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Windows;
+using System.Diagnostics;
 using System.Net;
 using System.Xml;
 using System.IO;
@@ -46,6 +43,7 @@ namespace PWPlanner
             }
             return false;
         }
+
 
         private static string GetVersionFromXml(Stream stream)
         {

@@ -109,9 +109,16 @@
     <Compile Include="Core\TileData.cs" />
     <Compile Include="Core\TileGrid.cs" />
     <Compile Include="Core\UpdateChecker.cs" />
+    <Compile Include="Core\UpdateWindow.xaml.cs">
+      <DependentUpon>UpdateWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <Compile Include="Tile.cs" />
     <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Core\UpdateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

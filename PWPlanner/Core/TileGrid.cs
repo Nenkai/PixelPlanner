@@ -87,9 +87,9 @@ namespace PWPlanner
                     Canvas.SetLeft(image, x * 32);
                     image.SetValue(Canvas.ZIndexProperty, 10);
                     MainCanvas.Children.Add(image);
+                    
                     TilePosition Position = new TilePosition(TileType.Foreground, x, y ,location, 0);
                     TileDB.Tiles[x, y] = new Tile(TileType.Foreground, image, Position);
-                    
                     bmp.Dispose();
                 }
                 location--;

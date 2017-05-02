@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
@@ -10,6 +7,8 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Input;
+
+using PWPlanner.Core;
 
 namespace PWPlanner
 {
@@ -44,7 +43,8 @@ namespace PWPlanner
                 MessageBoxResult result = MessageBox.Show($"Found a new version ({UpdateChecker.latest}), currently using {UpdateChecker.current}. Check it out?", "Update", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (result == MessageBoxResult.Yes)
                 {
-                    Process.Start($"https://github.com/Nenkai/PixelPlanner/releases/{UpdateChecker.latest}");
+                    UpdateWindow uw = new UpdateWindow(UpdateChecker.latest);
+                    uw.Show();
                 }
             }
         }
