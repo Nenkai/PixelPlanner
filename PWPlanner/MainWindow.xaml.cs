@@ -7,7 +7,7 @@ using System.Windows;
 using Microsoft.Win32;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
-using System.Windows.Documents;
+using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Input;
 
@@ -41,10 +41,10 @@ namespace PWPlanner
             isRendered = true;
             if (UpdateChecker.CheckForUpdates())
             {
-                MessageBoxResult result = MessageBox.Show($"Found a new version ({UpdateChecker.latest}), currently using {UpdateChecker.current}. Would you like to update?", "Update", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                MessageBoxResult result = MessageBox.Show($"Found a new version ({UpdateChecker.latest}), currently using {UpdateChecker.current}. Check it out?", "Update", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (result == MessageBoxResult.Yes)
                 {
-                    Process.Start($"https://github.com/Nenkai/PixelPlanner/releases/download/{UpdateChecker.latest}/PWPlanner.exe");
+                    Process.Start($"https://github.com/Nenkai/PixelPlanner/releases/{UpdateChecker.latest}");
                 }
             }
         }
@@ -341,6 +341,20 @@ namespace PWPlanner
             TileDB.hasMainBackground = true;
             TileDB.MainBackground = bt;
             
+        }
+
+        //Exit handlers
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Window_Closing(sender, new CancelEventArgs());
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to exit? You may lose all your unsaved progress!", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
         }
 
     }

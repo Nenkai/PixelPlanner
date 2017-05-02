@@ -8,6 +8,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="Pixel Worlds Planner" Height="760.431" Width="1000.824"
+        Closing="Window_Closing"
         ContentRendered="Window_ContentRendered">
 
     <!-- Shortcuts -->
@@ -67,7 +68,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="_Exit" >
+                <MenuItem Header="_Exit" Click="Exit_Click">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.door.leave.png" Width="20" Height="20" />
                     </MenuItem.Icon>
