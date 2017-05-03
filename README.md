@@ -9,4 +9,5 @@ The sprites are included here, and are obviously used with permission from Kukou
 - Save/Load Worlds and save entire canvas to `.png`
 - Custom Backgrounds color or Orbs
 - Zooming (Slider, or Shift+Mouse Scroll)
-- Update Check
+- Update Check (built-in downloader)
+More to come.
