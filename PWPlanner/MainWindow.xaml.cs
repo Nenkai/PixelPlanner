@@ -44,7 +44,10 @@ namespace PWPlanner
                 if (result == MessageBoxResult.Yes)
                 {
                     UpdateWindow uw = new UpdateWindow(UpdateChecker.latest);
-                    uw.Show();
+                    if (!uw.isClosing)
+                    {
+                        uw.Show();
+                    }
                 }
             }
         }

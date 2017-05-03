@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using Microsoft.Win32;
 using System.Net;
+using System.Reflection;
 using System.ComponentModel;
 
 namespace PWPlanner.Core
@@ -14,6 +15,7 @@ namespace PWPlanner.Core
     {
         private string version;
         private string path;
+        public bool isClosing = false;
 
         public UpdateWindow(string version)
         {
@@ -30,12 +32,25 @@ namespace PWPlanner.Core
             dialog.FileName = "PWPlanner.exe";
             dialog.Title = "Where to save?";
             dialog.RestoreDirectory = true;
-            Nullable<bool> Selected = dialog.ShowDialog();
-            string path = dialog.FileName;
+
+            Nullable<bool> Selected = false;
+            do
+            {
+                Selected = dialog.ShowDialog();
+                path = dialog.FileName;
+
+                if (path == Assembly.GetExecutingAssembly().Location)
+                {
+                    MessageBox.Show("Cannot overwrite the currently running program. Please select another folder or name.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                else if (Selected == false)
+                {
+                    break;
+                }
+            } while (path == Assembly.GetExecutingAssembly().Location);
 
             if (Selected == true)
             {
-                this.path = path;
                 try
                 {
                     WebClient client = new WebClient();
@@ -44,7 +59,8 @@ namespace PWPlanner.Core
                     client.DownloadFileAsync(new Uri($"https://github.com/Nenkai/PixelPlanner/releases/download/{version}/PWPlanner.exe"), path);
                     vers.Content = "Downloading version " + version;
                     url.Content = $"Downloading from https://github.com/Nenkai/PixelPlanner/releases/download/{version}/PWPlanner.exe";
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     MessageBox.Show("A handled exception just occurred: " + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                     Close();
@@ -52,6 +68,7 @@ namespace PWPlanner.Core
                 }
             } else
             {
+                isClosing = true;
                 Close();
             }
         }
@@ -82,6 +99,9 @@ namespace PWPlanner.Core
                     Close();
                     return;
                 }
+            } else
+            {
+                Close();
             }
         }
     }
