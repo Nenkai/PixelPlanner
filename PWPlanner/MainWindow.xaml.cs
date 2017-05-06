@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Diagnostics;
 using System.Windows;
 using Microsoft.Win32;
 using System.Windows.Media.Imaging;
@@ -71,19 +72,15 @@ namespace PWPlanner
                         PlaceAt(pos.X, pos.Y, _selectedTile);
 
                     }
-                } 
+                }
             }
 
             //Delete Tiles
             if (e.RightButton == MouseButtonState.Pressed)
             {
-                if (SameTypeAt(_selectedTile, pos.X, pos.Y))
-                {
-                    DeleteAt(pos.X, pos.Y, _selectedTile);
-                }
+                DeleteAt(pos.X, pos.Y, _selectedTile);
             }
         }
-
         //Pass Click to Move
         private void MainCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {

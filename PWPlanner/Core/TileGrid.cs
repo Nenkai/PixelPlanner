@@ -98,15 +98,6 @@ namespace PWPlanner
 
         private void PlaceAt(int X, int Y, Tile tile)
         {
-            if (tile.Type == TileType.Both)
-            {
-                ComboTypes.SelectedIndex = (int)tile.Type - 2;
-            }
-            else
-            {
-                ComboTypes.SelectedIndex = (int)tile.Type - 1;
-            }
-
             Image image = new Image();
             if (tile.Type == TileType.Background)
             {
@@ -170,14 +161,6 @@ namespace PWPlanner
 
         public void DeleteAt(int X, int Y, Tile tile)
         {
-            if (tile.Type == TileType.Both)
-            {
-                ComboTypes.SelectedIndex = (int)tile.Type - 2;
-            } else
-            {
-                ComboTypes.SelectedIndex = (int)tile.Type - 1;
-            }
-
             if (TileDB.Tiles[X, Y] != null)
             {
                 //If there are both types on 1 tile, and the current selected is a background, leave the foreground only
@@ -196,14 +179,7 @@ namespace PWPlanner
                     TileDB.Tiles[X, Y].Foreground = null;
                     TileDB.Tiles[X, Y].Positions.DeleteForegroundPositions();
                 }
-                else if (tile.Type == TileType.Both)
-                {
-
-                    MainCanvas.Children.Remove(TileDB.Tiles[X, Y].Foreground);
-                    TileDB.Tiles[X, Y].Type = TileType.Background;
-                    TileDB.Tiles[X, Y].Foreground = null;
-                    TileDB.Tiles[X, Y].Positions.DeleteForegroundPositions();
-                }
+                //If there is only one type, just erase the tile.
                 else if (TileDB.Tiles[X, Y].Type == tile.Type)
                 {
                     switch (tile.Type)
@@ -219,7 +195,6 @@ namespace PWPlanner
                     }
                     TileDB.Tiles[X, Y] = null;
                 }
-                //If there are both, remove block
             }
         }
 
