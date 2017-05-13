@@ -70,7 +70,7 @@ namespace PWPlanner
 
         public override string ToString()
         {
-            return $"Type: {Type.ToString()}, BG? {Background != null} FG? {Foreground != null}\n" ;
+            return $"Type: {Type.ToString()}, BG Name? {bgName} FG Name? {blName}\n" ;
         }
 
     }
@@ -252,8 +252,8 @@ namespace PWPlanner
         Bookshelf,
         Brazier,
         Bumper,
-        //Bushes,
-        //Buzzsaw,
+        Bushes,
+        Buzzsaw,
         Cabinet,
         Cactus,
         Cake,

@@ -15,12 +15,12 @@
 
     <DockPanel LastChildFill="true" >
         <!-- Status -->
-        <StatusBar DockPanel.Dock="Bottom" Height="30">
+        <StatusBar DockPanel.Dock="Bottom" BorderBrush="Gray" BorderThickness="1,1,1,1" Height="33">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="55" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
@@ -34,7 +34,7 @@
             </StatusBarItem>
             <Separator Grid.Column="1" />
             <StatusBarItem Grid.Column="2">
-                <Label Name="TileHover" Content="test"/>
+                <Label Name="TileHover" Content="No Tile Selected"/>
             </StatusBarItem>
             <Separator Grid.Column="3" />
             <StatusBarItem Grid.Column="4">
@@ -148,6 +148,14 @@
                         </MenuItem.ToolTip>
                     </MenuItem>
 
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="View">
+                <MenuItem Header="Stats" x:Name="stats" Click="Stats_Click" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.tiles.plus.png" Width="20" Height="20" />
+                    </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             

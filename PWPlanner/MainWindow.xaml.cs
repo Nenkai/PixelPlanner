@@ -82,7 +82,13 @@ namespace PWPlanner
             {
                 DeleteAt(pos.X, pos.Y, _selectedTile);
             }
+
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                if (TileDB.Tiles[pos.X, pos.Y] != null) Debug.WriteLine(TileDB.Tiles[pos.X, pos.Y].ToString());
+            }
         }
+
         //Pass Click to Move
         private void MainCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -96,11 +102,13 @@ namespace PWPlanner
             MainCanvas.LayoutTransform = new ScaleTransform(defaultMatrix.M11, defaultMatrix.M22);
             MainCanvas.UpdateLayout();
 
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "PNG Files (*.png)|*.png";
-            dialog.DefaultExt = "png";
-            dialog.FileName = "World.png";
-            dialog.RestoreDirectory = true;
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "PNG Files (*.png)|*.png",
+                DefaultExt = "png",
+                FileName = "World.png",
+                RestoreDirectory = true
+            };
             Nullable<bool> Selected = dialog.ShowDialog();
             string path = dialog.FileName;
 
@@ -129,11 +137,13 @@ namespace PWPlanner
         //World Save
         private void SaveWorld_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "Pixel Worlds World (*.pww)|*.pww";
-            dialog.DefaultExt = "pww";
-            dialog.FileName = "world.pww";
-            dialog.RestoreDirectory = true;
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Pixel Worlds World (*.pww)|*.pww",
+                DefaultExt = "pww",
+                FileName = "world.pww",
+                RestoreDirectory = true
+            };
             Nullable<bool> Selected = dialog.ShowDialog();
             string path = dialog.FileName;
             if (Selected == true)
@@ -153,10 +163,12 @@ namespace PWPlanner
 
             isLoading = true;
 
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Pixel Worlds World (*.pww)|*.pww";
-            dialog.DefaultExt = "pww";
-            dialog.RestoreDirectory = true;
+            OpenFileDialog dialog = new OpenFileDialog()
+            {
+                Filter = "Pixel Worlds World (*.pww)|*.pww",
+                DefaultExt = "pww",
+                RestoreDirectory = true
+            };
             Nullable<bool> Selected = dialog.ShowDialog();
             string path = dialog.FileName;
 
@@ -185,16 +197,17 @@ namespace PWPlanner
                         {
                             if (TileDB.Tiles[i, j].Type == TileType.Background || TileDB.Tiles[i, j].Type == TileType.Both)
                             {
-                                Image image = new Image();
-                                image.Height = 32;
-                                image.Width = 32;
-
+                                Image image = new Image()
+                                {
+                                    Height = 32,
+                                    Width = 32
+                                };
                                 string dataName = TileDB.Tiles[i, j].bgName;
                                 BackgroundName name = SelectableTile.GetBackgroundNameByString(TileDB.Tiles[i, j].bgName);
 
                                 //If the sprite does not exist.
                                 bool exists = backgroundMap.TryGetValue(name, out BitmapImage src);
-                                if (!exists)
+                                if (!exists && dataName != null)
                                 {
                                     if (invalids.ContainsKey(dataName))
                                     {
@@ -214,21 +227,22 @@ namespace PWPlanner
                                     Canvas.SetLeft(image, TileDB.Tiles[i, j].Positions.BackgroundX.Value * 32);
                                     image.SetValue(Canvas.ZIndexProperty, 10);
                                     MainCanvas.Children.Add(image);
-                                    TileDB.Tiles[i, j].bgName = selectableTiles[index].bgName;
+                                    TileDB.Tiles[i, j].Background = image;
                                 }
                             }
 
                             if (TileDB.Tiles[i, j].Type == TileType.Foreground || TileDB.Tiles[i, j].Type == TileType.Both)
                             {
-                                Image image = new Image();
-                                image.Height = 32;
-                                image.Width = 32;
-
+                                Image image = new Image()
+                                {
+                                    Height = 32,
+                                    Width = 32
+                                };
                                 string dataName = TileDB.Tiles[i, j].blName;
                                 BlockName name = SelectableTile.GetBlockNameByString(TileDB.Tiles[i, j].blName);
 
                                 bool exists = blockMap.TryGetValue(name, out BitmapImage src);
-                                if (!exists)
+                                if (!exists && dataName != null)
                                 {
                                     if (invalids.ContainsKey(dataName))
                                     {
@@ -248,7 +262,7 @@ namespace PWPlanner
                                     Canvas.SetLeft(image, TileDB.Tiles[i, j].Positions.ForegroundX.Value * 32);
                                     image.SetValue(Canvas.ZIndexProperty, 20);
                                     MainCanvas.Children.Add(image);
-                                    TileDB.Tiles[i, j].blName = selectableTiles[index].blName;
+                                    TileDB.Tiles[i, j].Foreground = image;
                                 }
                             }
                         }
@@ -317,6 +331,68 @@ namespace PWPlanner
             }
         }
 
+        //World Stats
+        private void Stats_Click(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            SortedList<string, int> placed = new SortedList<string, int>();
+
+            for (int i = 0; i < TileDB.Tiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < TileDB.Tiles.GetLength(1); j++)
+                {
+                    if (TileDB.Tiles[i, j] != null)
+                    {
+                        if (TileDB.Tiles[i, j].bgName != null)
+                        {
+                            string itemName = TileDB.Tiles[i, j].bgName;
+                            if (placed.ContainsKey(TileDB.Tiles[i, j].bgName))
+                            {
+                                placed[itemName]++;
+                            }
+                            else
+                            {
+                                placed.Add(itemName, 0);
+                            }
+                        }
+
+                        if (TileDB.Tiles[i, j].blName != null)
+                        {
+                            string itemName = TileDB.Tiles[i, j].blName;
+
+                            //Blacklist bedrock
+                            if (Array.IndexOf(blacklist, TileDB.Tiles[i, j].blName) > -1)
+                            {
+                                continue;
+                            }
+                            else if (placed.ContainsKey(TileDB.Tiles[i, j].blName))
+                            {
+                                placed[itemName]++;
+                            }
+                            else
+                            {
+                                placed.Add(itemName, 0);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (placed.Count > 0)
+            {
+                sb.AppendLine($"Found {placed.Count} different tiles");
+                foreach (KeyValuePair<string, int> entry in placed)
+                {
+                    sb.AppendLine($"-{entry.Key} [x{entry.Value}]");
+                }
+                MessageBox.Show(sb.ToString(), "Total Tiles", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("No tiles placed!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
         //About Window
         private void About_Click(object sender, RoutedEventArgs e)
         {
@@ -362,8 +438,7 @@ namespace PWPlanner
             MenuItem mi = sender as MenuItem;
             if (mi != null)
             {
-                RadioButton rb = mi.Icon as RadioButton;
-                if (rb != null)
+                if (mi.Icon is RadioButton rb)
                 {
                     rb.IsChecked = true;
                 }

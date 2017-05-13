@@ -16,6 +16,8 @@ namespace PWPlanner
         public static Line[] vertLines;
         public static Line[] horiLines;
 
+        public static string[] blacklist = new string[] { "Bedrock", "BedrockFlat", "BedrockLava" };
+
         private void DrawGrid(int height, int width)
         {
             MainCanvas.Height = height * 32;
@@ -91,7 +93,7 @@ namespace PWPlanner
                     image.Source = src;
                     Canvas.SetTop(image, y * 32);
                     Canvas.SetLeft(image, x * 32);
-                    image.SetValue(Canvas.ZIndexProperty, 10);
+                    image.SetValue(Canvas.ZIndexProperty, 20);
                     MainCanvas.Children.Add(image);
                     
                     TilePosition Position = new TilePosition(TileType.Foreground, x, y);
@@ -104,10 +106,10 @@ namespace PWPlanner
 
         private void PlaceAt(int X, int Y, Tile tile)
         {
-            Image image = new Image();
-
-            image.Source = selectableTiles[index].source;
-
+            Image image = new Image()
+            {
+                Source = selectableTiles[index].source
+            };
             Canvas.SetTop(image, Y * 32);
             Canvas.SetLeft(image, X * 32);
             MainCanvas.Children.Add(image);

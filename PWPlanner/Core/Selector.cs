@@ -43,12 +43,13 @@ namespace PWPlanner
                 return;
             }
 
-            Image image = new Image();
-            image.Height = 32;
-            image.Width = 32;
+            Image image = new Image()
+            {
+                Height = 32,
+                Width = 32,
 
-            image.Source = selectableTiles[index].source;
-
+                Source = selectableTiles[index].source
+            };
             TileType tt = TileType.None;
             BlockName blockName;
             BackgroundName backgroundName;
@@ -68,20 +69,23 @@ namespace PWPlanner
 
             TileCanvas.Children.Remove(selectBorder);
 
-            selectBorder = new Border();
-            selectBorder.BorderBrush = Brushes.SkyBlue;
-            selectBorder.BorderThickness = new Thickness(2);
-            selectBorder.Width = 32;
-            selectBorder.Height = 32;
+            selectBorder = new Border()
+            {
+                BorderBrush = Brushes.SkyBlue,
+                BorderThickness = new Thickness(2),
+                Width = 32,
+                Height = 32
+            };
             Canvas.SetTop(selectBorder, Y * 32);
             Canvas.SetLeft(selectBorder, X * 32);
 
             TileCanvas.Children.Add(selectBorder);
             FirstSelected = true;
-            _selectedTile = new Tile(tt, image);
-            _selectedTile.X = (int)p.X / 32;
-            _selectedTile.Y = (int)p.Y / 32;
-
+            _selectedTile = new Tile(tt, image)
+            {
+                X = (int)p.X / 32,
+                Y = (int)p.Y / 32
+            };
         }
 
         private void ComboTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)

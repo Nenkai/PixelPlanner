@@ -178,9 +178,8 @@ namespace PWPlanner
 
         public static BackgroundName GetBackgroundNameByString(string fileName)
         {
-            BackgroundName name;
             fileName = Path.GetFileNameWithoutExtension(fileName);
-            if (Enum.TryParse(fileName, out name))
+            if (Enum.TryParse(fileName, out BackgroundName name))
             {
                 return name;
             }
@@ -193,10 +192,9 @@ namespace PWPlanner
 
         public static BlockName GetBlockNameByString(string fileName)
         {
-            BlockName name;
             fileName = Path.GetFileNameWithoutExtension(fileName);
 
-            if (Enum.TryParse(fileName, out name))
+            if (Enum.TryParse(fileName, out BlockName name))
             {
                 return name;
             }

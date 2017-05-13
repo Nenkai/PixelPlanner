@@ -45,7 +45,7 @@ namespace PWPlanner
                 }
                 return false;
             }
-            catch (Exception e) {
+            catch {
                 return false;
             }
 
