@@ -1,15 +1,17 @@
-﻿using System;
-using System.IO;
-using System.Diagnostics;
-using System.Windows;
-using Microsoft.Win32;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
-using System.ComponentModel;
-using System.Windows.Media;
-using System.Windows.Input;
-
+﻿using Microsoft.Win32;
 using PWPlanner.Core;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace PWPlanner
 {
@@ -24,7 +26,6 @@ namespace PWPlanner
         {
             InitializeComponent();
             DrawGrid(TileDB.Height, TileDB.Width);
-            DrawBedrock();
             MainCanvas.Background = BackgroundData.GetBackground(BackgroundData.BackgroundType.Forest);
             TileDB.MainBackground = BackgroundData.BackgroundType.Forest;
             TileDB.hasMainBackground = true;
@@ -32,6 +33,7 @@ namespace PWPlanner
             defaultMatrix = MainCanvas.LayoutTransform.Value;
             _selectedTile.Type = TileType.Background;
             GenerateSelector();
+            DrawBedrock();
             ComboTypes.SelectedIndex = 0;
 
         }
@@ -174,6 +176,7 @@ namespace PWPlanner
                     MainCanvas.Background = BackgroundData.GetBackground(TileDB.MainBackground);
                 }
 
+                SortedList<string, int> invalids = new SortedList<string, int>();
                 for (int i = 0; i < TileDB.Tiles.GetLength(0); i++)
                 {
                     for (int j = 0; j < TileDB.Tiles.GetLength(1); j++)
@@ -182,33 +185,89 @@ namespace PWPlanner
                         {
                             if (TileDB.Tiles[i, j].Type == TileType.Background || TileDB.Tiles[i, j].Type == TileType.Both)
                             {
-                                System.Drawing.Bitmap bmp = Utils.GetCroppedBitmap(TileType.Background, TileDB.Tiles[i, j].Positions.BackgroundSpriteX.Value * 32, TileDB.Tiles[i, j].Positions.BackgroundSpriteY.Value * 32);
-                                Image image = Utils.BitmapToImageControl(bmp);
-                                Canvas.SetTop(image, TileDB.Tiles[i, j].Positions.BackgroundY.Value * 32);
-                                Canvas.SetLeft(image, TileDB.Tiles[i, j].Positions.BackgroundX.Value * 32);
-                                image.SetValue(Canvas.ZIndexProperty, 10);
-                                MainCanvas.Children.Add(image);
-                                TileDB.Tiles[i, j].Background = image;
-                                bmp.Dispose();
+                                Image image = new Image();
+                                image.Height = 32;
+                                image.Width = 32;
+
+                                string dataName = TileDB.Tiles[i, j].bgName;
+                                BackgroundName name = SelectableTile.GetBackgroundNameByString(TileDB.Tiles[i, j].bgName);
+
+                                //If the sprite does not exist.
+                                bool exists = backgroundMap.TryGetValue(name, out BitmapImage src);
+                                if (!exists)
+                                {
+                                    if (invalids.ContainsKey(dataName))
+                                    {
+                                        invalids[dataName]++;
+                                    }
+                                    else
+                                    {
+                                        invalids.Add(dataName, 0);
+                                    }
+                                    TileDB.Tiles[i, j] = null;
+                                }
+                                else
+                                {
+                                    image.Source = src;
+
+                                    Canvas.SetTop(image, TileDB.Tiles[i, j].Positions.BackgroundY.Value * 32);
+                                    Canvas.SetLeft(image, TileDB.Tiles[i, j].Positions.BackgroundX.Value * 32);
+                                    image.SetValue(Canvas.ZIndexProperty, 10);
+                                    MainCanvas.Children.Add(image);
+                                    TileDB.Tiles[i, j].bgName = selectableTiles[index].bgName;
+                                }
                             }
+
                             if (TileDB.Tiles[i, j].Type == TileType.Foreground || TileDB.Tiles[i, j].Type == TileType.Both)
                             {
-                                System.Drawing.Bitmap bmp = Utils.GetCroppedBitmap(TileType.Foreground, TileDB.Tiles[i, j].Positions.ForegroundSpriteX.Value * 32, TileDB.Tiles[i, j].Positions.ForegroundSpriteY.Value * 32);
-                                Image image = Utils.BitmapToImageControl(bmp);
-                                Canvas.SetTop(image, TileDB.Tiles[i, j].Positions.ForegroundY.Value * 32);
-                                Canvas.SetLeft(image, TileDB.Tiles[i, j].Positions.ForegroundX.Value * 32);
-                                image.SetValue(Canvas.ZIndexProperty, 20);
-                                MainCanvas.Children.Add(image);
-                                TileDB.Tiles[i, j].Foreground = image;
-                                bmp.Dispose();
+                                Image image = new Image();
+                                image.Height = 32;
+                                image.Width = 32;
+
+                                string dataName = TileDB.Tiles[i, j].blName;
+                                BlockName name = SelectableTile.GetBlockNameByString(TileDB.Tiles[i, j].blName);
+
+                                bool exists = blockMap.TryGetValue(name, out BitmapImage src);
+                                if (!exists)
+                                {
+                                    if (invalids.ContainsKey(dataName))
+                                    {
+                                        invalids[dataName]++;
+                                    }
+                                    else
+                                    {
+                                        invalids.Add(dataName, 0);
+                                    }
+                                    TileDB.Tiles[i, j] = null;
+                                }
+                                else
+                                {
+                                    image.Source = src;
+
+                                    Canvas.SetTop(image, TileDB.Tiles[i, j].Positions.ForegroundY.Value * 32);
+                                    Canvas.SetLeft(image, TileDB.Tiles[i, j].Positions.ForegroundX.Value * 32);
+                                    image.SetValue(Canvas.ZIndexProperty, 20);
+                                    MainCanvas.Children.Add(image);
+                                    TileDB.Tiles[i, j].blName = selectableTiles[index].blName;
+                                }
                             }
                         }
                     }
                     ColorSelector.SelectedColor = Utils.IntToARGBColor(TileDB.ARGBBackgroundColor);
-                    
+                }
+                if (invalids.Count > 0)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine($"Could not load {invalids.Count} tiles (Using an older version?)");
+                    foreach(KeyValuePair<string, int> entry in invalids)
+                    {
+                        sb.AppendLine($"-{entry.Key} [x{entry.Value}]");
+                    }
+                    MessageBox.Show(sb.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             isLoading = false;
+            
         }
 
         //Zoom

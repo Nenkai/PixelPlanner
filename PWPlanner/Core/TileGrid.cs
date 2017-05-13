@@ -81,16 +81,22 @@ namespace PWPlanner
             {
                 for (int x = TileDB.Width - 1; x >= 0 ; x--)
                 {
-                    System.Drawing.Bitmap bmp = Utils.GetCroppedBitmap(TileType.Foreground, location * 32, 0 * 32);
-                    Image image = Utils.BitmapToImageControl(bmp);
+                    BlockName bn;
+                    if (y == 59) bn = BlockName.BedrockLava;
+                    else if (y == 58) bn = BlockName.Bedrock;
+                    else bn = BlockName.BedrockFlat;
+
+                    Image image = new Image();
+                    blockMap.TryGetValue(bn, out BitmapImage src);
+                    image.Source = src;
                     Canvas.SetTop(image, y * 32);
                     Canvas.SetLeft(image, x * 32);
                     image.SetValue(Canvas.ZIndexProperty, 10);
                     MainCanvas.Children.Add(image);
                     
-                    TilePosition Position = new TilePosition(TileType.Foreground, x, y ,location, 0);
-                    TileDB.Tiles[x, y] = new Tile(TileType.Foreground, image, Position);
-                    bmp.Dispose();
+                    TilePosition Position = new TilePosition(TileType.Foreground, x, y);
+
+                    TileDB.Tiles[x, y] = new Tile(TileType.Foreground, bn.ToString(), image, Position);
                 }
                 location--;
             }
@@ -99,14 +105,9 @@ namespace PWPlanner
         private void PlaceAt(int X, int Y, Tile tile)
         {
             Image image = new Image();
-            if (tile.Type == TileType.Background)
-            {
-                image.Source = tile.Background.Source;
-            }
-            else if (tile.Type == TileType.Foreground)
-            {
-                image.Source = tile.Foreground.Source;
-            }
+
+            image.Source = selectableTiles[index].source;
+
             Canvas.SetTop(image, Y * 32);
             Canvas.SetLeft(image, X * 32);
             MainCanvas.Children.Add(image);
@@ -119,20 +120,21 @@ namespace PWPlanner
                     {
                         TileDB.Tiles[X, Y].Type = TileType.Both;
                         TileDB.Tiles[X, Y].Background = image;
+                        TileDB.Tiles[X, Y].bgName = selectableTiles[index].bgName;
                         if (TileDB.Tiles[X, Y].Positions == null)
                         {
-                            TileDB.Tiles[X, Y].Positions = new TilePosition(tile.Type, X, Y, tile.X, tile.Y);
+                            TileDB.Tiles[X, Y].Positions = new TilePosition(tile.Type, X, Y);
                         }
                         else
                         {
-                            TileDB.Tiles[X, Y].Positions.SetBackgroundPositions(X, Y, tile.X, tile.Y);
+                            TileDB.Tiles[X, Y].Positions.SetBackgroundPositions(X, Y);
                         }
 
                     }
                     else
                     {
-                        TilePosition Position = new TilePosition(tile.Type, X, Y, tile.X, tile.Y);
-                        TileDB.Tiles[X, Y] = new Tile(TileType.Background, image, Position);
+                        TilePosition Position = new TilePosition(tile.Type, X, Y);
+                        TileDB.Tiles[X, Y] = new Tile(TileType.Background, selectableTiles[index].bgName, image, Position);
                     }
                     break;
                 case TileType.Foreground:
@@ -141,19 +143,21 @@ namespace PWPlanner
                     {
                         TileDB.Tiles[X, Y].Type = TileType.Both;
                         TileDB.Tiles[X, Y].Foreground = image;
+                        TileDB.Tiles[X, Y].blName = selectableTiles[index].blName;
+
                         if (TileDB.Tiles[X, Y].Positions == null)
                         {
-                            TileDB.Tiles[X, Y].Positions = new TilePosition(tile.Type, X, Y, tile.X, tile.Y);
+                            TileDB.Tiles[X, Y].Positions = new TilePosition(tile.Type, X, Y);
                         }
                         else
                         {
-                            TileDB.Tiles[X, Y].Positions.SetForegroundPositions(X, Y, tile.X, tile.Y);
+                            TileDB.Tiles[X, Y].Positions.SetForegroundPositions(X, Y);
                         }
                     }
                     else
                     {
-                        TilePosition Position = new TilePosition(tile.Type, X, Y, tile.X, tile.Y);
-                        TileDB.Tiles[X, Y] = new Tile(TileType.Foreground, image, Position);
+                        TilePosition Position = new TilePosition(tile.Type, X, Y);
+                        TileDB.Tiles[X, Y] = new Tile(TileType.Foreground, selectableTiles[index].blName, image, Position);
                     }
                     break;
             }
@@ -258,14 +262,6 @@ namespace PWPlanner
             }
             return false;
         }
-
-        public string TileInfo(int X, int Y)
-        {
-            if (TileDB.Tiles[X, Y] == null)
-            {
-                return "Empty";
-            }
-            return $"{X}, {Y}, Type = {TileDB.Tiles[X, Y].Type}";
-        }
+    
     }
 }

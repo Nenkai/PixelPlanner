@@ -19,29 +19,36 @@ namespace PWPlanner
 
         public static bool CheckForUpdates()
         {
-
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "PWPlanner.config.xml";
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            try
             {
-                current = GetVersionFromXml(stream);
+                var assembly = Assembly.GetExecutingAssembly();
+                var resourceName = "PWPlanner.config.xml";
+
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                {
+                    current = GetVersionFromXml(stream);
+                }
+
+                WebClient client = new WebClient();
+                Stream downloaded = client.OpenRead(URL);
+                latest = GetVersionFromXml(downloaded);
+                
+                var v1 = Version.Parse(latest);
+                var v2 = Version.Parse(current);
+
+                var result = v1.CompareTo(v2);
+
+                client.Dispose();
+                if (result > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e) {
+                return false;
             }
 
-            WebClient client = new WebClient();
-            Stream downloaded = client.OpenRead(URL);
-            latest = GetVersionFromXml(downloaded);
-
-            var v1 = Version.Parse(latest);
-            var v2 = Version.Parse(current);
-
-            var result = v1.CompareTo(v2);
-
-            if (result > 0)
-            {
-                return true;
-            }
-            return false;
         }
 
 

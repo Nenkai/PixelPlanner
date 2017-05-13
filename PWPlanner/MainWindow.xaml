@@ -33,6 +33,9 @@
                 <Label Name="PosLabel" />
             </StatusBarItem>
             <Separator Grid.Column="1" />
+            <StatusBarItem Grid.Column="2">
+                <Label Name="TileHover" Content="test"/>
+            </StatusBarItem>
             <Separator Grid.Column="3" />
             <StatusBarItem Grid.Column="4">
                 <!--Icon="Refresh" Spin="True" SpinDuration="1.2"-->
