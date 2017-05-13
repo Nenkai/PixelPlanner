@@ -60,6 +60,13 @@ namespace PWPlanner
         {
             CanvasPos pos = new CanvasPos(e.GetPosition(MainCanvas));
             PosLabel.Content = $"({pos.X},{pos.Y})";
+
+            //Last pixel crashes the entire thing. Why? No idea.
+            if (pos.Y == 60)
+            {
+                return;
+            }
+
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 //Check if a tile has been selected before doing anything first.
