@@ -1,7 +1,5 @@
 # PixelPlanner
 A World Planner for the game Pixel Worlds written in C#.
-
-This is a work-in-progress and expect stuff to be broken if you happen to compile it by yourself.
 The sprites are included here, and are obviously used with permission from Kukouri Mobile Entertainment. They should not be used anywhere else.
 
 ## Features
@@ -10,7 +8,11 @@ The sprites are included here, and are obviously used with permission from Kukou
 - Custom Backgrounds color or Orbs
 - Zooming (Slider, or Shift+Mouse Scroll)
 - Update Check (built-in downloader)
-More to come.
+- World Tiles Stats
 
 # Warning
 Saves aren't always compatible with versions. If it doesn't work, use the previous version you used to build with!
+
+# Modern UI Icons
+Modern UI Icons from `https://github.com/Templarian/WindowsIcons/`
+Licensed Creative Commons 3.0.
