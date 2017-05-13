@@ -82,11 +82,6 @@ namespace PWPlanner
             {
                 DeleteAt(pos.X, pos.Y, _selectedTile);
             }
-
-            if (e.MiddleButton == MouseButtonState.Pressed)
-            {
-                if (TileDB.Tiles[pos.X, pos.Y] != null) Debug.WriteLine(TileDB.Tiles[pos.X, pos.Y].ToString());
-            }
         }
 
         //Pass Click to Move
