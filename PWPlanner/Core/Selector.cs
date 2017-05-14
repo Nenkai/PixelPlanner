@@ -36,7 +36,7 @@ namespace PWPlanner
             int X = (int)Math.Floor(p.X / 32);
             int Y = (int)Math.Floor(p.Y / 32);
 
-            index = Y * columns + X;
+            index = GetIndexFromPosition(X, Y);
 
             if (p.X % 32 == 0 || p.Y % 32 == 0)
             {
@@ -50,6 +50,7 @@ namespace PWPlanner
 
                 Source = selectableTiles[index].source
             };
+
             TileType tt = TileType.None;
             BlockName blockName;
             BackgroundName backgroundName;
@@ -81,11 +82,7 @@ namespace PWPlanner
 
             TileCanvas.Children.Add(selectBorder);
             FirstSelected = true;
-            _selectedTile = new Tile(tt, image)
-            {
-                X = (int)p.X / 32,
-                Y = (int)p.Y / 32
-            };
+            _selectedTile = new Tile(tt, image);
         }
 
         private void ComboTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -102,6 +99,21 @@ namespace PWPlanner
             else if (ComboTypes.SelectedIndex == 1) {
                 LoadTilesForSelector(TileType.Foreground);
             }
+        }
+
+        public static int GetIndexFromPosition(int X, int Y)
+        {
+            return Y * columns + X;
+        }
+
+        public static int GetXFromIndex(int index)
+        {
+            return index % columns;
+        }
+
+        public static int GetYFromIndex(int index)
+        {
+            return (index - GetXFromIndex(index)) / columns;
         }
     }
 }

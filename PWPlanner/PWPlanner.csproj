@@ -107,6 +107,7 @@
     <Compile Include="Core\DataHandler.cs" />
     <Compile Include="Core\ImageLoader.cs" />
     <Compile Include="Core\MainBackground.cs" />
+    <Compile Include="Core\Search.cs" />
     <Compile Include="Core\Selector.cs" />
     <Compile Include="Core\TileData.cs" />
     <Compile Include="Core\TileGrid.cs" />

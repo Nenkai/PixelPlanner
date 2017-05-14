@@ -7,7 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="PWPlanner.MainWindow"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="Pixel Worlds Planner" Height="760.431" Width="1000.824"
+        Title="PixelPlanner" Height="760.431" Width="1000.824"
         Closing="Window_Closing"
         ContentRendered="Window_ContentRendered">
 
@@ -158,7 +158,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            
+
             <MenuItem Header="Help">
                 <MenuItem Header="About" x:Name="about" Click="About_Click" >
                     <MenuItem.Icon>
@@ -175,16 +175,50 @@
                     <ColumnDefinition Width="41*"/>
                     <ColumnDefinition Width="199*"/>
                 </Grid.ColumnDefinitions>
-                <ComboBox x:Name="ComboTypes" HorizontalAlignment="Left" Margin="10,306,0,0" VerticalAlignment="Top" Width="220" SelectionChanged="ComboTypes_SelectionChanged" Grid.ColumnSpan="2"/>
-                <Border BorderBrush="Gray" BorderThickness="2" HorizontalAlignment="Left" Height="328" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="220" Grid.ColumnSpan="2">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="-2,-1,-1,-3" Height="328" VerticalAlignment="Top">
-                        <Canvas x:Name="TileCanvas" MouseDown="TileSelect_OnClick" Height="312" Width="205"/>
+                <ComboBox x:Name="ComboTypes" HorizontalAlignment="Left" Margin="10,267,0,0" VerticalAlignment="Top" Width="220" SelectionChanged="ComboTypes_SelectionChanged" Grid.ColumnSpan="2"/>
+                <Border BorderBrush="Gray" BorderThickness="2" HorizontalAlignment="Left" Height="340" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="220" Grid.ColumnSpan="2">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="-2,-1,-1,-3" Height="340" VerticalAlignment="Top">
+                        <Canvas x:Name="TileCanvas" MouseDown="TileSelect_OnClick" Height="330" Width="205"/>
                     </ScrollViewer>
                 </Border>
-                <Label Content="Background Color" HorizontalAlignment="Left" Margin="10,245,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Left" Margin="79,249,0,0" VerticalAlignment="Top" Width="110" SelectedColorChanged="OnColorSelect" Grid.Column="1" />
-                <Label Content="Zoom" HorizontalAlignment="Left" Margin="10,275,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                <Slider HorizontalAlignment="Left" Margin="12,280,0,0" VerticalAlignment="Top" Width="177" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="21" Grid.Column="1"/>
+                <Label Content="Background Color" HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Left" Margin="79,214,0,0" VerticalAlignment="Top" Width="110" SelectedColorChanged="OnColorSelect" Grid.Column="1" />
+                <Label Content="Zoom" HorizontalAlignment="Left" Margin="10,236,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                <Slider HorizontalAlignment="Left" Margin="10,237,0,0" VerticalAlignment="Top" Width="189" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="25" Grid.Column="1"/>
+                <TextBox x:Name ="SearchBar" HorizontalAlignment="Left" Height="23" Margin="10,294,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220" Grid.ColumnSpan="2" TextChanged="Search_TextChanged" LostFocus="Search_LostFocus" GotFocus="Search_GotFocus">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content=" Search Tiles..." Foreground="LightGray" FontStyle="Italic" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <ListBox x:Name="SearchResultList" HorizontalAlignment="Left" Height="150" Margin="10,317,0,0" VerticalAlignment="Top" Visibility="Hidden" Width="220" Grid.ColumnSpan="2"  LostFocus="SearchList_LostFocus">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="3" Source="{Binding Source}" MouseDown="SearchEntry_MouseDown"/>
+                                <TextBlock Margin="3" Text="{Binding Name}" MouseDown="SearchEntry_MouseDown"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </Border>
 

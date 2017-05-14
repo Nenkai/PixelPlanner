@@ -99,7 +99,7 @@ namespace PWPlanner
 
         //Save Entire Canvas to PNG
         private void SaveImage_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             //Apply default scale to allow 1:1 pixel world saving.
             MainCanvas.LayoutTransform = new ScaleTransform(defaultMatrix.M11, defaultMatrix.M22);
             MainCanvas.UpdateLayout();
@@ -275,7 +275,7 @@ namespace PWPlanner
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.AppendLine($"Could not load {invalids.Count} tiles (Using an older version?)");
-                    foreach(KeyValuePair<string, int> entry in invalids)
+                    foreach (KeyValuePair<string, int> entry in invalids)
                     {
                         sb.AppendLine($"-{entry.Key} [x{entry.Value}]");
                     }
@@ -283,7 +283,7 @@ namespace PWPlanner
                 }
             }
             isLoading = false;
-            
+
         }
 
         //Zoom
@@ -297,7 +297,7 @@ namespace PWPlanner
                     scale = new ScaleTransform(MainCanvas.LayoutTransform.Value.M11 + 0.13, MainCanvas.LayoutTransform.Value.M22 + 0.13);
                 } else
                 {
-                    scale = new ScaleTransform(MainCanvas.LayoutTransform.Value.M11 - 0.13, MainCanvas.LayoutTransform.Value.M22 -0.13);
+                    scale = new ScaleTransform(MainCanvas.LayoutTransform.Value.M11 - 0.13, MainCanvas.LayoutTransform.Value.M22 - 0.13);
                 }
                 MainCanvas.LayoutTransform = scale;
                 MainCanvas.UpdateLayout();
@@ -435,7 +435,7 @@ namespace PWPlanner
         }
 
         //Orb Picker
-        private void OrbsRadioButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void OrbsRadioButton_Click(object sender, RoutedEventArgs e)
         {
             MenuItem mi = sender as MenuItem;
             if (mi != null)
@@ -476,7 +476,7 @@ namespace PWPlanner
             MainCanvas.Background = BackgroundData.GetBackground(bt);
             TileDB.hasMainBackground = true;
             TileDB.MainBackground = bt;
-            
+
         }
 
         //Exit handlers
@@ -492,7 +492,6 @@ namespace PWPlanner
                 Application.Current.Shutdown();
             }
         }
-
     }
 }
 
