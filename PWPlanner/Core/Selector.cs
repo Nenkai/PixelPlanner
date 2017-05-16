@@ -38,51 +38,50 @@ namespace PWPlanner
 
             index = GetIndexFromPosition(X, Y);
 
-            if (p.X % 32 == 0 || p.Y % 32 == 0)
+            try
             {
-                return;
-            }
 
-            Image image = new Image()
-            {
-                Height = 32,
-                Width = 32,
+                Image image = new Image()
+                {
+                    Height = 32,
+                    Width = 32,
 
-                Source = selectableTiles[index].source
-            };
+                    Source = selectableTiles[index].source
+                };
 
-            TileType tt = TileType.None;
-            BlockName blockName;
-            BackgroundName backgroundName;
-            switch (ComboTypes.SelectedIndex)
-            {
-                case 0:
-                    backgroundName = SelectableTile.GetBackgroundNameByString(selectableTiles[index].bgName);
-                    tt = TileType.Background;
-                    TileHover.Content = selectableTiles[index].bgName;
-                    break;
-                case 1:
-                    blockName = SelectableTile.GetBlockNameByString(selectableTiles[index].blName);
-                    tt = TileType.Foreground;
-                    TileHover.Content = selectableTiles[index].blName;
-                    break;
-            }
+                TileType tt = TileType.None;
+                BlockName blockName;
+                BackgroundName backgroundName;
+                switch (ComboTypes.SelectedIndex)
+                {
+                    case 0:
+                        backgroundName = SelectableTile.GetBackgroundNameByString(selectableTiles[index].bgName);
+                        tt = TileType.Background;
+                        TileHover.Content = selectableTiles[index].bgName;
+                        break;
+                    case 1:
+                        blockName = SelectableTile.GetBlockNameByString(selectableTiles[index].blName);
+                        tt = TileType.Foreground;
+                        TileHover.Content = selectableTiles[index].blName;
+                        break;
+                }
 
-            TileCanvas.Children.Remove(selectBorder);
+                TileCanvas.Children.Remove(selectBorder);
 
-            selectBorder = new Border()
-            {
-                BorderBrush = Brushes.SkyBlue,
-                BorderThickness = new Thickness(2),
-                Width = 32,
-                Height = 32
-            };
-            Canvas.SetTop(selectBorder, Y * 32);
-            Canvas.SetLeft(selectBorder, X * 32);
+                selectBorder = new Border()
+                {
+                    BorderBrush = Brushes.SkyBlue,
+                    BorderThickness = new Thickness(2),
+                    Width = 32,
+                    Height = 32
+                };
+                Canvas.SetTop(selectBorder, Y * 32);
+                Canvas.SetLeft(selectBorder, X * 32);
 
-            TileCanvas.Children.Add(selectBorder);
-            FirstSelected = true;
-            _selectedTile = new Tile(tt, image);
+                TileCanvas.Children.Add(selectBorder);
+                FirstSelected = true;
+                _selectedTile = new Tile(tt, image);
+            } catch (IndexOutOfRangeException index) { }
         }
 
         private void ComboTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
