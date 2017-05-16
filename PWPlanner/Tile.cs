@@ -235,6 +235,7 @@ namespace PWPlanner
         AquaCandyBlock,
         ArmChair,
         Balloons,
+        Bat,
         Bathtub,
         Bed,
         Bedrock,
