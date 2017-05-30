@@ -7,20 +7,30 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="PWPlanner.MainWindow"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="PixelPlanner" Height="760.431" Width="1000.824"
+        Title="PixelPlanner" Height="760" Width="1000" MinWidth="600" MinHeight="600"
         Closing="Window_Closing"
         ContentRendered="Window_ContentRendered">
 
     <!-- Shortcuts -->
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="NewBinding_Executed" />
+        <CommandBinding Command="Save" Executed="SaveBinding_Executed" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="New"/>
+        <KeyBinding Modifiers="Ctrl" Key="S" Command="Save"/>
+    </Window.InputBindings>
 
     <DockPanel LastChildFill="true" >
         <!-- Status -->
-        <StatusBar DockPanel.Dock="Bottom" BorderBrush="Gray" BorderThickness="1,1,1,1" Height="33">
+        <StatusBar DockPanel.Dock="Bottom" BorderBrush="Gray" BorderThickness="1,1,1,1" Height="34">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="55" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="32" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
@@ -29,24 +39,23 @@
                     </Grid>
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
-            <StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Center">
                 <Label Name="PosLabel" />
             </StatusBarItem>
             <Separator Grid.Column="1" />
-            <StatusBarItem Grid.Column="2">
-                <Label Name="TileHover" Content="No Tile Selected"/>
+            <StatusBarItem Grid.Column="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Image Name="LabelImg" RenderOptions.BitmapScalingMode="Fant" Stretch="Fill" Margin="-2" />
             </StatusBarItem>
-            <Separator Grid.Column="3" />
-            <StatusBarItem Grid.Column="4">
-                <!--Icon="Refresh" Spin="True" SpinDuration="1.2"-->
-                <fa:ImageAwesome x:Name="Spinner"  Height="24" Width="45" Visibility="Hidden"/>
+            <StatusBarItem Grid.Column="3" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Label Name="TileHover" Content="No Tile Selected" Width="785" />
             </StatusBarItem>
+            <Separator Grid.Column="5" />
         </StatusBar>
 
         <!-- Top Menu -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="New World.." Click="NewWorld_Click">
+                <MenuItem Header="New World.." Click="NewWorld_Click" InputGestureText="Ctrl+N">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.add.png" Width="20" Height="20"/>
                     </MenuItem.Icon>
@@ -58,8 +67,13 @@
                         <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.folder.open.png"  Width="20" Height="20"/>
                     </MenuItem.Icon>
                 </MenuItem>
-
-                <MenuItem Header="_Save World.." Click="SaveWorld_Click">
+                <Separator />
+                <MenuItem Header="_Save" Name="SaveButton" IsEnabled="False" Click="DirectWorldSave_Click" InputGestureText="Ctrl+S">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.save.png"  Width="20" Height="20"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save World As..." Click="SaveWorld_Click">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.save.png"  Width="20" Height="20"/>
                     </MenuItem.Icon>
@@ -182,9 +196,9 @@
                     </ScrollViewer>
                 </Border>
                 <Label Content="Background Color" HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Left" Margin="79,214,0,0" VerticalAlignment="Top" Width="110" SelectedColorChanged="OnColorSelect" Grid.Column="1" />
+                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Left" Margin="79,210,0,0" VerticalAlignment="Top" Width="110" SelectedColorChanged="OnColorSelect" Grid.Column="1" Height="26" />
                 <Label Content="Zoom" HorizontalAlignment="Left" Margin="10,236,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                <Slider HorizontalAlignment="Left" Margin="10,237,0,0" VerticalAlignment="Top" Width="189" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="25" Grid.Column="1"/>
+                <Slider HorizontalAlignment="Left" Margin="10,241,0,0" VerticalAlignment="Top" Width="189" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="25" Grid.Column="1"/>
                 <TextBox x:Name ="SearchBar" HorizontalAlignment="Left" Height="23" Margin="10,294,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220" Grid.ColumnSpan="2" TextChanged="Search_TextChanged" LostFocus="Search_LostFocus" GotFocus="Search_GotFocus">
                     <TextBox.Style>
                         <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
@@ -219,6 +233,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                <Canvas Name="PreviousTiles" HorizontalAlignment="Left" Height="32" Margin="38,173,0,0" VerticalAlignment="Top" Width="192" Grid.ColumnSpan="2"/>
             </Grid>
         </Border>
 

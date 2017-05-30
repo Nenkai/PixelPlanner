@@ -61,7 +61,6 @@ namespace PWPlanner
                     ComboTypes.SelectedIndex = 1;
                     searchIndex = Array.FindIndex(selectableTiles, prop => prop.blName == entry.Name);
                 }
-                Debug.WriteLine(searchIndex);
                 BitmapImage source = selectableTiles[searchIndex].source;
                 selectBorder = new Border()
                 {
@@ -79,6 +78,7 @@ namespace PWPlanner
                 _selectedTile = new Tile(entry.type, new Image() { Source = source });
                 TileHover.Content = entry.Name;
                 FirstSelected = true;
+                LabelImg.Source = source;
                 SearchResultList.Visibility = Visibility.Hidden;
             }
         }

@@ -12,7 +12,19 @@ namespace PWPlanner
 {
     public class UpdateChecker
     {
-        public static string current;
+        public static string current
+        {
+            get
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var resourceName = "PWPlanner.config.xml";
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                {
+                    return GetVersionFromXml(stream);
+                }
+            }
+        }
+
         public static string latest;
 
         public static readonly string URL = "https://raw.githubusercontent.com/Nenkai/PixelPlanner/master/PWPlanner/config.xml";
@@ -21,31 +33,25 @@ namespace PWPlanner
         {
             try
             {
-                var assembly = Assembly.GetExecutingAssembly();
-                var resourceName = "PWPlanner.config.xml";
 
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                using (WebClient client = new WebClient())
                 {
-                    current = GetVersionFromXml(stream);
+                    Stream downloaded = client.OpenRead(URL);
+                    latest = GetVersionFromXml(downloaded);
+
+                    var v1 = Version.Parse(latest);
+                    var v2 = Version.Parse(current);
+
+                    var result = v1.CompareTo(v2);
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                    return false;
                 }
-
-                WebClient client = new WebClient();
-                Stream downloaded = client.OpenRead(URL);
-                latest = GetVersionFromXml(downloaded);
-                
-                var v1 = Version.Parse(latest);
-                var v2 = Version.Parse(current);
-
-                var result = v1.CompareTo(v2);
-
-                client.Dispose();
-                if (result > 0)
-                {
-                    return true;
-                }
-                return false;
             }
-            catch {
+            catch
+            {
                 return false;
             }
 

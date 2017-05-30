@@ -252,6 +252,7 @@ namespace PWPlanner
         BlueJelly,
         Bookshelf,
         Brazier,
+        BrownBlock,
         Bumper,
         Bushes,
         Buzzsaw,

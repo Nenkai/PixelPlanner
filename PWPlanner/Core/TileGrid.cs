@@ -18,6 +18,96 @@ namespace PWPlanner
 
         public static string[] blacklist = new string[] { "Bedrock", "BedrockFlat", "BedrockLava" };
 
+        //Zoom on Shift+Wheel
+        private void MainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                if (e.Delta > 0)
+                {
+                    zoomSlider.Value += 10;
+                }
+                else
+                {
+                    zoomSlider.Value -= 10;
+                }
+            }
+        }
+
+        //Disable/Enable Grid
+        private void Grid_Click(object sender, RoutedEventArgs e)
+        {
+            if (gridButton.IsChecked)
+            {
+                RemoveGrid();
+            }
+            else
+            {
+                DrawGrid(TileDB.Height, TileDB.Width);
+            }
+        }
+
+        //Painter
+        public void MainCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            CanvasPos pos = new CanvasPos(e.GetPosition(MainCanvas));
+            PosLabel.Content = $"({pos.X},{pos.Y})";
+
+            //Last pixel crashes the entire thing. Why? No idea.
+            if (pos.Y == 60)
+            {
+                return;
+            }
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                //Check if a tile has been selected before doing anything first.
+                if (FirstSelected)
+                {
+                    //Check if the tile selected can be placed at a position
+                    if (!SameTypeAt(_selectedTile, pos.X, pos.Y) && !AlreadyHasBothTypes(pos.X, pos.Y))
+                    {
+                        //So we can make sure to put a confirm box if the user makes a new world or opens one
+                        if (!firstPlaced) firstPlaced = true;
+
+                        PlaceAt(pos.X, pos.Y, _selectedTile);
+
+                    }
+                }
+            }
+
+            //Delete Tiles
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                DeleteAt(pos.X, pos.Y, _selectedTile);
+            }
+        }
+
+        //Pass Click to Move
+        private void MainCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MainCanvas_MouseMove(sender, e);
+        }
+
+        //Zoom
+        private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (isRendered)
+            {
+                ScaleTransform scale;
+                if (e.NewValue > e.OldValue)
+                {
+                    scale = new ScaleTransform(MainCanvas.LayoutTransform.Value.M11 + 0.13, MainCanvas.LayoutTransform.Value.M22 + 0.13);
+                }
+                else
+                {
+                    scale = new ScaleTransform(MainCanvas.LayoutTransform.Value.M11 - 0.13, MainCanvas.LayoutTransform.Value.M22 - 0.13);
+                }
+                MainCanvas.LayoutTransform = scale;
+                MainCanvas.UpdateLayout();
+            }
+        }
+
         private void DrawGrid(int height, int width)
         {
             MainCanvas.Height = height * 32;

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
-using System.ComponentModel.Composition.Hosting;
-using System.IO;
-using System.Collections.Generic;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using System.Reflection;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows.Media;
 using System.Windows.Input;
 
@@ -18,6 +16,7 @@ namespace PWPlanner
 
         public Tile _selectedTile = new Tile();
         public Border selectBorder = new Border();
+        public Tile[] previousTiles = new Tile[6];
         public bool FirstSelected = false;
         public int index;
 
@@ -35,7 +34,7 @@ namespace PWPlanner
             Point p = e.GetPosition(TileCanvas);
             int X = (int)Math.Floor(p.X / 32);
             int Y = (int)Math.Floor(p.Y / 32);
-
+            
             index = GetIndexFromPosition(X, Y);
 
             try
@@ -80,6 +79,7 @@ namespace PWPlanner
 
                 TileCanvas.Children.Add(selectBorder);
                 FirstSelected = true;
+                LabelImg.Source = image.Source;
                 _selectedTile = new Tile(tt, image);
             } catch (IndexOutOfRangeException index) { }
         }
