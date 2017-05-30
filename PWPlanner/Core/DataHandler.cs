@@ -61,8 +61,8 @@ namespace PWPlanner
 
         private void DirectWorldSave_Click(object sender, RoutedEventArgs e)
         {
-            DataHandler.SaveWorld(TileDB, path);
             string path = SavedPath + @"\" + SavedFileName;
+            DataHandler.SaveWorld(TileDB, path);
             MessageBox.Show("World saved successfully at\n" + path, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
