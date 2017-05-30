@@ -16,7 +16,6 @@ namespace PWPlanner
 
         public Tile _selectedTile = new Tile();
         public Border selectBorder = new Border();
-        public Tile[] previousTiles = new Tile[6];
         public bool FirstSelected = false;
         public int index;
 

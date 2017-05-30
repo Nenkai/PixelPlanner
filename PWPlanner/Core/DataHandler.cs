@@ -38,12 +38,6 @@ namespace PWPlanner
             NewWorld_Click(sender, e);
         }
 
-        //Load Shortcut
-        private void SomeCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            LoadWorld_Click(sender, e);
-        }
-
         //World Save
         private void SaveWorld_Click(object sender, RoutedEventArgs e)
         {
@@ -67,6 +61,7 @@ namespace PWPlanner
 
         private void DirectWorldSave_Click(object sender, RoutedEventArgs e)
         {
+            DataHandler.SaveWorld(TileDB, path);
             string path = SavedPath + @"\" + SavedFileName;
             MessageBox.Show("World saved successfully at\n" + path, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
