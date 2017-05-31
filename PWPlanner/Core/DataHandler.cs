@@ -181,6 +181,9 @@ namespace PWPlanner
                         }
                     }
                     ColorSelector.SelectedColor = Utils.IntToARGBColor(TileDB.ARGBBackgroundColor);
+                    firstPlaced = false;
+                    SaveButton.IsEnabled = false;
+                    SavedPath = String.Empty;
                 }
                 if (invalids.Count > 0)
                 {

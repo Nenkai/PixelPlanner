@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows.Media;
 using System.Windows.Input;
-
-using PWPlanner.Core;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace PWPlanner
 {
@@ -97,6 +93,38 @@ namespace PWPlanner
             else if (ComboTypes.SelectedIndex == 1) {
                 LoadTilesForSelector(TileType.Foreground);
             }
+        }
+
+        public void SelectTile(TileType type, string bgOrblName)
+        {
+            TileCanvas.Children.Remove(selectBorder);
+
+            int searchIndex;
+            if (type == TileType.Background)
+            {
+                ComboTypes.SelectedIndex = 0;
+                searchIndex = Array.FindIndex(selectableTiles, prop => prop.bgName == bgOrblName);
+            }
+            else
+            {
+                ComboTypes.SelectedIndex = 1;
+                searchIndex = Array.FindIndex(selectableTiles, prop => prop.blName == bgOrblName);
+            }
+
+            BitmapImage source = selectableTiles[searchIndex].source;
+            selectBorder = new Border()
+            {
+                BorderBrush = Brushes.SkyBlue,
+                BorderThickness = new Thickness(2),
+                Width = 32,
+                Height = 32
+            };
+
+            Canvas.SetTop(selectBorder, GetYFromIndex(searchIndex) * 32);
+            Canvas.SetLeft(selectBorder, GetXFromIndex(searchIndex) * 32);
+            TileCanvas.Children.Add(selectBorder);
+            index = searchIndex;
+
         }
 
         public static int GetIndexFromPosition(int X, int Y)

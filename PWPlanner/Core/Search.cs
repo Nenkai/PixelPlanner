@@ -11,7 +11,7 @@ namespace PWPlanner
 {
     public partial class MainWindow
     {
-        private void Search_TextChanged(object sender, TextChangedEventArgs e)
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (isRendered)
             {
@@ -21,21 +21,32 @@ namespace PWPlanner
             }
         }
 
-        private void Search_LostFocus(object sender, RoutedEventArgs e)
+        private void SearchBar_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (SearchResultList.Visibility == Visibility.Visible && SearchResultList.IsFocused)
+            var focused = FocusManager.GetFocusedElement(this);
+            if (!(focused is ListBoxItem))
             {
                 SearchResultList.Visibility = Visibility.Hidden;
             }
         }
 
-        private void Search_GotFocus(object sender, RoutedEventArgs e)
+        private void SearchBar_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox objTextBox = (TextBox)sender;
             string text = objTextBox.Text;
             if (SearchResultList.Visibility == Visibility.Hidden && text.Length > 0)
             {
                 SearchResultList.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SearchList_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var focused = FocusManager.GetFocusedElement(this);
+            var item = focused as ListBoxItem;
+            if (item == null)
+            {
+                SearchResultList.Visibility = Visibility.Hidden;
             }
         }
 
@@ -49,47 +60,13 @@ namespace PWPlanner
 
                 TileCanvas.Children.Remove(selectBorder);
 
-                int searchIndex;
-                if (entry.type == TileType.Background)
-                {
-                    ComboTypes.SelectedIndex = 0;
-                    searchIndex = Array.FindIndex(selectableTiles, prop => prop.bgName == entry.Name);
+                SelectTile(entry.type, entry.Name);
 
-                }
-                else
-                {
-                    ComboTypes.SelectedIndex = 1;
-                    searchIndex = Array.FindIndex(selectableTiles, prop => prop.blName == entry.Name);
-                }
-                BitmapImage source = selectableTiles[searchIndex].source;
-                selectBorder = new Border()
-                {
-                    BorderBrush = Brushes.SkyBlue,
-                    BorderThickness = new Thickness(2),
-                    Width = 32,
-                    Height = 32
-                };
-
-                Canvas.SetTop(selectBorder, GetYFromIndex(searchIndex) * 32);
-                Canvas.SetLeft(selectBorder, GetXFromIndex(searchIndex) * 32);
-                TileCanvas.Children.Add(selectBorder);
-
-                index = searchIndex;
+                BitmapImage source = selectableTiles[index].source;
                 _selectedTile = new Tile(entry.type, new Image() { Source = source });
                 TileHover.Content = entry.Name;
                 FirstSelected = true;
                 LabelImg.Source = source;
-                SearchResultList.Visibility = Visibility.Hidden;
-            }
-        }
-
-        private void SearchList_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var focused = FocusManager.GetFocusedElement(this);
-
-            var item = focused as ListBoxItem;
-            if (item == null)
-            {
                 SearchResultList.Visibility = Visibility.Hidden;
             }
         }

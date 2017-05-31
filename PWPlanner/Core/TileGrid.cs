@@ -83,10 +83,51 @@ namespace PWPlanner
             }
         }
 
-        //Pass Click to Move
+        //Pass Click to Move + Tile Selector
         private void MainCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainCanvas_MouseMove(sender, e);
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                CanvasPos pos = new CanvasPos(e.GetPosition(MainCanvas));
+                PosLabel.Content = $"({pos.X},{pos.Y})";
+
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    if (GetBackgroundAt(pos.X, pos.Y, out BackgroundName bg))
+                    {
+                        backgroundMap.TryGetValue(bg, out BitmapImage src);
+                        Image image = new Image()
+                        {
+                            Source = src
+                        };
+                        _selectedTile = new Tile(TileType.Background, image);
+                        SelectTile(TileType.Background, bg.ToString());
+                        LabelImg.Source = src;
+                        TileHover.Content = bg;
+                    }
+                } 
+                else if (e.RightButton == MouseButtonState.Pressed)
+                {
+                    GetForegroundAt(pos.X, pos.Y, out BlockName bl);
+                    if (GetForegroundAt(pos.X, pos.Y, out bl))
+                    {
+                        blockMap.TryGetValue(bl, out BitmapImage src);
+                        Image image = new Image()
+                        {
+                            Source = src
+                        };
+                        _selectedTile = new Tile(TileType.Foreground, image);
+                        SelectTile(TileType.Foreground, bl.ToString());
+                        LabelImg.Source = src;
+                        TileHover.Content = bl;
+                    }
+                }
+ 
+            }
+            else
+            {
+                MainCanvas_MouseMove(sender, e);
+            }
         }
 
         //Zoom
@@ -294,7 +335,29 @@ namespace PWPlanner
             }
         }
 
-        public bool Exists(int X, int Y)
+        public bool GetBackgroundAt(int X, int Y, out BackgroundName Background)
+        {
+            Background = BackgroundName.NONE;
+            if (HasBackgroundAt(X, Y))
+            {
+                Background = SelectableTile.GetBackgroundNameByString(TileDB.Tiles[X, Y].bgName);
+                return true;
+            }
+            return false;
+        }
+
+        public bool GetForegroundAt(int X, int Y, out BlockName Foreground)
+        {
+            Foreground = BlockName.NONE;
+            if (HasForegroundAt(X, Y))
+            {
+                Foreground = SelectableTile.GetBlockNameByString(TileDB.Tiles[X, Y].blName);
+                return true;
+            }
+            return false;
+        }
+
+        public bool TileExists(int X, int Y)
         {
             if (TileDB.Tiles[X, Y] != null)
             {
@@ -305,7 +368,7 @@ namespace PWPlanner
 
         public bool HasBackgroundAt(int X, int Y)
         {
-            if (Exists(X, Y))
+            if (TileExists(X, Y))
             {
                 if (TileDB.Tiles[X, Y].Background != null)
                 {
@@ -318,7 +381,7 @@ namespace PWPlanner
 
         public bool HasForegroundAt(int X, int Y)
         {
-            if (Exists(X, Y))
+            if (TileExists(X, Y))
             {
                 if (TileDB.Tiles[X, Y].Foreground != null)
                 {
@@ -331,7 +394,7 @@ namespace PWPlanner
 
         public bool AlreadyHasBothTypes(int X, int Y)
         {
-            if (Exists(X, Y))
+            if (TileExists(X, Y))
             {
                 if (TileDB.Tiles[X, Y].Type == TileType.Both)
                 {

@@ -1,15 +1,13 @@
 ﻿using Microsoft.Win32;
 using PWPlanner.Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -37,7 +35,7 @@ namespace PWPlanner
             DrawBedrock();
             ComboTypes.SelectedIndex = 0;
             this.Title = $"{this.Title} ({UpdateChecker.current})";
-
+            var executingAssembly = Assembly.GetExecutingAssembly();
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
@@ -159,6 +157,19 @@ namespace PWPlanner
             }
         }
 
+        //Shortcut Window
+        private void Shortcuts_Click(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("- Ctrl + S -> Save");
+            sb.AppendLine("- Ctrl + N -> New World");
+            sb.AppendLine("- Shift + Mouse Wheel -> Canvas Zoom");
+            sb.AppendLine("- Shift + Left Click -> Pick Background from canvas");
+            sb.AppendLine("- Shift + Right Click -> Pick Foreground from canvas");
+
+            MessageBox.Show(sb.ToString(), "Shortcuts", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
         //About Window
         private void About_Click(object sender, RoutedEventArgs e)
         {
@@ -181,6 +192,7 @@ namespace PWPlanner
                 ComboTypes.SelectedIndex = 0;
                 firstPlaced = false;
                 SaveButton.IsEnabled = false;
+                SavedPath = String.Empty;
             }
         }
 
