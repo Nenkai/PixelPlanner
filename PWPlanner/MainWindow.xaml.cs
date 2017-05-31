@@ -43,7 +43,7 @@ namespace PWPlanner
             isRendered = true;
             if (UpdateChecker.CheckForUpdates())
             {
-                this.Name = $"{this.Title} ({UpdateChecker.current} [Outdated])";
+                this.Title = $"{this.Title} [Outdated])";
                 MessageBoxResult result = MessageBox.Show($"Found a new version ({UpdateChecker.latest}), currently using {UpdateChecker.current}. Check it out?", "Update", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (result == MessageBoxResult.Yes)
                 {
