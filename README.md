@@ -1,4 +1,4 @@
-# PixelPlanner
+# PixelPlanner [![Build status](https://ci.appveyor.com/api/projects/status/p25yvbnoho0eoem1?svg=true)](https://ci.appveyor.com/project/Nenkai/pixelplanner)
 A World Planner for the game Pixel Worlds written in C#.
 The sprites are included here, and are obviously used with permission from Kukouri Mobile Entertainment. They should not be used anywhere else.
 
