@@ -281,6 +281,7 @@ namespace PWPlanner
         GreyBrick,
         HollyWreath,
         HugeMetalFan,
+        HugeMetalFan2,
         IceBlock,
         Icicles,
         IrishString,
