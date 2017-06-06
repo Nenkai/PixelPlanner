@@ -16,3 +16,7 @@ Saves aren't always compatible with versions. If it doesn't work, use the previo
 # Modern UI Icons
 Modern UI Icons from `https://github.com/Templarian/WindowsIcons/`
 Licensed Creative Commons 3.0.
+
+# License
+
+The whole project is licensed under [Creative Commons Attribution-NonCommercial 4.0 license](https://creativecommons.org/licenses/by-nc/4.0/), the source code under the MIT License.
