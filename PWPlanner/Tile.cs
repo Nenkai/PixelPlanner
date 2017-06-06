@@ -399,6 +399,7 @@ namespace PWPlanner
         Sunflower,
         Sushi,
         Tapestry,
+        TeslaSphere,
         Throne,
         TintedGlassDoor,
         Torch,

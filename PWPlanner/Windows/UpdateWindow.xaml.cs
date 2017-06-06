@@ -29,7 +29,7 @@ namespace PWPlanner.Core
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "EXE Files (*.exe)|*.exe";
             dialog.DefaultExt = "exe";
-            dialog.FileName = "PWPlanner.exe";
+            dialog.FileName = $"PWPlanner{version}.exe";
             dialog.Title = "Where to save?";
             dialog.RestoreDirectory = true;
 

@@ -35,7 +35,6 @@ namespace PWPlanner
             DrawBedrock();
             ComboTypes.SelectedIndex = 0;
             this.Title = $"{this.Title} ({UpdateChecker.current})";
-            var executingAssembly = Assembly.GetExecutingAssembly();
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
@@ -116,7 +115,7 @@ namespace PWPlanner
                             }
                             else
                             {
-                                placed.Add(itemName, 0);
+                                placed.Add(itemName, 1);
                             }
                         }
 
@@ -135,7 +134,7 @@ namespace PWPlanner
                             }
                             else
                             {
-                                placed.Add(itemName, 0);
+                                placed.Add(itemName, 1);
                             }
                         }
                     }
