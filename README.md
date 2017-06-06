@@ -19,4 +19,4 @@ Licensed Creative Commons 3.0.
 
 # License
 
-The whole project is licensed under [https://creativecommons.org/licenses/by-nc/4.0/](Creative Commons Attribution-NonCommercial 4.0 license), the source code under the MIT License.
+The whole project is licensed under [Creative Commons Attribution-NonCommercial 4.0 license](https://creativecommons.org/licenses/by-nc/4.0/), the source code under the MIT License.
