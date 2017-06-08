@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Diagnostics;
-using System.Net;
-using System.Xml;
 using System.IO;
+using System.Net;
+using System.Reflection;
+using System.Xml;
 
 
 namespace PWPlanner
 {
     public class UpdateChecker
     {
+        public static string latest;
+        public static string changelog;
+        public static readonly string URL = "https://raw.githubusercontent.com/Nenkai/PixelPlanner/master/PWPlanner/config.xml";
+
         public static string current
         {
             get
@@ -25,10 +26,6 @@ namespace PWPlanner
             }
         }
 
-        public static string latest;
-
-        public static readonly string URL = "https://raw.githubusercontent.com/Nenkai/PixelPlanner/master/PWPlanner/config.xml";
-
         public static bool CheckForUpdates()
         {
             try
@@ -38,11 +35,13 @@ namespace PWPlanner
                 {
                     Stream downloaded = client.OpenRead(URL);
                     latest = GetVersionFromXml(downloaded);
+                    changelog = GetChangelogFromXml(downloaded);
+                    downloaded.Dispose();
 
                     var v1 = Version.Parse(latest);
                     var v2 = Version.Parse(current);
-
                     var result = v1.CompareTo(v2);
+                    
                     if (result > 0)
                     {
                         return true;
@@ -64,8 +63,17 @@ namespace PWPlanner
             {
                 XmlDocument xml = new XmlDocument();
                 xml.Load(reader);
-                XmlNodeList nodelist = xml.SelectNodes("/data");
-                return nodelist[0].InnerText;
+                return xml.SelectSingleNode("data/version").InnerText;
+            }
+        }
+
+        private static string GetChangelogFromXml(Stream stream)
+        {
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                XmlDocument xml = new XmlDocument();
+                xml.Load(reader);
+                return xml.SelectSingleNode("data/changelog").InnerText;
             }
         }
     }
