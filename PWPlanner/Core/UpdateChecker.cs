@@ -34,6 +34,7 @@ namespace PWPlanner
                 {
                     latest = GetVersionFromXml(downloaded);
                     changelog = GetChangelogFromXml(downloaded);
+                    downloaded.Dispose();
 
                     var v1 = Version.Parse(latest);
                     var v2 = Version.Parse(current);
@@ -46,29 +47,25 @@ namespace PWPlanner
                     return false;
                 }
             }
+                
         }
-
 
         private static string GetVersionFromXml(Stream stream)
         {
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.Load(reader);
-                reader.BaseStream.Seek(0, SeekOrigin.Begin);
-                return xml.SelectSingleNode("data/version").InnerText;
-            }
+            StreamReader reader = new StreamReader(stream);
+            XmlDocument xml = new XmlDocument();
+            xml.Load(reader);
+            reader.BaseStream.Seek(0, SeekOrigin.Begin);
+            return xml.SelectSingleNode("data/version").InnerText;
         }
 
         private static string GetChangelogFromXml(Stream stream)
         {
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.Load(reader);
-                reader.BaseStream.Seek(0, SeekOrigin.Begin);
-                return xml.SelectSingleNode("data/changelog").InnerText;
-            }
+            StreamReader reader = new StreamReader(stream);
+            XmlDocument xml = new XmlDocument();
+            xml.Load(reader);
+            reader.BaseStream.Seek(0, SeekOrigin.Begin);
+            return xml.SelectSingleNode("data/changelog").InnerText;
         }
     }
 }
