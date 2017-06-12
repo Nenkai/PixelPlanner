@@ -28,20 +28,17 @@ namespace PWPlanner
 
         public static bool CheckForUpdates()
         {
-            try
+            using (WebClient client = new WebClient())
             {
-
-                using (WebClient client = new WebClient())
+                using (MemoryStream downloaded = new MemoryStream(client.DownloadData(URL)))
                 {
-                    Stream downloaded = client.OpenRead(URL);
                     latest = GetVersionFromXml(downloaded);
                     changelog = GetChangelogFromXml(downloaded);
-                    downloaded.Dispose();
 
                     var v1 = Version.Parse(latest);
                     var v2 = Version.Parse(current);
                     var result = v1.CompareTo(v2);
-                    
+
                     if (result > 0)
                     {
                         return true;
@@ -49,11 +46,6 @@ namespace PWPlanner
                     return false;
                 }
             }
-            catch
-            {
-                return false;
-            }
-
         }
 
 
@@ -63,6 +55,7 @@ namespace PWPlanner
             {
                 XmlDocument xml = new XmlDocument();
                 xml.Load(reader);
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
                 return xml.SelectSingleNode("data/version").InnerText;
             }
         }
@@ -73,6 +66,7 @@ namespace PWPlanner
             {
                 XmlDocument xml = new XmlDocument();
                 xml.Load(reader);
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
                 return xml.SelectSingleNode("data/changelog").InnerText;
             }
         }

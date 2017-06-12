@@ -5,12 +5,8 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
 
-
-namespace PWPlanner
+namespace PWPlanner.Windows
 {
-    /// <summary>
-    /// Interaction logic for AboutWindow.xaml
-    /// </summary>
     public partial class AboutWindow : Window
     {
         public AboutWindow()

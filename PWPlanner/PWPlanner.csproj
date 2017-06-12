@@ -111,6 +111,9 @@
     <Compile Include="Core\TileData.cs" />
     <Compile Include="Core\TileGrid.cs" />
     <Compile Include="Core\UpdateChecker.cs" />
+    <Compile Include="Windows\StatsWindow.xaml.cs">
+      <DependentUpon>StatsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\UpdateWindow.xaml.cs">
       <DependentUpon>UpdateWindow.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
     <Compile Include="Utils.cs" />
     <Compile Include="Tile.cs" />
     <Page Include="Windows\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\StatsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

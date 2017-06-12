@@ -6,7 +6,7 @@ using System.Net;
 using System.Reflection;
 using System.ComponentModel;
 
-namespace PWPlanner.Core
+namespace PWPlanner.Windows
 {
     /// <summary>
     /// Interaction logic for UpdateWindow.xaml

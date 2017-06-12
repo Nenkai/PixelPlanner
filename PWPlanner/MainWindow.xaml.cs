@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using PWPlanner.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +9,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
+using PWPlanner.Windows;
 
 namespace PWPlanner
 {
@@ -96,10 +97,29 @@ namespace PWPlanner
             }
         }
 
-        //World Stats
-        private void Stats_Click(object sender, RoutedEventArgs e)
+        //Shortcut Window
+        private void Shortcuts_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine("- Ctrl + S -> Save");
+            sb.AppendLine("- Ctrl + N -> New World");
+            sb.AppendLine("- Shift + Mouse Wheel -> Canvas Zoom");
+            sb.AppendLine("- Shift + Left Click -> Pick Background from canvas");
+            sb.AppendLine("- Shift + Right Click -> Pick Foreground from canvas");
+
+            MessageBox.Show(sb.ToString(), "Shortcuts", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        //About Window
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.Show();
+        }
+
+        //About Window
+        private void Stats_Click(object sender, RoutedEventArgs e)
+        {
             SortedList<string, int> placed = new SortedList<string, int>();
 
             for (int i = 0; i < TileDB.Tiles.GetLength(0); i++)
@@ -142,40 +162,9 @@ namespace PWPlanner
                     }
                 }
             }
+            StatsWindow statsWindow = new StatsWindow(placed);
+            statsWindow.ShowDialog();
 
-            if (placed.Count > 0)
-            {
-                sb.AppendLine($"Found {placed.Count} different tiles");
-                foreach (KeyValuePair<string, int> entry in placed)
-                {
-                    sb.AppendLine($"-{entry.Key} [x{entry.Value}]");
-                }
-                MessageBox.Show(sb.ToString(), "Total Tiles", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                MessageBox.Show("No tiles placed!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
-        //Shortcut Window
-        private void Shortcuts_Click(object sender, RoutedEventArgs e)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("- Ctrl + S -> Save");
-            sb.AppendLine("- Ctrl + N -> New World");
-            sb.AppendLine("- Shift + Mouse Wheel -> Canvas Zoom");
-            sb.AppendLine("- Shift + Left Click -> Pick Background from canvas");
-            sb.AppendLine("- Shift + Right Click -> Pick Foreground from canvas");
-
-            MessageBox.Show(sb.ToString(), "Shortcuts", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        //About Window
-        private void About_Click(object sender, RoutedEventArgs e)
-        {
-            AboutWindow aboutWindow = new AboutWindow();
-            aboutWindow.Show();
         }
 
         //New World
