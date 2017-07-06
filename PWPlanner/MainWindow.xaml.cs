@@ -234,6 +234,9 @@ namespace PWPlanner
                 case "Alien":
                     bt = BackgroundData.BackgroundType.Alien;
                     break;
+                case "Desert":
+                    bt = BackgroundData.BackgroundType.Desert;
+                    break;
 
                 default:
                     bt = BackgroundData.BackgroundType.Forest;

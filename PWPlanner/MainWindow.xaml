@@ -162,6 +162,15 @@
                         </MenuItem.ToolTip>
                     </MenuItem>
 
+                    <MenuItem Header="Desert" x:Name="Desert">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/Resources/Icons/Desert.png"/>
+                        </MenuItem.Icon>
+                        <MenuItem.ToolTip>
+                            <Image Source="pack://application:,,,/Resources/Backgrounds/Desert.png" Width="500" Height="500" />
+                        </MenuItem.ToolTip>
+                    </MenuItem>
+
                 </MenuItem>
             </MenuItem>
 

@@ -573,6 +573,44 @@
     <EmbeddedResource Include="Resources\Tiles\Backgrounds\BambooWall.png" />
     <EmbeddedResource Include="Resources\Tiles\Backgrounds\SamuraiBackground.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Desert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Backgrounds\Desert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ArrowSign1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ArrowSign2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ArrowSign3.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ArrowSign4.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BarStool.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BlueMetalChair.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BookPodium.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Coffin.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\DecorativeSword.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\DesktopPC.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\DiscoBall.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\FishTank.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\FlatScreenTV.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Fridge.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GlassCabinet.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GreenMetalChair.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\HeartDecoration.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\HeavyMetalPoster.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\IronFence.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\MarbleFireplace.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\PinkMetalChair.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\PottedPlant.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RedMetalChair.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TVChair.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\WaterBed.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\WatermelonBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\YellowMetalChair.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\LightBlueWallpaper.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.7\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.7\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

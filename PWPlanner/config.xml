@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <data>
-  <version>1.4.1</version>
+  <version>1.5.0</version>
   <changelog>
-    - Scrollable stats window
-    - Fix Update Checking
+    - Add Tier 8 Items
+    - Add Desert Background
+    (Summer items will come later)
   </changelog>
 </data>
 

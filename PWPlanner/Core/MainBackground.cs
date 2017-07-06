@@ -34,6 +34,9 @@ namespace PWPlanner
                 case BackgroundType.Alien:
                     imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Alien.png"));
                     break;
+                case BackgroundType.Desert:
+                    imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Desert.png"));
+                    break;
 
                 default:
                     imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Forest.png"));
@@ -51,6 +54,7 @@ namespace PWPlanner
             Candy,
             Winter,
             Alien,
+            Desert,
             None
         }
     }
