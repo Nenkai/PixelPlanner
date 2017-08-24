@@ -26,7 +26,7 @@ namespace PWPlanner
             }
         }
 
-        public static bool CheckForUpdates()
+        public static bool CheckForUpdates(out string latest)
         {
             using (WebClient client = new WebClient())
             {

@@ -134,7 +134,9 @@ namespace PWPlanner
         Both
     }
 
+#region Tile Names
     [Serializable()]
+    #region Background Names
     public enum BackgroundName
     {
         BambooWall,
@@ -144,6 +146,7 @@ namespace PWPlanner
         CandyBackground,
         CastleWallBackground,
         CastleWallpaper,
+        CastleWindow,
         CaveWallpaper,
         ChocolateBackground,
         CloverleafWindow,
@@ -188,8 +191,10 @@ namespace PWPlanner
         YellowTile,
         NONE
     }
-    
+    #endregion
+
     [Serializable()]
+    #region Block Names
     public enum BlockName
     {
         AquaCandyBlock,
@@ -217,6 +222,7 @@ namespace PWPlanner
         BlueEasterEgg,
         BlueJelly,
         BlueMetalChair,
+        BlueSunUmbrella,
         BookPodium,
         Bookshelf,
         Brazier,
@@ -257,6 +263,8 @@ namespace PWPlanner
         DottedPinkBlock,
         DungeonDoor,
         EasterBasket,
+        Evolverator,
+        FamiliarFoodMachine,
         FinishLine,
         Fireplace,
         FireTrap,
@@ -283,6 +291,7 @@ namespace PWPlanner
         GlowingContainer,
         GlueBlock,
         GlueBlock2,
+        GoldenConeStatue,
         GoldenHorseshoe,
         GoldenToilet,
         Gramophone,
@@ -313,14 +322,18 @@ namespace PWPlanner
         IronBlock,
         IronFence,
         JungleGrass,
+        KiddieRide,
         KiwiBlock,
         Lantern,
         LargeLock,
+        LargeSandCastle,
         Lava,
         LavaLamp,
         LEDSign,
+        LegendarySoilBlock,
         LeopardArmchair,
         LeprechaunGnome,
+        Lifebuoy,
         LightBlueBlock,
         LightBlueJelly,
         Lily,
@@ -333,6 +346,7 @@ namespace PWPlanner
         Marble,
         MarbleFireplace,
         MediumLock,
+        MediumSandCastle,
         MetalPlate,
         MetalPlatform,
         MetalTrapDoor,
@@ -371,6 +385,7 @@ namespace PWPlanner
         PurpleBlock,
         PurpleEasterBlock,
         PurpleJelly,
+        PurpleSunUmbrella,
         Quicksand,
         RatingBoard,
         RedBlock,
@@ -381,6 +396,7 @@ namespace PWPlanner
         RedJelly,
         RedMetalChair,
         RedRibbon,
+        RedSunUmbrella,
         ReindeerLights,
         Replicator,
         Rose,
@@ -407,6 +423,7 @@ namespace PWPlanner
         Sign,
         SmallChest,
         SmallLock,
+        SmallSandCastle,
         SnowBlock,
         Snowman,
         Soil,
@@ -473,4 +490,6 @@ namespace PWPlanner
         YinYangBlock,
         NONE
     }
+    #endregion
+#endregion
 }

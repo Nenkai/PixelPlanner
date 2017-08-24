@@ -611,6 +611,23 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Tiles\Backgrounds\LightBlueWallpaper.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BlueSunUmbrella.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Evolverator.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\FamiliarFoodMachine.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GoldenConeStatue.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\KiddieRide.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\LargeSandCastle.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\LegendarySoilBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Lifebuoy.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\MediumSandCastle.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\PurpleSunUmbrella.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RedSunUmbrella.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SmallSandCastle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\CastleWindow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.7\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.7\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

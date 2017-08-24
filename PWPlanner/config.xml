@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <data>
-  <version>1.5.0</version>
+  <version>1.6.0</version>
   <changelog>
-    - Add Tier 8 Items
-    - Add Desert Background
-    (Summer items will come later)
+    - Added Familiar Update + Summer Items
+    - Auto update check in About Window
   </changelog>
 </data>
 

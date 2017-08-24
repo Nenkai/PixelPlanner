@@ -41,10 +41,10 @@ namespace PWPlanner
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             isRendered = true;
-            if (UpdateChecker.CheckForUpdates())
+            if (UpdateChecker.CheckForUpdates(out string latest))
             {
                 this.Title = $"{this.Title} [Outdated])";
-                string content = $"Found a new version ({UpdateChecker.latest}), currently using {UpdateChecker.current}. Check it out?\n\nChangelog ({UpdateChecker.latest}): {UpdateChecker.changelog}";
+                string content = $"Found a new version ({latest}), currently using {UpdateChecker.current}. Check it out?\n\nChangelog ({latest}): {UpdateChecker.changelog}";
 
                 MessageBoxResult result = MessageBox.Show(content, "Update", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (result == MessageBoxResult.Yes)
@@ -114,7 +114,7 @@ namespace PWPlanner
         private void About_Click(object sender, RoutedEventArgs e)
         {
             AboutWindow aboutWindow = new AboutWindow();
-            aboutWindow.Show();
+            aboutWindow.ShowDialog();
         }
 
         //About Window
