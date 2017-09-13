@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <data>
-  <version>1.6.0</version>
+  <version>1.7.0</version>
   <changelog>
-    - Added Familiar Update + Summer Items
-    - Auto update check in About Window
+    - Updated items up to PVP Update
+    - Canvas can be scrolled sideways using Shift + Mouse Wheel (Zoom is now Ctrl)
   </changelog>
 </data>
 
