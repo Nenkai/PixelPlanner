@@ -628,6 +628,52 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Tiles\Backgrounds\CastleWindow.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\ArmoredBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\BlackDiagonalChecker.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\BlackTile.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\BlueDiagonalChecker.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\DirtyHerringbone.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\GreenScreen.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\GreyDotIllusion.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\GreyHerringbone.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\JailBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\LavaBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\MetalBackground1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\MetalBackground2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\MetalBackground3.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\NonSlipMetal.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\RedDiagonalChecker.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\RedDotIllusion.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\RoundMoire.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\SpiralMosaic.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\SquareMoire.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\WoodenWindowFrame.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BattleGateDisabled.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BattleGateEnabled.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BattleScoreboard.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BlueGlowBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\CheeseBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ConcreteBlock1x1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ConcreteBlock2x1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ConcreteBlock2x2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GreenGlowBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\HamRadio.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\HazardBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\HousePlant.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\MetalBarrel.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\OldWallLamp.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\OrangeGlowBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RedGlowBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\StuddedMetal.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ToiletSeat.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Vine.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\WireFence.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\WoodenBarrel.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\WoodenFence.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.7\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.7\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
