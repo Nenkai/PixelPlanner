@@ -26,6 +26,11 @@ namespace PWPlanner
             }
         }
 
+        /// <summary>
+        /// Check for updates by checking github.
+        /// </summary>
+        /// <param name="latest"></param>
+        /// <returns>Returns true if there is a new update.</returns>
         public static bool CheckForUpdates(out string latest)
         {
             using (WebClient client = new WebClient())
@@ -50,6 +55,11 @@ namespace PWPlanner
                 
         }
 
+        /// <summary>
+        /// Get the "version" property from an XML Stream.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         private static string GetVersionFromXml(Stream stream)
         {
             StreamReader reader = new StreamReader(stream);
@@ -59,6 +69,11 @@ namespace PWPlanner
             return xml.SelectSingleNode("data/version").InnerText;
         }
 
+        /// <summary>
+        /// Get the "changelog" property from an XML Stream.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         private static string GetChangelogFromXml(Stream stream)
         {
             StreamReader reader = new StreamReader(stream);

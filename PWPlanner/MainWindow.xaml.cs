@@ -38,6 +38,11 @@ namespace PWPlanner
             this.Title = $"{this.Title} ({UpdateChecker.current})";
         }
 
+        /// <summary>
+        /// This is where we check for updates, once the window is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             isRendered = true;
@@ -58,7 +63,12 @@ namespace PWPlanner
             }
         }
 
-        //Save Entire Canvas to PNG
+        
+        /// <summary>
+        /// Save/Render a world to PNG.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveImage_Click(object sender, RoutedEventArgs e)
         {
             //Apply default scale to allow 1:1 pixel world saving.
@@ -97,7 +107,11 @@ namespace PWPlanner
             }
         }
 
-        //Shortcut Window
+        /// <summary>
+        /// Shows Shortcut MessageBox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Shortcuts_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder sb = new StringBuilder();
@@ -110,14 +124,22 @@ namespace PWPlanner
             MessageBox.Show(sb.ToString(), "Shortcuts", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        //About Window
+        /// <summary>
+        /// Shows About Window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void About_Click(object sender, RoutedEventArgs e)
         {
             AboutWindow aboutWindow = new AboutWindow();
             aboutWindow.ShowDialog();
         }
 
-        //About Window
+        /// <summary>
+        /// Shows Stats Window (Total tiles used in a world.)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Stats_Click(object sender, RoutedEventArgs e)
         {
             SortedList<string, int> placed = new SortedList<string, int>();
@@ -167,7 +189,11 @@ namespace PWPlanner
 
         }
 
-        //New World
+        /// <summary>
+        /// Creates a new world.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NewWorld_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure to create a new world? You may lose all your unsaved progress!", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
@@ -186,7 +212,11 @@ namespace PWPlanner
             }
         }
 
-        //Background color picker
+        /// <summary>
+        /// Custom background color.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnColorSelect(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             if (isLoading) return;
@@ -201,7 +231,11 @@ namespace PWPlanner
             TileDB.ARGBBackgroundColor = Utils.ARGBColortoInt(e.NewValue.Value);
         }
 
-        //Orb Picker
+        /// <summary>
+        /// Orb Picker. Changes the entire background of a world.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OrbsRadioButton_Click(object sender, RoutedEventArgs e)
         {
             MenuItem mi = sender as MenuItem;
@@ -249,12 +283,21 @@ namespace PWPlanner
 
         }
 
-        //Exit handlers
+        /// <summary>
+        /// Exit menu button. Points to <see cref="Window_Closing"/>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Window_Closing(sender, new CancelEventArgs());
         }
 
+        /// <summary>
+        /// Main exit handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             if (MessageBox.Show("Are you sure to exit? You may lose all your unsaved progress!", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)

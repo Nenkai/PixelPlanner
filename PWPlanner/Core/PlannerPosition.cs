@@ -3,6 +3,9 @@ using System.Windows;
 
 namespace PWPlanner
 {
+    /// <summary>
+    /// Returns actual tile positions for a tile.
+    /// </summary>
     public class CanvasPos
     {
         public int X;

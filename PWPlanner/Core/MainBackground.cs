@@ -10,6 +10,12 @@ namespace PWPlanner
     public class BackgroundData
     {
         public static string Resources = @"pack://application:,,,/Resources";
+
+        /// <summary>
+        /// Background Image Loader.
+        /// </summary>
+        /// <param name="bt"></param>
+        /// <returns></returns>
         public static ImageBrush GetBackground(BackgroundType bt)
         {
             ImageBrush imagebrush = new ImageBrush();

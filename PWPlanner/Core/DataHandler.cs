@@ -202,6 +202,11 @@ namespace PWPlanner
     }
     public static class DataHandler
     {
+        /// <summary>
+        /// Deserialize any object to a file, for later loading.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="path"></param>
         public static void SaveWorld(object array, string path)
         {
             using (Stream stream = File.Open(path, FileMode.Create))
@@ -211,6 +216,11 @@ namespace PWPlanner
             }
         }
 
+        /// <summary>
+        /// Loads any file into an object.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="path"></param>
         public static object LoadWorld(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))

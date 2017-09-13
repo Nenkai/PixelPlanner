@@ -71,6 +71,10 @@ namespace PWPlanner
             }
         }
 
+        /// <summary>
+        /// Main search engine. Will update the search box based on an item name.
+        /// </summary>
+        /// <param name="name"></param>
         public void SearchAllTilesAndRender(string name)
         {
             SearchResultList.Visibility = Visibility.Visible;

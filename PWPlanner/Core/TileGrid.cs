@@ -18,7 +18,6 @@ namespace PWPlanner
 
         public static string[] blacklist = new string[] { "Bedrock", "BedrockFlat", "BedrockLava" };
 
-        //Zoom on Shift+Wheel
         private void MainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (Keyboard.IsKeyDown(Key.LeftShift))
