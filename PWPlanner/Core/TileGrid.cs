@@ -18,21 +18,6 @@ namespace PWPlanner
 
         public static string[] blacklist = new string[] { "Bedrock", "BedrockFlat", "BedrockLava" };
 
-        private void MainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (Keyboard.IsKeyDown(Key.LeftShift))
-            {
-                if (e.Delta > 0)
-                {
-                    zoomSlider.Value += 10;
-                }
-                else
-                {
-                    zoomSlider.Value -= 10;
-                }
-            }
-        }
-
         //Disable/Enable Grid
         private void Grid_Click(object sender, RoutedEventArgs e)
         {

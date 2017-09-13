@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -25,16 +26,24 @@ namespace PWPlanner
         {
 
             InitializeComponent();
+            //Draw Grid by default.
             DrawGrid(TileDB.Height, TileDB.Width);
+
+            //Set Background to forest.
             MainCanvas.Background = BackgroundData.GetBackground(BackgroundData.BackgroundType.Forest);
             TileDB.MainBackground = BackgroundData.BackgroundType.Forest;
             TileDB.hasMainBackground = true;
 
             defaultMatrix = MainCanvas.LayoutTransform.Value;
             _selectedTile.Type = TileType.Background;
+
+            //Load Images, searching and tile selection box.
             GenerateSelector();
+
+            //Draw Bedrock by default.
             DrawBedrock();
             ComboTypes.SelectedIndex = 0;
+
             this.Title = $"{this.Title} ({UpdateChecker.current})";
         }
 
@@ -117,7 +126,8 @@ namespace PWPlanner
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("- Ctrl + S -> Save");
             sb.AppendLine("- Ctrl + N -> New World");
-            sb.AppendLine("- Shift + Mouse Wheel -> Canvas Zoom");
+            sb.AppendLine("- Ctrl + Mouse Wheel -> Canvas Zoom");
+            sb.AppendLine("- Shift + Mouse Wheel -> Scroll sideways");
             sb.AppendLine("- Shift + Left Click -> Pick Background from canvas");
             sb.AppendLine("- Shift + Right Click -> Pick Foreground from canvas");
 
@@ -281,6 +291,52 @@ namespace PWPlanner
             TileDB.hasMainBackground = true;
             TileDB.MainBackground = bt;
 
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollviewer = sender as ScrollViewer;
+            //Scroll Horizontally. Can't be bothered to change the default scrolling value, so let's just do it twice y'not.
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                if (e.Delta > 0)
+                {
+                    scrollviewer.LineLeft();
+                    scrollviewer.LineLeft();
+                }
+                else
+                {
+                    scrollviewer.LineRight();
+                    scrollviewer.LineRight();
+                }
+            }
+            //Zoom
+            else if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                if (e.Delta > 0)
+                {
+                    zoomSlider.Value += 10;
+                }
+                else
+                {
+                    zoomSlider.Value -= 10;
+                }
+            }
+            //Scroll Vertically
+            else
+            {
+                if (e.Delta > 0)
+                {
+                    scrollviewer.LineUp();
+                    scrollviewer.LineUp();
+                }
+                else
+                {
+                    scrollviewer.LineDown();
+                    scrollviewer.LineDown();
+                }
+            }
+            e.Handled = true;
         }
 
         /// <summary>

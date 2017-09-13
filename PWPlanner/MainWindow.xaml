@@ -253,8 +253,8 @@
         </Border>
 
         <!-- Planner -->
-        <ScrollViewer x:Name="sv" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="#2E404B">
-            <Canvas x:Name="MainCanvas" DockPanel.Dock="Right" Background="White" MouseMove="MainCanvas_MouseMove" Height="679" RenderOptions.EdgeMode="Unspecified" MouseWheel="MainCanvas_MouseWheel" MouseDown="MainCanvas_MouseDown">
+        <ScrollViewer x:Name="sv" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Background="#2E404B">
+            <Canvas x:Name="MainCanvas" DockPanel.Dock="Right" Background="White" MouseMove="MainCanvas_MouseMove" Height="679" RenderOptions.EdgeMode="Unspecified" MouseDown="MainCanvas_MouseDown">
                 <Canvas.CacheMode>
                     <BitmapCache />
                 </Canvas.CacheMode>
