@@ -674,6 +674,23 @@
     <EmbeddedResource Include="Resources\Tiles\Blocks\WoodenBarrel.png" />
     <EmbeddedResource Include="Resources\Tiles\Blocks\WoodenFence.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BlueRunestone.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Bonfire.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GreenRunestone.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\OrangeRunestone.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RavenTree.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RedRunestone.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\VikingArmorBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\VikingBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\VikingFigureHead.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\VikingShieldDecoration.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\VikingWall.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\VikingWall2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\VikingWall3.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\VikingWall4.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\WeaponRack.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.7\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.7\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
