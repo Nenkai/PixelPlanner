@@ -439,6 +439,7 @@ namespace PWPlanner
         RedJelly,
         RedMetalChair,
         RedRibbon,
+        RedRunestone,
         RedSunUmbrella,
         ReindeerLights,
         Replicator,
