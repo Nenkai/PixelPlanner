@@ -691,6 +691,11 @@
     <EmbeddedResource Include="Resources\Tiles\Blocks\VikingWall4.png" />
     <EmbeddedResource Include="Resources\Tiles\Blocks\WeaponRack.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\RuneBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\VikingStoneBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\WoodenPolesBackground.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.7\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.7\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
