@@ -21,6 +21,7 @@ namespace PWPlanner
         //Disable/Enable Grid
         private void Grid_Click(object sender, RoutedEventArgs e)
         {
+            Debug.WriteLine("test");
             if (gridButton.IsChecked)
             {
                 RemoveGrid();
@@ -129,7 +130,7 @@ namespace PWPlanner
                     scale = new ScaleTransform(MainCanvas.LayoutTransform.Value.M11 - 0.13, MainCanvas.LayoutTransform.Value.M22 - 0.13);
                 }
                 MainCanvas.LayoutTransform = scale;
-                MainCanvas.UpdateLayout();
+                MainCanvas.InvalidateVisual();
             }
         }
 
@@ -175,6 +176,10 @@ namespace PWPlanner
 
         private void RemoveGrid()
         {
+            //Temporarily get rid of cache, so the lines doesn't stay until visual update
+            CacheMode cm = MainCanvas.CacheMode;
+            MainCanvas.CacheMode = null;
+
             for (int i = 0; i < horiLines.Length - 1; i++)
             {
                 MainCanvas.Children.Remove(horiLines[i]);
@@ -183,7 +188,8 @@ namespace PWPlanner
             {
                 MainCanvas.Children.Remove(vertLines[i]);
             }
-            
+            MainCanvas.CacheMode = cm;
+
             gridButton.IsChecked = false;
         }
 
