@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <data>
-  <version>1.8.0</version>
+  <version>1.8.1</version>
   <changelog>
-    >>09/27/17
-    - Updated items (Viking Update)
+    >>10/28/17
+    - Fix Grid not removing
+    Note: Due to lack of interest i might not update this anymore.
+    Halloween is coming soon, though.
   </changelog>
 </data>
 
