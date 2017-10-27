@@ -9,7 +9,6 @@ namespace PWPlanner
 {
     public class UpdateChecker
     {
-        public static string latest;
         public static string changelog;
         public static readonly string URL = "https://raw.githubusercontent.com/Nenkai/PixelPlanner/master/PWPlanner/config.xml";
 

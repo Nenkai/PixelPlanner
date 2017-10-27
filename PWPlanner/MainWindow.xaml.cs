@@ -63,7 +63,7 @@ namespace PWPlanner
                 MessageBoxResult result = MessageBox.Show(content, "Update", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (result == MessageBoxResult.Yes)
                 {
-                    UpdateWindow uw = new UpdateWindow(UpdateChecker.latest);
+                    UpdateWindow uw = new UpdateWindow(latest);
                     if (!uw.isClosing)
                     {
                         uw.Show();
