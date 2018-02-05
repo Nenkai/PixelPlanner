@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PWPlanner"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="PWPlanner.MainWindow"
@@ -9,7 +10,15 @@
         mc:Ignorable="d"
         Title="PixelPlanner" Height="760" Width="1000" MinWidth="600" MinHeight="600"
         Closing="Window_Closing"
-        ContentRendered="Window_ContentRendered">
+        ContentRendered="Window_ContentRendered"
+    
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
+
+
 
     <!-- Shortcuts -->
     <Window.CommandBindings>
@@ -21,12 +30,12 @@
         <KeyBinding Modifiers="Ctrl" Key="S" Command="Save"/>
     </Window.InputBindings>
 
-    <DockPanel LastChildFill="true" >
+    <DockPanel LastChildFill="true" Background="{DynamicResource MaterialDesignPaper}">
         <!-- Status -->
-        <StatusBar DockPanel.Dock="Bottom" BorderBrush="Gray" BorderThickness="1,1,1,1" Height="34">
+        <StatusBar DockPanel.Dock="Bottom" BorderBrush="Gray" BorderThickness="1,1,1,1" Height="34" Background="{DynamicResource MaterialDesignPaper}">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid>
+                    <Grid Background="{DynamicResource MaterialDesignPaper}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="55" />
                             <ColumnDefinition Width="Auto" />
@@ -53,46 +62,50 @@
         </StatusBar>
 
         <!-- Top Menu -->
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="New World.." Click="NewWorld_Click" InputGestureText="Ctrl+N">
+        <Menu DockPanel.Dock="Top" HorizontalAlignment="Left">
+            <MenuItem Header="File">
+                <MenuItem Header="New World.." Click="NewWorld_Click" InputGestureText="Ctrl+N" >
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.add.png" Width="20" Height="20"/>
+                        <materialDesign:PackIcon Kind="OpenInNew"/>
                     </MenuItem.Icon>
                 </MenuItem>
 
                 <Separator />
-                <MenuItem Header="_Open World.." Click="LoadWorld_Click">
+                <MenuItem Header="Open World.." Click="LoadWorld_Click" Width="Auto">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.folder.open.png"  Width="20" Height="20"/>
+                        <materialDesign:PackIcon Kind="OpenInApp"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="_Save" Name="SaveButton" IsEnabled="False" Click="DirectWorldSave_Click" InputGestureText="Ctrl+S">
+                <MenuItem Header="Save" Name="SaveButton" IsEnabled="False" Click="DirectWorldSave_Click" InputGestureText="Ctrl+S">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.save.png"  Width="20" Height="20"/>
+                        <materialDesign:PackIcon Kind="ContentSave" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Save World As..." Click="SaveWorld_Click">
+                <MenuItem Header="Save World As..." Click="SaveWorld_Click" Width="Auto">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.save.png"  Width="20" Height="20"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator />
-                <MenuItem Header="_Save to Image" Click="SaveImage_Click" >
-                    <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.image.png" Width="20" Height="20" />
+                        <materialDesign:PackIcon Kind="ContentSaveSettings"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="_Exit" Click="Exit_Click">
+                <MenuItem Header="Save to Image" Click="SaveImage_Click" Width="Auto">
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.door.leave.png" Width="20" Height="20" />
+                        <materialDesign:PackIcon Kind="Image"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Exit" Click="Exit_Click" Width="Auto">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ExitToApp"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem Header="Grid" x:Name="gridButton" Click="Grid_Click" IsChecked="True"/>
+                <MenuItem Header="Grid" x:Name="gridButton" Click="Grid_Click" IsChecked="True">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Grid"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
                 <MenuItem Header="Orbs" >
                     <MenuItem.Icon>
@@ -113,7 +126,9 @@
                             <Image Source="pack://application:,,,/Resources/Icons/Forest.png"/>
                         </MenuItem.Icon>
                         <MenuItem.ToolTip>
-                            <Image Source="pack://application:,,,/Resources/Backgrounds/Forest.png" Width="500" Height="500" />
+                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                <Image Source="pack://application:,,,/Resources/Backgrounds/Forest.png" Width="500" Height="500" />
+                            </ToolTip>
                         </MenuItem.ToolTip>
                     </MenuItem>
 
@@ -122,7 +137,9 @@
                             <Image Source="pack://application:,,,/Resources/Icons/Night.png"/>
                         </MenuItem.Icon>
                         <MenuItem.ToolTip>
-                            <Image Source="pack://application:,,,/Resources/Backgrounds/Night.png" Width="500" Height="500" />
+                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                <Image Source="pack://application:,,,/Resources/Backgrounds/Night.png" Width="500" Height="500" />
+                            </ToolTip>
                         </MenuItem.ToolTip>
                     </MenuItem>
 
@@ -131,7 +148,9 @@
                             <Image Source="pack://application:,,,/Resources/Icons/Star.png"/>
                         </MenuItem.Icon>
                         <MenuItem.ToolTip>
-                            <Image Source="pack://application:,,,/Resources/Backgrounds/Star.png" Width="500" Height="500" />
+                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                <Image Source="pack://application:,,,/Resources/Backgrounds/Star.png" Width="500" Height="500" />
+                            </ToolTip>
                         </MenuItem.ToolTip>
                     </MenuItem>
 
@@ -140,7 +159,9 @@
                             <Image Source="pack://application:,,,/Resources/Icons/Candy.png"/>
                         </MenuItem.Icon>
                         <MenuItem.ToolTip>
-                            <Image Source="pack://application:,,,/Resources/Backgrounds/Candy.png" Width="500" Height="500" />
+                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                <Image Source="pack://application:,,,/Resources/Backgrounds/Candy.png" Width="500" Height="500" />
+                            </ToolTip>
                         </MenuItem.ToolTip>
                     </MenuItem>
 
@@ -149,7 +170,9 @@
                             <Image Source="pack://application:,,,/Resources/Icons/Winter.png"/>
                         </MenuItem.Icon>
                         <MenuItem.ToolTip>
-                            <Image Source="pack://application:,,,/Resources/Backgrounds/Winter.png" Width="500" Height="500" />
+                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                <Image Source="pack://application:,,,/Resources/Backgrounds/Winter.png" Width="500" Height="500" />
+                            </ToolTip>
                         </MenuItem.ToolTip>
                     </MenuItem>
 
@@ -158,7 +181,9 @@
                             <Image Source="pack://application:,,,/Resources/Icons/Alien.png"/>
                         </MenuItem.Icon>
                         <MenuItem.ToolTip>
-                            <Image Source="pack://application:,,,/Resources/Backgrounds/Alien.png" Width="500" Height="500" />
+                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                <Image Source="pack://application:,,,/Resources/Backgrounds/Alien.png" Width="500" Height="500" />
+                            </ToolTip>
                         </MenuItem.ToolTip>
                     </MenuItem>
 
@@ -167,17 +192,30 @@
                             <Image Source="pack://application:,,,/Resources/Icons/Desert.png"/>
                         </MenuItem.Icon>
                         <MenuItem.ToolTip>
-                            <Image Source="pack://application:,,,/Resources/Backgrounds/Desert.png" Width="500" Height="500" />
+                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                <Image Source="pack://application:,,,/Resources/Backgrounds/Desert.png" Width="500" Height="500" />
+                            </ToolTip>
                         </MenuItem.ToolTip>
                     </MenuItem>
 
+                    <MenuItem Header="Cemetery" x:Name="Cemetery">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/Resources/Icons/Cemetery.png"/>
+                        </MenuItem.Icon>
+                        <MenuItem.ToolTip>
+                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                <Image Source="pack://application:,,,/Resources/Backgrounds/Cemetery.png" Width="500" Height="500" />
+                            </ToolTip>
+                        </MenuItem.ToolTip>
+                    </MenuItem>
+                    
                 </MenuItem>
             </MenuItem>
 
             <MenuItem Header="View">
                 <MenuItem Header="Stats" x:Name="stats" Click="Stats_Click" >
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.tiles.plus.png" Width="20" Height="20" />
+                        <materialDesign:PackIcon Kind="ChartGantt"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -185,16 +223,25 @@
             <MenuItem Header="Help">
                 <MenuItem Header="Shortcuts" Click="Shortcuts_Click" >
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.input.keyboard.png" Width="20" Height="20" />
+                        <materialDesign:PackIcon Kind="Keyboard"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="About" x:Name="about" Click="About_Click" >
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/Icons/UI/appbar.information.png" Width="20" Height="20" />
+                        <materialDesign:PackIcon Kind="Information"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <Grid x:Name="UpdateGrid" Width="200" Height="40" IsEnabled="False" IsHitTestVisible="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ProgressBar x:Name="UpdateCheckProgressBar" Grid.Column="1" Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True"/>
+                <Label x:Name="UpdateCheckLabel" Grid.Column="2" HorizontalContentAlignment="Center" Content="Checking for updates...." Margin="0,4,0,0"/>
+            </Grid>
         </Menu>
 
         <!-- Left Tools -->
@@ -204,41 +251,34 @@
                     <ColumnDefinition Width="41*"/>
                     <ColumnDefinition Width="199*"/>
                 </Grid.ColumnDefinitions>
-                <ComboBox x:Name="ComboTypes" HorizontalAlignment="Left" Margin="10,267,0,0" VerticalAlignment="Top" Width="220" SelectionChanged="ComboTypes_SelectionChanged" Grid.ColumnSpan="2"/>
+                <ComboBox x:Name="ComboTypes" HorizontalAlignment="Left" Margin="10,246,0,0" VerticalAlignment="Top" Width="220" SelectionChanged="ComboTypes_SelectionChanged" Grid.ColumnSpan="2"/>
                 <Border BorderBrush="Gray" BorderThickness="2" HorizontalAlignment="Left" Height="340" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="220" Grid.ColumnSpan="2">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="-2,-1,-1,-3" Height="340" VerticalAlignment="Top">
                         <Canvas x:Name="TileCanvas" MouseDown="TileSelect_OnClick" Height="330" Width="205"/>
                     </ScrollViewer>
                 </Border>
-                <Label Content="Background Color" HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Left" Margin="79,210,0,0" VerticalAlignment="Top" Width="110" SelectedColorChanged="OnColorSelect" Grid.Column="1" Height="26" />
-                <Label Content="Zoom" HorizontalAlignment="Left" Margin="10,236,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                <Slider HorizontalAlignment="Left" Margin="10,241,0,0" VerticalAlignment="Top" Width="189" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="25" Grid.Column="1"/>
-                <TextBox x:Name ="SearchBar" HorizontalAlignment="Left" Height="23" Margin="10,294,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220" Grid.ColumnSpan="2" TextChanged="SearchBar_TextChanged" LostFocus="SearchBar_LostFocus" GotFocus="SearchBar_GotFocus">
-                    <TextBox.Style>
-                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-                            <Style.Resources>
-                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                                    <VisualBrush.Visual>
-                                        <Label Content=" Search Tiles..." Foreground="LightGray" FontStyle="Italic" />
-                                    </VisualBrush.Visual>
-                                </VisualBrush>
-                            </Style.Resources>
-                            <Style.Triggers>
-                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                                </Trigger>
-                                <Trigger Property="Text" Value="{x:Null}">
-                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                                </Trigger>
-                                <Trigger Property="IsKeyboardFocused" Value="True">
-                                    <Setter Property="Background" Value="White" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBox.Style>
-                </TextBox>
-                <ListBox x:Name="SearchResultList" HorizontalAlignment="Left" Height="150" Margin="10,317,0,0" VerticalAlignment="Top" Visibility="Hidden" Width="220" Grid.ColumnSpan="2"  LostFocus="SearchList_LostFocus">
+                <Label Content="Background Color" HorizontalAlignment="Left" Margin="10,184,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="130"/>
+                
+                <!-- Color Picker -->
+                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Left" Margin="104,185,0,0" VerticalAlignment="Top" Width="85" SelectedColorChanged="OnColorSelect" Grid.Column="1" Height="26" />
+                <Label Content="Zoom" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="47"/>
+                <Slider HorizontalAlignment="Left" Margin="21,216,0,0" VerticalAlignment="Top" Width="168" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="25" Grid.Column="1"/>
+                
+                <!-- Search Bar -->
+                <Grid Margin="10,280,10,359" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" >
+                        <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                    </Button>
+                    <TextBox Grid.Column="2" MinWidth="185" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" x:Name ="SearchBar" materialDesign:HintAssist.Hint="Search Tiles..." HorizontalAlignment="Left" TextWrapping="Wrap" TextChanged="SearchBar_TextChanged" LostFocus="SearchBar_LostFocus" GotFocus="SearchBar_GotFocus" />
+                </Grid>
+                
+                <!-- Search Panel -->
+                <ListBox x:Name="SearchResultList" HorizontalAlignment="Left" Height="150" Margin="8,317,0,0" VerticalAlignment="Top" Visibility="Hidden" Width="220" Grid.ColumnSpan="2"  LostFocus="SearchList_LostFocus" Background="{DynamicResource MaterialDesignPaper}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -248,7 +288,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Canvas Name="PreviousTiles" HorizontalAlignment="Left" Height="32" Margin="38,173,0,0" VerticalAlignment="Top" Width="192" Grid.ColumnSpan="2"/>
             </Grid>
         </Border>
 

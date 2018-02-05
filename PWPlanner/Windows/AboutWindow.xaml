@@ -7,7 +7,12 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Closing="Window_Closing"
-        Title="About" Height="260" Width="300">
+        Title="About" Height="260" Width="300"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
     <Grid>
         <Label Content="PixelPlanner" FontSize="42" HorizontalContentAlignment="Center" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" Height="57"/>
         <Label x:Name="version" HorizontalAlignment="Left" Margin="10,67,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="272" Height="27"/>

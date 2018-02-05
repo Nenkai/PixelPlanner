@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,7 @@ namespace PWPlanner
         private bool isRendered = false;
         private bool firstPlaced = false;
         private bool isLoading = false;
+        public static bool isBackgroundUpdateChecking = false;
         private Matrix defaultMatrix;
 
         public MainWindow()
@@ -52,24 +54,30 @@ namespace PWPlanner
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_ContentRendered(object sender, EventArgs e)
+        private async void Window_ContentRendered(object sender, EventArgs e)
         {
             isRendered = true;
-            if (UpdateChecker.CheckForUpdates(out string latest))
+            bool updateAvailable = await Task.Run(() => UpdateChecker.CheckForUpdates());
+            isBackgroundUpdateChecking = true;
+
+            if (updateAvailable)
             {
                 this.Title = $"{this.Title} [Outdated])";
-                string content = $"Found a new version ({latest}), currently using {UpdateChecker.current}. Check it out?\n\nChangelog ({latest}): {UpdateChecker.changelog}";
+                string content = $"Found a new version ({UpdateChecker.latest}), currently using {UpdateChecker.current}. Check it out?\n\nChangelog ({UpdateChecker.latest}): {UpdateChecker.changelog}";
 
                 MessageBoxResult result = MessageBox.Show(content, "Update", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (result == MessageBoxResult.Yes)
                 {
-                    UpdateWindow uw = new UpdateWindow(latest);
+                    UpdateWindow uw = new UpdateWindow(UpdateChecker.latest);
                     if (!uw.isClosing)
                     {
                         uw.Show();
                     }
                 }
             }
+            isBackgroundUpdateChecking = false;
+            UpdateGrid.Children.Clear();
+
         }
 
         
@@ -280,6 +288,9 @@ namespace PWPlanner
                     break;
                 case "Desert":
                     bt = BackgroundData.BackgroundType.Desert;
+                    break;
+                case "Cemetery":
+                    bt = BackgroundData.BackgroundType.Cemetery;
                     break;
 
                 default:

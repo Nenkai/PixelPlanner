@@ -18,20 +18,24 @@ namespace PWPlanner.Windows
             InitializeComponent();
             version.Content = "Checking for updates..";
             uChecker = new Thread(checkIfNew);
-            uChecker.Start();
+            if (!MainWindow.isBackgroundUpdateChecking)
+            {
+                uChecker.Start();
+            }
+
         }
 
         private void checkIfNew()
         {
             try
             {
-                if (UpdateChecker.CheckForUpdates(out string latest))
+                if (UpdateChecker.CheckForUpdates())
                 {
-                    version.Dispatcher.BeginInvoke((Action)(() => version.Content = $"New version available! ({latest})"));
+                    version.Dispatcher.BeginInvoke((Action)(() => version.Content = $"New version available! ({UpdateChecker.latest})"));
                 }
                 else
                 {
-                    version.Dispatcher.BeginInvoke((Action)(() => version.Content = $"Up-to-date({latest})"));
+                    version.Dispatcher.BeginInvoke((Action)(() => version.Content = $"Up-to-date({UpdateChecker.latest})"));
                 }
             } catch (Exception e)
             {
@@ -53,7 +57,7 @@ namespace PWPlanner.Windows
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            uChecker.Abort();
+            if (uChecker != null) uChecker.Abort();
         }
     }
 

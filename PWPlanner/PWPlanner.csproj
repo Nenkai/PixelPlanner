@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>PWPlanner</RootNamespace>
     <AssemblyName>PWPlanner</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -59,6 +59,15 @@
   <ItemGroup>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.1.953, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.3.1.953\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="ShowMeTheXAML, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ShowMeTheXAML.1.0.9\lib\net45\ShowMeTheXAML.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -695,6 +704,60 @@
     <EmbeddedResource Include="Resources\Tiles\Backgrounds\RuneBackground.png" />
     <EmbeddedResource Include="Resources\Tiles\Backgrounds\VikingStoneBackground.png" />
     <EmbeddedResource Include="Resources\Tiles\Backgrounds\WoodenPolesBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\DungeonBars.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\EctoplasmBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\GhostBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\SlimyBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\AlienEye.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\AnniversaryCake.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\AnniversaryPortal.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BlackCandles.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BoneGate.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\CandleStand.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\CelticCross.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Chains.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ChurchBell.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\DemonAltar.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ElectricChair.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\FINPennant.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\FrankensteinBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GhostTrap.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GingerbreadFence.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GingerbreadSign.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GraveSlant.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\HauntedMirror.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Headstone.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\JackoLantern.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Mimic.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\OuijaBoard.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SkullBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SnowLantern.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SnowyFence.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Spider.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SpiderWeb.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SpiralPillar.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SteelSpikes1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SteelSpikes2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SteelSpikes3.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SteelSpikes4.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\StonePlatform.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TombStone.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ZombieTrap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Acid.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\FakeBlood.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Fog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Cemetery.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Backgrounds\Cemetery.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.7\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.7\build\dotnet\Fody.targets')" />

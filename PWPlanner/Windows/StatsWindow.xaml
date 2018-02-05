@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:PWPlanner.Windows"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Tiles" Height="300" Width="300">
+        Title="Tiles" Height="300" Width="300"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
     <Grid>
         <Grid Margin="0,0,0,42">
             <ScrollViewer VerticalScrollBarVisibility="Auto">

@@ -3,12 +3,13 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Xml;
-
+using System.Windows;
 
 namespace PWPlanner
 {
     public class UpdateChecker
     {
+        public static string latest;
         public static string changelog;
         public static readonly string URL = "https://raw.githubusercontent.com/Nenkai/PixelPlanner/master/PWPlanner/config.xml";
 
@@ -30,24 +31,32 @@ namespace PWPlanner
         /// </summary>
         /// <param name="latest"></param>
         /// <returns>Returns true if there is a new update.</returns>
-        public static bool CheckForUpdates(out string latest)
+        public static bool CheckForUpdates()
         {
             using (WebClient client = new WebClient())
             {
-                using (MemoryStream downloaded = new MemoryStream(client.DownloadData(URL)))
+                try
                 {
-                    latest = GetVersionFromXml(downloaded);
-                    changelog = GetChangelogFromXml(downloaded);
-                    downloaded.Dispose();
-
-                    var v1 = Version.Parse(latest);
-                    var v2 = Version.Parse(current);
-                    var result = v1.CompareTo(v2);
-
-                    if (result > 0)
+                    using (MemoryStream downloaded = new MemoryStream(client.DownloadData(URL)))
                     {
-                        return true;
+                        latest = GetVersionFromXml(downloaded);
+                        changelog = GetChangelogFromXml(downloaded);
+                        downloaded.Dispose();
+
+                        var v1 = Version.Parse(latest);
+                        var v2 = Version.Parse(current);
+                        var result = v1.CompareTo(v2);
+
+                        if (result > 0)
+                        {
+                            return true;
+                        }
+                        return false;
                     }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error", "Could not check for updates\n" + e.Message, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
             }

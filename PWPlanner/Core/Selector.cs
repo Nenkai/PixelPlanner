@@ -76,7 +76,7 @@ namespace PWPlanner
                 FirstSelected = true;
                 LabelImg.Source = image.Source;
                 _selectedTile = new Tile(tt, image);
-            } catch (IndexOutOfRangeException index) { }
+            } catch (IndexOutOfRangeException index)  { /* ;-; */ }
         }
 
         private void ComboTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
