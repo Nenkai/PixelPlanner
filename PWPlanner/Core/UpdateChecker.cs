@@ -4,6 +4,7 @@ using System.Net;
 using System.Reflection;
 using System.Xml;
 using System.Windows;
+using System.Threading;
 
 namespace PWPlanner
 {
@@ -54,9 +55,13 @@ namespace PWPlanner
                         return false;
                     }
                 }
+                catch (ThreadAbortException e)
+                {
+                    return false;
+                }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Error", "Could not check for updates\n" + e.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Could not check for updates\n" + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
             }

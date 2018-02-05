@@ -57,7 +57,11 @@ namespace PWPlanner.Windows
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (uChecker != null) uChecker.Abort();
+            if (uChecker != null)
+            {
+                uChecker.Abort();
+
+            }
         }
     }
 
