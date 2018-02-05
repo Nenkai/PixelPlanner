@@ -21,7 +21,6 @@ namespace PWPlanner
         //Disable/Enable Grid
         private void Grid_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("test");
             if (gridButton.IsChecked)
             {
                 RemoveGrid();
@@ -36,10 +35,12 @@ namespace PWPlanner
         public void MainCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             CanvasPos pos = new CanvasPos(e.GetPosition(MainCanvas));
-            PosLabel.Content = $"({pos.X},{pos.Y})";
+
+            int realY = 60 - pos.Y - 1;
+            PosLabel.Content = $"({pos.X},{realY})";
 
             //Last pixel crashes the entire thing. Why? No idea.
-            if (pos.Y == 60)
+            if (pos.Y == 60 || pos.X == 80)
             {
                 return;
             }
@@ -74,7 +75,7 @@ namespace PWPlanner
             if (Keyboard.IsKeyDown(Key.LeftShift))
             {
                 CanvasPos pos = new CanvasPos(e.GetPosition(MainCanvas));
-                PosLabel.Content = $"({pos.X},{pos.Y})";
+
 
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
