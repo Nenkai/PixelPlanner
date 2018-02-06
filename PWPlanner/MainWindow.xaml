@@ -288,7 +288,7 @@
 
         <!-- Planner -->
         <ScrollViewer x:Name="sv" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Background="#2E404B">
-            <Canvas x:Name="MainCanvas" DockPanel.Dock="Right" Background="White" MouseMove="MainCanvas_MouseMove" RenderOptions.EdgeMode="Unspecified" MouseDown="MainCanvas_MouseDown">
+            <Canvas x:Name="MainCanvas" DockPanel.Dock="Right" Background="White" MouseMove="MainCanvas_MouseMove" SnapsToDevicePixels="True" RenderOptions.EdgeMode="Unspecified" MouseDown="MainCanvas_MouseDown">
                 <Canvas.CacheMode>
                     <BitmapCache />
                 </Canvas.CacheMode>
