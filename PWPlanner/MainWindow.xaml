@@ -293,9 +293,7 @@
                     <BitmapCache />
                 </Canvas.CacheMode>
             </Canvas>
-            
         </ScrollViewer>
-        <materialDesign:Snackbar DockPanel.Dock="Bottom" Message="lol" IsActive="False" x:Name="SnackbarTwo" />
     </DockPanel>
 </Window>
 
