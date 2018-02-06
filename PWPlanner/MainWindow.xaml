@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PWPlanner"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="PWPlanner.MainWindow"
-        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:osc="clr-namespace:OpenSourceControls"
         mc:Ignorable="d"
         Title="PixelPlanner" Height="760" Width="1000" MinWidth="600" MinHeight="600"
         Closing="Window_Closing"
@@ -17,8 +17,6 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto">
-
-
 
     <!-- Shortcuts -->
     <Window.CommandBindings>
@@ -31,254 +29,250 @@
     </Window.InputBindings>
 
     <DockPanel LastChildFill="true" Background="{DynamicResource MaterialDesignPaper}">
-        <!-- Status -->
-        <StatusBar DockPanel.Dock="Bottom" BorderBrush="Gray" BorderThickness="1,1,1,1" Height="34" Background="{DynamicResource MaterialDesignPaper}">
-            <StatusBar.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Grid Background="{DynamicResource MaterialDesignPaper}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="55" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="32" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="100" />
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </ItemsPanelTemplate>
-            </StatusBar.ItemsPanel>
-            <StatusBarItem HorizontalAlignment="Center">
-                <Label Name="PosLabel" />
-            </StatusBarItem>
-            <Separator Grid.Column="1" />
-            <StatusBarItem Grid.Column="2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <Image Name="LabelImg" RenderOptions.BitmapScalingMode="Fant" Stretch="Fill" Margin="-2" />
-            </StatusBarItem>
-            <StatusBarItem Grid.Column="3" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Label Name="TileHover" Content="No Tile Selected" Width="785" />
-            </StatusBarItem>
-            <Separator Grid.Column="5" />
-        </StatusBar>
 
         <!-- Top Menu -->
-        <Menu DockPanel.Dock="Top" HorizontalAlignment="Left">
-            <MenuItem Header="File">
-                <MenuItem Header="New World.." Click="NewWorld_Click" InputGestureText="Ctrl+N" >
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="OpenInNew"/>
-                    </MenuItem.Icon>
+        <DockPanel x:Name="TopBar" DockPanel.Dock="Top" MaxHeight="40">
+            <Menu DockPanel.Dock="Left" HorizontalAlignment="Left">
+                <MenuItem Header="File" Height="40">
+                    <MenuItem Header="New World.." Click="NewWorld_Click" InputGestureText="Ctrl+N" >
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="OpenInNew"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <Separator />
+                    <MenuItem Header="Open World.." Click="LoadWorld_Click" Width="Auto">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="OpenInApp"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Save" Name="SaveButton" IsEnabled="False" Click="DirectWorldSave_Click" InputGestureText="Ctrl+S">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ContentSave" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Save World As..." Click="SaveWorld_Click" Width="Auto">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ContentSaveSettings"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Save to Image" Click="SaveImage_Click" Width="Auto">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Image"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Exit" Click="Exit_Click" Width="Auto">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ExitToApp"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Edit" Height="40">
+                    <MenuItem Header="Grid" x:Name="gridButton" Click="Grid_Click" IsChecked="True">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Grid"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Orbs" >
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/Resources/Icons/Forest.png" Width="20" Height="20"/>
+                        </MenuItem.Icon>
+                        <MenuItem.Resources>
+                            <RadioButton x:Key="RadioButtonResource" x:Shared="false" HorizontalAlignment="Center" GroupName="MenuItemRadio" IsHitTestVisible="False"/>
+                        </MenuItem.Resources>
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Icon" Value="{DynamicResource RadioButtonResource}"/>
+                                <EventSetter Event="Click" Handler="OrbsRadioButton_Click"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+
+                        <MenuItem Header="Forest" x:Name="Forest">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/Resources/Icons/Forest.png"/>
+                            </MenuItem.Icon>
+                            <MenuItem.ToolTip>
+                                <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                    <Image Source="pack://application:,,,/Resources/Backgrounds/Forest.png" Width="500" Height="500" />
+                                </ToolTip>
+                            </MenuItem.ToolTip>
+                        </MenuItem>
+
+                        <MenuItem Header="Night" x:Name="Night">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/Resources/Icons/Night.png"/>
+                            </MenuItem.Icon>
+                            <MenuItem.ToolTip>
+                                <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                    <Image Source="pack://application:,,,/Resources/Backgrounds/Night.png" Width="500" Height="500" />
+                                </ToolTip>
+                            </MenuItem.ToolTip>
+                        </MenuItem>
+
+                        <MenuItem Header="Star" x:Name="Star">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/Resources/Icons/Star.png"/>
+                            </MenuItem.Icon>
+                            <MenuItem.ToolTip>
+                                <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                    <Image Source="pack://application:,,,/Resources/Backgrounds/Star.png" Width="500" Height="500" />
+                                </ToolTip>
+                            </MenuItem.ToolTip>
+                        </MenuItem>
+
+                        <MenuItem Header="Candy" x:Name="Candy">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/Resources/Icons/Candy.png"/>
+                            </MenuItem.Icon>
+                            <MenuItem.ToolTip>
+                                <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                    <Image Source="pack://application:,,,/Resources/Backgrounds/Candy.png" Width="500" Height="500" />
+                                </ToolTip>
+                            </MenuItem.ToolTip>
+                        </MenuItem>
+
+                        <MenuItem Header="Winter" x:Name="Winter">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/Resources/Icons/Winter.png"/>
+                            </MenuItem.Icon>
+                            <MenuItem.ToolTip>
+                                <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                    <Image Source="pack://application:,,,/Resources/Backgrounds/Winter.png" Width="500" Height="500" />
+                                </ToolTip>
+                            </MenuItem.ToolTip>
+                        </MenuItem>
+
+                        <MenuItem Header="Alien" x:Name="Alien">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/Resources/Icons/Alien.png"/>
+                            </MenuItem.Icon>
+                            <MenuItem.ToolTip>
+                                <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                    <Image Source="pack://application:,,,/Resources/Backgrounds/Alien.png" Width="500" Height="500" />
+                                </ToolTip>
+                            </MenuItem.ToolTip>
+                        </MenuItem>
+
+                        <MenuItem Header="Desert" x:Name="Desert">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/Resources/Icons/Desert.png"/>
+                            </MenuItem.Icon>
+                            <MenuItem.ToolTip>
+                                <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                    <Image Source="pack://application:,,,/Resources/Backgrounds/Desert.png" Width="500" Height="500" />
+                                </ToolTip>
+                            </MenuItem.ToolTip>
+                        </MenuItem>
+
+                        <MenuItem Header="Cemetery" x:Name="Cemetery">
+                            <MenuItem.Icon>
+                                <Image Source="pack://application:,,,/Resources/Icons/Cemetery.png"/>
+                            </MenuItem.Icon>
+                            <MenuItem.ToolTip>
+                                <ToolTip Background="{DynamicResource MaterialDesignPaper}">
+                                    <Image Source="pack://application:,,,/Resources/Backgrounds/Cemetery.png" Width="500" Height="500" />
+                                </ToolTip>
+                            </MenuItem.ToolTip>
+                        </MenuItem>
+
+                    </MenuItem>
                 </MenuItem>
 
+                <MenuItem Header="View" Height="40">
+                    <MenuItem Header="Stats" x:Name="stats" Click="Stats_Click" >
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ChartGantt"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+
+                <MenuItem Header="Help" Height="40">
+                    <MenuItem Header="Shortcuts" Click="Shortcuts_Click" >
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Keyboard"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="About" x:Name="about" Click="About_Click" >
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Information"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+
+            <!-- Update Label-->
+            <ProgressBar DockPanel.Dock="Left" x:Name="UpdateCheckProgressBar" Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True" Visibility="Hidden"/>
+            <Label DockPanel.Dock="Left" x:Name="UpdateCheckLabel" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Content="Checking for updates...." FontSize="13" Height="25" Visibility="Visible"/>
+            <DockPanel DockPanel.Dock="Left">
+                <Image DockPanel.Dock="Right" Width="48" Name="LabelImg" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                <Label DockPanel.Dock="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Name="TileHover" Content="No Tile Selected" />
+            </DockPanel>
+        </DockPanel>
+
+        <!-- ToolBar -->
+        <ToolBarTray DockPanel.Dock="Top" MinHeight="36">
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
+                <Button ToolTip="New World" Click="NewWorld_Click">
+                    <materialDesign:PackIcon Kind="File" />
+                </Button>
+                <Button ToolTip="Open World" Click="LoadWorld_Click">
+                    <materialDesign:PackIcon Kind="Folder" />
+                </Button>
                 <Separator />
-                <MenuItem Header="Open World.." Click="LoadWorld_Click" Width="Auto">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="OpenInApp"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                <Button ToolTip="Render World" Click="SaveImage_Click">
+                    <materialDesign:PackIcon Kind="Image" />
+                </Button>
                 <Separator />
-                <MenuItem Header="Save" Name="SaveButton" IsEnabled="False" Click="DirectWorldSave_Click" InputGestureText="Ctrl+S">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ContentSave" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Save World As..." Click="SaveWorld_Click" Width="Auto">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ContentSaveSettings"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                <Button ToolTip="Save World" Click="DirectWorldSave_Click">
+                    <materialDesign:PackIcon Kind="ContentSave" />
+                </Button>
+                <Button ToolTip="Save World As..." Click="SaveWorld_Click">
+                    <materialDesign:PackIcon Kind="ContentSaveSettings" />
+                </Button>
                 <Separator />
-                <MenuItem Header="Save to Image" Click="SaveImage_Click" Width="Auto">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Image"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator />
-                <MenuItem Header="Exit" Click="Exit_Click" Width="Auto">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ExitToApp"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="Edit">
-                <MenuItem Header="Grid" x:Name="gridButton" Click="Grid_Click" IsChecked="True">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Grid"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                <Button ToolTip="Enable/Disable Grid" Name="gridToolbarButton" Click="Grid_Click" ToolBar.OverflowMode="AsNeeded">
+                    <materialDesign:PackIcon Kind="Grid" />
+                </Button>
                 <Separator/>
-                <MenuItem Header="Orbs" >
-                    <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Resources/Icons/Forest.png" Width="20" Height="20"/>
-                    </MenuItem.Icon>
-                    <MenuItem.Resources>
-                        <RadioButton x:Key="RadioButtonResource" x:Shared="false" HorizontalAlignment="Center" GroupName="MenuItemRadio" IsHitTestVisible="False"/>
-                    </MenuItem.Resources>
-                    <MenuItem.ItemContainerStyle>
-                        <Style TargetType="MenuItem">
-                            <Setter Property="Icon" Value="{DynamicResource RadioButtonResource}"/>
-                            <EventSetter Event="Click" Handler="OrbsRadioButton_Click"/>
-                        </Style>
-                    </MenuItem.ItemContainerStyle>
-
-                    <MenuItem Header="Forest" x:Name="Forest">
-                        <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Resources/Icons/Forest.png"/>
-                        </MenuItem.Icon>
-                        <MenuItem.ToolTip>
-                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
-                                <Image Source="pack://application:,,,/Resources/Backgrounds/Forest.png" Width="500" Height="500" />
-                            </ToolTip>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-
-                    <MenuItem Header="Night" x:Name="Night">
-                        <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Resources/Icons/Night.png"/>
-                        </MenuItem.Icon>
-                        <MenuItem.ToolTip>
-                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
-                                <Image Source="pack://application:,,,/Resources/Backgrounds/Night.png" Width="500" Height="500" />
-                            </ToolTip>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-
-                    <MenuItem Header="Star" x:Name="Star">
-                        <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Resources/Icons/Star.png"/>
-                        </MenuItem.Icon>
-                        <MenuItem.ToolTip>
-                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
-                                <Image Source="pack://application:,,,/Resources/Backgrounds/Star.png" Width="500" Height="500" />
-                            </ToolTip>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-
-                    <MenuItem Header="Candy" x:Name="Candy">
-                        <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Resources/Icons/Candy.png"/>
-                        </MenuItem.Icon>
-                        <MenuItem.ToolTip>
-                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
-                                <Image Source="pack://application:,,,/Resources/Backgrounds/Candy.png" Width="500" Height="500" />
-                            </ToolTip>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-
-                    <MenuItem Header="Winter" x:Name="Winter">
-                        <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Resources/Icons/Winter.png"/>
-                        </MenuItem.Icon>
-                        <MenuItem.ToolTip>
-                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
-                                <Image Source="pack://application:,,,/Resources/Backgrounds/Winter.png" Width="500" Height="500" />
-                            </ToolTip>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-
-                    <MenuItem Header="Alien" x:Name="Alien">
-                        <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Resources/Icons/Alien.png"/>
-                        </MenuItem.Icon>
-                        <MenuItem.ToolTip>
-                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
-                                <Image Source="pack://application:,,,/Resources/Backgrounds/Alien.png" Width="500" Height="500" />
-                            </ToolTip>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-
-                    <MenuItem Header="Desert" x:Name="Desert">
-                        <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Resources/Icons/Desert.png"/>
-                        </MenuItem.Icon>
-                        <MenuItem.ToolTip>
-                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
-                                <Image Source="pack://application:,,,/Resources/Backgrounds/Desert.png" Width="500" Height="500" />
-                            </ToolTip>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-
-                    <MenuItem Header="Cemetery" x:Name="Cemetery">
-                        <MenuItem.Icon>
-                            <Image Source="pack://application:,,,/Resources/Icons/Cemetery.png"/>
-                        </MenuItem.Icon>
-                        <MenuItem.ToolTip>
-                            <ToolTip Background="{DynamicResource MaterialDesignPaper}">
-                                <Image Source="pack://application:,,,/Resources/Backgrounds/Cemetery.png" Width="500" Height="500" />
-                            </ToolTip>
-                        </MenuItem.ToolTip>
-                    </MenuItem>
-                    
-                </MenuItem>
-            </MenuItem>
-
-            <MenuItem Header="View">
-                <MenuItem Header="Stats" x:Name="stats" Click="Stats_Click" >
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ChartGantt"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-
-            <MenuItem Header="Help">
-                <MenuItem Header="Shortcuts" Click="Shortcuts_Click" >
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Keyboard"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                <Label Content="Zoom" VerticalAlignment="Center"/>
+                <Slider VerticalAlignment="Center" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="19"  Width="167"/>
                 <Separator/>
-                <MenuItem Header="About" x:Name="about" Click="About_Click" >
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Information"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-            <Grid x:Name="UpdateGrid" Width="200" Height="40" IsEnabled="False" IsHitTestVisible="False">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <ProgressBar x:Name="UpdateCheckProgressBar" Grid.Column="1" Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True"/>
-                <Label x:Name="UpdateCheckLabel" Grid.Column="2" HorizontalContentAlignment="Center" Content="Checking for updates...." Margin="0,4,0,0"/>
-            </Grid>
-        </Menu>
+                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" SelectedColorChanged="OnColorSelect" />
+                <Separator />
+                <Label Name="PosLabel" ToolBar.OverflowMode="AsNeeded" Content="X = 0 | Y = 0" HorizontalContentAlignment="Center" Height="24" Width="103"/>
+                <Separator />
+            </ToolBar>
+        </ToolBarTray>
 
         <!-- Left Tools -->
-        <Border MinWidth="260" BorderBrush="Gray" BorderThickness="1,1,1,0" DockPanel.Dock="Left" Width="114">
-            <Grid Height="671" VerticalAlignment="Bottom" Margin="9,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="41*"/>
-                    <ColumnDefinition Width="199*"/>
-                </Grid.ColumnDefinitions>
-                <ComboBox x:Name="ComboTypes" HorizontalAlignment="Left" Margin="10,246,0,0" VerticalAlignment="Top" Width="220" SelectionChanged="ComboTypes_SelectionChanged" Grid.ColumnSpan="2"/>
-                <Border BorderBrush="Gray" BorderThickness="2" HorizontalAlignment="Left" Height="340" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="220" Grid.ColumnSpan="2">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="-2,-1,-1,-3" Height="340" VerticalAlignment="Top">
-                        <Canvas x:Name="TileCanvas" MouseDown="TileSelect_OnClick" Height="330" Width="205"/>
+        <Border DockPanel.Dock="Left" MaxWidth="240" BorderBrush="Gray" BorderThickness="0,0,0,0" Width="240">
+            <Grid>
+                <Border BorderBrush="Gray" BorderThickness="2" Margin="10,82,10,10">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <Canvas x:Name="TileCanvas" MouseDown="TileSelect_OnClick" Margin="0,0,0,32"/>
                     </ScrollViewer>
                 </Border>
-                <Label Content="Background Color" HorizontalAlignment="Left" Margin="10,184,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="130"/>
-                
-                <!-- Color Picker -->
-                <xctk:ColorPicker x:Name="ColorSelector" HorizontalAlignment="Left" Margin="104,185,0,0" VerticalAlignment="Top" Width="85" SelectedColorChanged="OnColorSelect" Grid.Column="1" Height="26" />
-                <Label Content="Zoom" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="47"/>
-                <Slider HorizontalAlignment="Left" Margin="21,216,0,0" VerticalAlignment="Top" Width="168" Minimum="5" Maximum="155" Value="75" TickFrequency="10" IsSnapToTickEnabled="True" x:Name="zoomSlider" ValueChanged="ZoomSlider_ValueChanged" Height="25" Grid.Column="1"/>
-                
+                <ComboBox x:Name="ComboTypes" Margin="10,46,10,0" VerticalAlignment="Top" SelectionChanged="ComboTypes_SelectionChanged" Height="31" />
+
                 <!-- Search Bar -->
-                <Grid Margin="10,280,10,359" Grid.ColumnSpan="2">
+                <Grid VerticalAlignment="Top" Margin="10,10,10,0" Height="31" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" >
+                    <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" Click="SearchButton_Click">
                         <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                     </Button>
-                    <TextBox Grid.Column="2" MinWidth="185" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" x:Name ="SearchBar" materialDesign:HintAssist.Hint="Search Tiles..." HorizontalAlignment="Left" TextWrapping="Wrap" TextChanged="SearchBar_TextChanged" LostFocus="SearchBar_LostFocus" GotFocus="SearchBar_GotFocus" />
+                    <TextBox Grid.Column="2" MinWidth="180" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" x:Name ="SearchBar" materialDesign:HintAssist.Hint="Search Tiles..." TextWrapping="Wrap" TextChanged="SearchBar_TextChanged" LostFocus="SearchBar_LostFocus" GotFocus="SearchBar_GotFocus" Margin="0,1"/>
                 </Grid>
-                
                 <!-- Search Panel -->
-                <ListBox x:Name="SearchResultList" HorizontalAlignment="Left" Height="150" Margin="8,317,0,0" VerticalAlignment="Top" Visibility="Hidden" Width="220" Grid.ColumnSpan="2"  LostFocus="SearchList_LostFocus" Background="{DynamicResource MaterialDesignPaper}">
+                <ListBox x:Name="SearchResultList" HorizontalAlignment="Left" Height="250" Margin="10,52,0,0" VerticalAlignment="Top" Visibility="Hidden" LostFocus="SearchList_LostFocus" Background="{DynamicResource MaterialDesignPaper}" Width="220">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -289,16 +283,19 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
+            
         </Border>
 
         <!-- Planner -->
         <ScrollViewer x:Name="sv" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Background="#2E404B">
-            <Canvas x:Name="MainCanvas" DockPanel.Dock="Right" Background="White" MouseMove="MainCanvas_MouseMove" Height="679" RenderOptions.EdgeMode="Unspecified" MouseDown="MainCanvas_MouseDown">
+            <Canvas x:Name="MainCanvas" DockPanel.Dock="Right" Background="White" MouseMove="MainCanvas_MouseMove" RenderOptions.EdgeMode="Unspecified" MouseDown="MainCanvas_MouseDown">
                 <Canvas.CacheMode>
                     <BitmapCache />
                 </Canvas.CacheMode>
             </Canvas>
+            
         </ScrollViewer>
+        <materialDesign:Snackbar DockPanel.Dock="Bottom" Message="lol" IsActive="False" x:Name="SnackbarTwo" />
     </DockPanel>
 </Window>
 

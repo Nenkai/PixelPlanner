@@ -8,6 +8,7 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Input;
 
+using MaterialDesignThemes.Wpf;
 namespace PWPlanner
 {
     public partial class MainWindow : Window
@@ -24,6 +25,7 @@ namespace PWPlanner
             if (gridButton.IsChecked)
             {
                 RemoveGrid();
+                gridButton.Icon = PackIconKind.GridOff;
             }
             else
             {
@@ -37,7 +39,8 @@ namespace PWPlanner
             CanvasPos pos = new CanvasPos(e.GetPosition(MainCanvas));
 
             int realY = 60 - pos.Y - 1;
-            PosLabel.Content = $"({pos.X},{realY})";
+
+            PosLabel.Content = $"X = {pos.X} | Y = {realY}";
 
             //Last pixel crashes the entire thing. Why? No idea.
             if (pos.Y == 60 || pos.X == 80)

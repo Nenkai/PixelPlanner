@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -45,7 +46,7 @@ namespace PWPlanner
             //Draw Bedrock by default.
             DrawBedrock();
             ComboTypes.SelectedIndex = 0;
-
+            
             this.Title = $"{this.Title} ({UpdateChecker.current})";
         }
 
@@ -57,6 +58,10 @@ namespace PWPlanner
         private async void Window_ContentRendered(object sender, EventArgs e)
         {
             isRendered = true;
+
+            UpdateCheckProgressBar.Visibility = Visibility.Visible;
+            UpdateCheckLabel.Visibility = Visibility.Visible;
+            
             bool updateAvailable = await Task.Run(() => UpdateChecker.CheckForUpdates());
             isBackgroundUpdateChecking = true;
 
@@ -76,7 +81,9 @@ namespace PWPlanner
                 }
             }
             isBackgroundUpdateChecking = false;
-            UpdateGrid.Children.Clear();
+
+            UpdateCheckProgressBar.Visibility = Visibility.Hidden;
+            UpdateCheckLabel.Visibility = Visibility.Hidden;
 
         }
 
@@ -376,6 +383,7 @@ namespace PWPlanner
                 e.Cancel = true;
             }
         }
+
     }
 }
 

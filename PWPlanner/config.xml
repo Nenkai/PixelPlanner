@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <data>
-  <version>1.0.1</version>
+  <version>2.1.0</version>
   <changelog>
+    >>02/06/2018 (2.1.0)
+        More UI Changes
+      
     2.0.1
       Fixed an error while drawing off bounds
       Updated external resources

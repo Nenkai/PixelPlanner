@@ -11,6 +11,11 @@ namespace PWPlanner
 {
     public partial class MainWindow
     {
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchBar.Focus();
+        }
+
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (isRendered)
