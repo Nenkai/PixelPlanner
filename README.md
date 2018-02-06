@@ -9,6 +9,7 @@ The sprites are included here, and are obviously used with permission from Kukou
 - Zooming (Slider, or Shift+Mouse Scroll)
 - Update Check (built-in downloader)
 - World Tiles Stats
+- Dark Material Design
 
 # Warning
 Saves aren't always compatible with versions. If it doesn't work, use the previous version you used to build with!
