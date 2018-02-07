@@ -1,26 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <data>
-  <version>2.1.1</version>
+  <version>2.2.0</version>
   <changelog>
-    >>02/06/2018 (2.1.0-2.1.1)
-        More UI Changes
-        No more blurry tiles while zooming!
-      
-    2.0.1
-      Fixed an error while drawing off bounds
-      Updated external resources
-      
-    >>02/05/2018 (2.0.0)
-    
-    -> Material Design
-        Entire program has been redesigned to use Material Design UI instead.
-    -> Other changes
-        Async update checker
-        Added Cemetery Orb
-        Added ALL missing sprites
-      
-    [Upcoming changes]
-    Actual support for Water, Fog, Fake Blood, etc
+    >>02/06/2018 (2.2.0)
+        Updated with Valentines + Other Blocks (~40 Tiles)
+        Added a Previous Tiles feature
+        Fixed some other bugs
   </changelog>
 </data>
 

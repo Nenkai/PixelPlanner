@@ -34,6 +34,12 @@ namespace PWPlanner
             }
         }
 
+        public BitmapImage GetBlockByName(BlockName bl)
+        {
+            blockMap.TryGetValue(bl, out BitmapImage value);
+            return value;
+        }
+
         public void MakeBackgroundSpriteSheet()
         {
             int x = 0;

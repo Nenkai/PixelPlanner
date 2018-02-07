@@ -10,7 +10,7 @@ namespace PWPlanner
     public partial class MainWindow : Window
     {
 
-        public Tile _selectedTile = new Tile();
+        private Tile _selectedTile = new Tile();
         public Border selectBorder = new Border();
         public bool FirstSelected = false;
         public int index;
@@ -34,7 +34,6 @@ namespace PWPlanner
 
             try
             {
-
                 Image image = new Image()
                 {
                     Height = 32,
@@ -46,22 +45,33 @@ namespace PWPlanner
                 TileType tt = TileType.None;
                 BlockName blockName;
                 BackgroundName backgroundName;
+
                 switch (ComboTypes.SelectedIndex)
                 {
                     case 0:
                         backgroundName = SelectableTile.GetBackgroundNameByString(selectableTiles[index].bgName);
                         tt = TileType.Background;
+
+                        //So we can use it for the prev. tiles later
+                        _selectedTile = new Tile(tt, image);
+                        _selectedTile.bgName = selectableTiles[index].bgName;
+
                         TileHover.Content = selectableTiles[index].bgName;
                         break;
                     case 1:
                         blockName = SelectableTile.GetBlockNameByString(selectableTiles[index].blName);
                         tt = TileType.Foreground;
+
+                        _selectedTile = new Tile(tt, image);
+                        _selectedTile.blName = selectableTiles[index].blName;
+
                         TileHover.Content = selectableTiles[index].blName;
                         break;
                 }
 
                 TileCanvas.Children.Remove(selectBorder);
 
+                //Create the blue border
                 selectBorder = new Border()
                 {
                     BorderBrush = Brushes.SkyBlue,
@@ -71,11 +81,11 @@ namespace PWPlanner
                 };
                 Canvas.SetTop(selectBorder, Y * 32);
                 Canvas.SetLeft(selectBorder, X * 32);
-
                 TileCanvas.Children.Add(selectBorder);
+
                 FirstSelected = true;
                 LabelImg.Source = image.Source;
-                _selectedTile = new Tile(tt, image);
+
             } catch (IndexOutOfRangeException index)  { /* ;-; */ }
         }
 
@@ -122,6 +132,10 @@ namespace PWPlanner
 
             Canvas.SetTop(selectBorder, GetYFromIndex(searchIndex) * 32);
             Canvas.SetLeft(selectBorder, GetXFromIndex(searchIndex) * 32);
+
+            _selectedTile = new Tile(type, new Image() { Source = source });
+            _selectedTile.bgName = bgOrblName;
+
             TileCanvas.Children.Add(selectBorder);
             index = searchIndex;
 

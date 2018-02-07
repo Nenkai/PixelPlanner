@@ -68,9 +68,19 @@ namespace PWPlanner
             this.Type = TileType.None;
         }
 
+        public void Reset()
+        {
+            this.bgName = String.Empty;
+            this.blName = String.Empty;
+            this.Foreground = null;
+            this.Background = null;
+            this.Positions = null;
+            this.Type = TileType.None;
+        }
+
         public override string ToString()
         {
-            return $"Type: {Type.ToString()}, BG Name? {bgName} FG Name? {blName}\n" ;
+            return $"Type: {Type.ToString()}, BG Name: {bgName}, FG Name: {blName}\n" ;
         }
 
     }
@@ -175,6 +185,7 @@ namespace PWPlanner
         LightBlueWallpaper,
         LightWoodenBackground,
         MagicBackground,
+        MeltedChocolate,
         MetalBackground1,
         MetalBackground2,
         MetalBackground3,
@@ -196,6 +207,8 @@ namespace PWPlanner
         SandyCaveWall,
         ScifiBackground1,
         ScifiBackground2,
+        ScifiBackground3,
+        ScifiBackground4,
         Shoji,
         SlimyBackground,
         SpheresWallpaper,
@@ -240,6 +253,7 @@ namespace PWPlanner
         Bathtub,
         BattleGateDisabled,
         BattleGateEnabled,
+        BattleLock,
         BattleScoreboard,
         Bed,
         Bedrock,
@@ -259,10 +273,13 @@ namespace PWPlanner
         BlueMetalChair,
         BlueRunestone,
         BlueSunUmbrella,
+        BoomBox,
         BoneGate,
         Bonfire,
         BookPodium,
         Bookshelf,
+        BowlOfJellyBeans,
+        Bush,
         Brazier,
         BrownBlock,
         Bumper,
@@ -279,6 +296,7 @@ namespace PWPlanner
         CastleBrick,
         CastleDoor,
         CelticCross,
+        CookieBlock,
         Chains,
         Chandelier,
         Checkpoint,
@@ -298,6 +316,7 @@ namespace PWPlanner
         ConcreteBlock2x1,
         ConcreteBlock2x2,
         Corn,
+        CupidStatue,
         DaHoodSign,
         DarkChocolateBlock,
         DarkWorldLock,
@@ -369,6 +388,7 @@ namespace PWPlanner
         GreyBrick,
         KatanaDecoration,
         HamRadio,
+        HangingLeaves,
         HauntedMirror,
         HazardBlock,
         Headstone,
@@ -389,6 +409,7 @@ namespace PWPlanner
         KiddieRide,
         KiwiBlock,
         Lantern,
+        LargeBush,
         LargeLock,
         LargeSandCastle,
         Lava,
@@ -421,6 +442,7 @@ namespace PWPlanner
         MinatureSpaceship,
         ModernPainting,
         Mushroom,
+        NeonHeart,
         NoteBoard,
         Obisidian,
         OldTV,
@@ -438,6 +460,7 @@ namespace PWPlanner
         PinkCandyBlock,
         PinkJelly,
         PinkMetalChair,
+        PinkRose,
         PlatinumLock,
         PoisonGas1,
         PoisonGas2,
@@ -472,6 +495,7 @@ namespace PWPlanner
         RedSunUmbrella,
         ReindeerLights,
         Replicator,
+        Rocks,
         Rose,
         RoundMetalTable,
         RubberDuck,
@@ -479,24 +503,37 @@ namespace PWPlanner
         Sand,
         Sand2,
         Sandstone,
+        ScifiArrow1,
+        ScifiArrow2,
+        ScifiArrow3,
+        ScifiArrow4,
+        ScifiBlock1,
+        ScifiBlock2,
+        ScifiBlock3,
+        ScifiBlock4,
+        ScifiBlock5,
         ScifiComputer,
         ScifiCrate,
         ScifiCratePile,
         ScifiDoor,
         ScifiGenerator,
         ScifiGenerator2,
+        ScifiInterface1,
         ScifiLights,
         ScifiPanel1,
         ScifiPanel2,
         ScifiPanel3,
+        ScifiPillar1,
         ScifiTable,
         Scoreboard,
         Serpentine,
         SerpentineAndEggs,
         Sign,
         SkullBlock,
+        SmallBush,
         SmallChest,
         SmallLock,
+        SmallRocks,
         SmallSandCastle,
         SnowBlock,
         Snowman,
@@ -516,6 +553,7 @@ namespace PWPlanner
         SpikeTrap2,
         SpikeTrap3,
         SpikeTrap4,
+        Spotlight,
         SpringBoard,
         SpringBoard2,
         SpringBoard3,
@@ -533,6 +571,7 @@ namespace PWPlanner
         Sunflower,
         Sushi,
         TaikoDrum,
+        TallGrass,
         Tapestry,
         TeaSet,
         TeslaSphere,
@@ -544,7 +583,10 @@ namespace PWPlanner
         Torii,
         ToyBunny,
         ToyChick,
+        TreeStump,
+        TreeTrunk,
         TVChair,
+        VegetationBlock,
         Vine,
         VioletEasterEgg,
         VortexPortal,

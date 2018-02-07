@@ -114,6 +114,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\DockPanelSplitter.cs" />
+    <Compile Include="Core\TileHistory.cs" />
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
@@ -739,6 +740,45 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Backgrounds\Cemetery.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BattleLock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\MeltedChocolate.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\ScifiBackground3.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\ScifiBackground4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BoomBox.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BowlOfJellyBeans.png" />
+    <Resource Include="Resources\Tiles\Blocks\BubblegumMachine.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Bush.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\CookieBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\CupidStatue.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\HangingLeaves.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\LargeBush.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\NeonHeart.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\PinkRose.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Rocks.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiArrow1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiArrow2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiArrow3.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiArrow4.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiBlock1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiBlock2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiBlock3.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiBlock4.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiBlock5.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiInterface1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ScifiPillar1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SmallBush.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SmallRocks.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Spotlight.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TallGrass.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TreeStump.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TreeTrunk.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\VegetationBlock.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.7\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.7\build\dotnet\Fody.targets')" />

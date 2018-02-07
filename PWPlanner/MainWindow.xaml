@@ -8,7 +8,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="PWPlanner.MainWindow"
         xmlns:osc="clr-namespace:OpenSourceControls"
         mc:Ignorable="d"
-        Title="PixelPlanner" Height="760" Width="1000" MinWidth="600" MinHeight="600"
+        Title="PixelPlanner" Height="760" WindowState="Maximized" Width="1080" MinWidth="600" MinHeight="600"
         Closing="Window_Closing"
         ContentRendered="Window_ContentRendered"
     
@@ -246,6 +246,18 @@
                 <Separator />
                 <Label Name="PosLabel" ToolBar.OverflowMode="AsNeeded" Content="X = 0 | Y = 0" HorizontalContentAlignment="Center" Height="24" Width="103"/>
                 <Separator />
+                <ComboBox Name="PreviousTiles" Width="200" SelectionChanged="PreviousTiles_SelectionChanged" materialDesign:HintAssist.Hint="Previous Tiles..." >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Source}"  />
+                                <TextBlock Margin="3" Text="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+
             </ToolBar>
         </ToolBarTray>
 

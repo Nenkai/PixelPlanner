@@ -179,12 +179,18 @@ namespace PWPlanner
                                 }
                             }
                         }
-                    }
-                    ColorSelector.SelectedColor = Utils.IntToARGBColor(TileDB.ARGBBackgroundColor);
-                    firstPlaced = false;
-                    SaveButton.IsEnabled = false;
-                    SavedPath = String.Empty;
+                    }  
                 }
+
+                ColorSelector.SelectedColor = Utils.IntToARGBColor(TileDB.ARGBBackgroundColor);
+                firstPlaced = false;
+                FirstSelected = false;
+                SaveButton.IsEnabled = false;
+                SavedPath = String.Empty;
+                PreviousTiles.Items.Clear();
+                PreviousTiles.SelectedItem = null;
+                _selectedTile.Reset();
+
                 if (invalids.Count > 0)
                 {
                     StringBuilder sb = new StringBuilder();

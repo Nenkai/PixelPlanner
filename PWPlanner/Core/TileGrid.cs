@@ -90,9 +90,11 @@ namespace PWPlanner
                             Source = src
                         };
                         _selectedTile = new Tile(TileType.Background, image);
+                        _selectedTile.bgName = bg.ToString();
                         SelectTile(TileType.Background, bg.ToString());
                         LabelImg.Source = src;
                         TileHover.Content = bg;
+
                     }
                 } 
                 else if (e.RightButton == MouseButtonState.Pressed)
@@ -105,7 +107,9 @@ namespace PWPlanner
                         {
                             Source = src
                         };
+
                         _selectedTile = new Tile(TileType.Foreground, image);
+                        _selectedTile.blName = bl.ToString();
                         SelectTile(TileType.Foreground, bl.ToString());
                         LabelImg.Source = src;
                         TileHover.Content = bl;
@@ -243,6 +247,8 @@ namespace PWPlanner
             {
                 case TileType.Background:
                     image.SetValue(Canvas.ZIndexProperty, 10);
+
+                    //Check if theres already a bg there
                     if (HasForegroundAt(X, Y))
                     {
                         TileDB.Tiles[X, Y].Type = TileType.Both;
@@ -262,6 +268,10 @@ namespace PWPlanner
                     {
                         TilePosition Position = new TilePosition(tile.Type, X, Y);
                         TileDB.Tiles[X, Y] = new Tile(TileType.Background, selectableTiles[index].bgName, image, Position);
+
+                        //Add to previous tiles selected
+                        AddToPreviousTilesSelected(_selectedTile, TileType.Background);
+
                     }
                     break;
                 case TileType.Foreground:
@@ -285,6 +295,10 @@ namespace PWPlanner
                     {
                         TilePosition Position = new TilePosition(tile.Type, X, Y);
                         TileDB.Tiles[X, Y] = new Tile(TileType.Foreground, selectableTiles[index].blName, image, Position);
+
+
+                        //Add to previous tiles selected
+                        AddToPreviousTilesSelected(_selectedTile, TileType.Foreground);
                     }
                     break;
             }

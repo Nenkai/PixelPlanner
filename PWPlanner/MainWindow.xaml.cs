@@ -237,8 +237,12 @@ namespace PWPlanner
                 _selectedTile.Type = TileType.Background;
                 ComboTypes.SelectedIndex = 0;
                 firstPlaced = false;
+                FirstSelected = false;
                 SaveButton.IsEnabled = false;
+                PreviousTiles.Items.Clear();
+                PreviousTiles.SelectedItem = null;
                 SavedPath = String.Empty;
+                _selectedTile.Reset();
             }
         }
 

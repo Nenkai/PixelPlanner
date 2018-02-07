@@ -68,7 +68,7 @@ namespace PWPlanner
                 SelectTile(entry.type, entry.Name);
 
                 BitmapImage source = selectableTiles[index].source;
-                _selectedTile = new Tile(entry.type, new Image() { Source = source });
+
                 TileHover.Content = entry.Name;
                 FirstSelected = true;
                 LabelImg.Source = source;
