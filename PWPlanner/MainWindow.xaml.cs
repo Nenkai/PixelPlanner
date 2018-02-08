@@ -320,6 +320,46 @@ namespace PWPlanner
 
         }
 
+        /// <summary>
+        /// Exit menu button. Points to <see cref="Window_Closing"/>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Window_Closing(sender, new CancelEventArgs());
+        }
+
+        /// <summary>
+        /// Main exit handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to exit? You may lose all your unsaved progress!", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        Point scrollMousePoint = new Point();
+        double hOff = 1;
+        double vOff = 1;
+        private void sv_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (sv.IsMouseCaptured)
+            {
+                Mouse.OverrideCursor = Cursors.Hand;
+                sv.ScrollToHorizontalOffset(hOff + (scrollMousePoint.X - e.GetPosition(sv).X));
+                sv.ScrollToVerticalOffset(vOff + (scrollMousePoint.Y - e.GetPosition(sv).Y));
+            }
+        }
+
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scrollviewer = sender as ScrollViewer;
@@ -364,35 +404,17 @@ namespace PWPlanner
                 }
             }
             e.Handled = true;
+            
         }
 
-        /// <summary>
-        /// Exit menu button. Points to <see cref="Window_Closing"/>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void sv_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            Window_Closing(sender, new CancelEventArgs());
-        }
-
-        /// <summary>
-        /// Main exit handler.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            if (MessageBox.Show("Are you sure to exit? You may lose all your unsaved progress!", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (e.ChangedButton == MouseButton.Middle)
             {
-                Application.Current.Shutdown();
-            }
-            else
-            {
-                e.Cancel = true;
+                sv.ReleaseMouseCapture();
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
-
     }
 }
 

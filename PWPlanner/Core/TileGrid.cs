@@ -70,6 +70,15 @@ namespace PWPlanner
             {
                 DeleteAt(pos.X, pos.Y, _selectedTile);
             }
+
+            //Pan with mouse wheel click
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                scrollMousePoint = e.GetPosition(sv);
+                hOff = sv.HorizontalOffset;
+                vOff = sv.VerticalOffset;
+                sv.CaptureMouse();
+            }
         }
 
         //Pass Click to Move + Tile Selector
