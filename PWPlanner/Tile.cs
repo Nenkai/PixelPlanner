@@ -433,6 +433,7 @@ namespace PWPlanner
         MediumLock,
         MediumSandCastle,
         MetalBarrel,
+        MetalHatch,
         MetalPlate,
         MetalPlatform,
         MetalTrapDoor,

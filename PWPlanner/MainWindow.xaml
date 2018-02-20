@@ -6,7 +6,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PWPlanner"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="PWPlanner.MainWindow"
-        xmlns:osc="clr-namespace:OpenSourceControls"
         mc:Ignorable="d"
         Title="PixelPlanner" Height="760" WindowState="Maximized" Width="1080" MinWidth="600" MinHeight="600"
         Closing="Window_Closing"

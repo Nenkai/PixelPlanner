@@ -31,9 +31,9 @@ namespace PWPlanner
             InitializeComponent();
 
             //Didn't know it was this easy to get raw quality...
-
             RenderOptions.SetBitmapScalingMode(MainCanvas, BitmapScalingMode.NearestNeighbor);
             RenderOptions.SetBitmapScalingMode(TileCanvas, BitmapScalingMode.NearestNeighbor);
+
             //Draw Grid by default.
             DrawGrid(TileDB.Height, TileDB.Width);
 

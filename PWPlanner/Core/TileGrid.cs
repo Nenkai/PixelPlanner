@@ -36,14 +36,15 @@ namespace PWPlanner
         //Painter
         public void MainCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            CanvasPos pos = new CanvasPos(e.GetPosition(MainCanvas));
+			
+			int X = (int)(e.GetPosition(MainCanvas).X) / 32;
+			int Y = (int)(e.GetPosition(MainCanvas).Y) / 32;
+            int realY = 60 - Y - 1;
 
-            int realY = 60 - pos.Y - 1;
-
-            PosLabel.Content = $"X = {pos.X} | Y = {realY}";
+            PosLabel.Content = $"X = {X} | Y = {realY}";
 
             //Last pixel crashes the entire thing. Why? No idea.
-            if (pos.Y == 60 || pos.X == 80)
+            if (Y == 60 || X == 80)
             {
                 return;
             }
@@ -54,12 +55,12 @@ namespace PWPlanner
                 if (FirstSelected)
                 {
                     //Check if the tile selected can be placed at a position
-                    if (!SameTypeAt(_selectedTile, pos.X, pos.Y) && !AlreadyHasBothTypes(pos.X, pos.Y))
+                    if (!SameTypeAt(_selectedTile, X, Y) && !AlreadyHasBothTypes(X, Y))
                     {
                         //So we can make sure to put a confirm box if the user makes a new world or opens one
                         if (!firstPlaced) firstPlaced = true;
 
-                        PlaceAt(pos.X, pos.Y, _selectedTile);
+                        PlaceAt(X, Y, _selectedTile);
 
                     }
                 }
@@ -68,7 +69,7 @@ namespace PWPlanner
             //Delete Tiles
             if (e.RightButton == MouseButtonState.Pressed)
             {
-                DeleteAt(pos.X, pos.Y, _selectedTile);
+                DeleteAt(X, Y, _selectedTile);
             }
 
             //Pan with mouse wheel click
@@ -86,12 +87,12 @@ namespace PWPlanner
         {
             if (Keyboard.IsKeyDown(Key.LeftShift))
             {
-                CanvasPos pos = new CanvasPos(e.GetPosition(MainCanvas));
-
+				int X = (int)(e.GetPosition(MainCanvas).X) / 32;
+				int Y = (int)(e.GetPosition(MainCanvas).Y) / 32;
 
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
-                    if (GetBackgroundAt(pos.X, pos.Y, out BackgroundName bg))
+                    if (GetBackgroundAt(X, Y, out BackgroundName bg))
                     {
                         backgroundMap.TryGetValue(bg, out BitmapImage src);
                         Image image = new Image()
@@ -108,8 +109,8 @@ namespace PWPlanner
                 } 
                 else if (e.RightButton == MouseButtonState.Pressed)
                 {
-                    GetForegroundAt(pos.X, pos.Y, out BlockName bl);
-                    if (GetForegroundAt(pos.X, pos.Y, out bl))
+                    GetForegroundAt(X, Y, out BlockName bl);
+                    if (GetForegroundAt(X, Y, out bl))
                     {
                         blockMap.TryGetValue(bl, out BitmapImage src);
                         Image image = new Image()
