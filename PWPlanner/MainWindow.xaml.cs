@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using PWPlanner.TileTypes;
 using PWPlanner.Windows;
 
 namespace PWPlanner
@@ -27,7 +28,6 @@ namespace PWPlanner
 
         public MainWindow()
         {
-
             InitializeComponent();
 
             //Didn't know it was this easy to get raw quality...
@@ -35,22 +35,27 @@ namespace PWPlanner
             RenderOptions.SetBitmapScalingMode(TileCanvas, BitmapScalingMode.NearestNeighbor);
 
             //Draw Grid by default.
-            DrawGrid(TileDB.Height, TileDB.Width);
+            DrawGrid(PlannerSettings.DefaultWorldWidth, PlannerSettings.DefaultWorldHeight);
 
-            //Set Background to forest.
-            MainCanvas.Background = BackgroundData.GetBackground(BackgroundData.BackgroundType.Forest);
-            TileDB.MainBackground = BackgroundData.BackgroundType.Forest;
-            TileDB.hasMainBackground = true;
-
+            //Used for zooming stuff.
             defaultMatrix = MainCanvas.LayoutTransform.Value;
-            _selectedTile.Type = TileType.Background;
+
+            //We have block type selected by default.
+            _selectedTile = new Foreground();
 
             //Load Images, searching and tile selection box.
             GenerateSelector();
 
+            //Initialize the map used to store tiles, normal world size by default
+            GenerateTileMap(PlannerSettings.DefaultWorldWidth, PlannerSettings.DefaultWorldHeight);
+
+            //Set Background to forest.
+            MainCanvas.Background = BackgroundData.GetBackground(BackgroundData.MainBackgroundType.Forest);
+            DB.MainBackground = BackgroundData.MainBackgroundType.Forest;
+            DB.hasMainBackground = true;
+
             //Draw Bedrock by default.
             DrawBedrock();
-            ComboTypes.SelectedIndex = 0;
             
             this.Title = $"{this.Title} ({UpdateChecker.current})";
         }
@@ -174,49 +179,33 @@ namespace PWPlanner
         {
             SortedList<string, int> placed = new SortedList<string, int>();
 
-            for (int i = 0; i < TileDB.Tiles.GetLength(0); i++)
+            for (int i = 0; i < DB.TileMap.GetLength(0); i++)
             {
-                for (int j = 0; j < TileDB.Tiles.GetLength(1); j++)
+                for (int j = 0; j < DB.TileMap.GetLength(1); j++)
                 {
-                    if (TileDB.Tiles[i, j] != null)
+                    if (AnyTileAt(DB, i, j))
                     {
-                        if (TileDB.Tiles[i, j].bgName != null)
+                        foreach (var tile in DB.TileMap[i, j].Tiles)
                         {
-                            string itemName = TileDB.Tiles[i, j].bgName;
-                            if (placed.ContainsKey(TileDB.Tiles[i, j].bgName))
-                            {
-                                placed[itemName]++;
-                            }
-                            else
-                            {
-                                placed.Add(itemName, 1);
-                            }
-                        }
-
-                        if (TileDB.Tiles[i, j].blName != null)
-                        {
-                            string itemName = TileDB.Tiles[i, j].blName;
-
-                            //Blacklist bedrock
-                            if (Array.IndexOf(blacklist, TileDB.Tiles[i, j].blName) > -1)
+                            if (Array.IndexOf(blacklist, tile.TileName) > -1)
                             {
                                 continue;
                             }
-                            else if (placed.ContainsKey(TileDB.Tiles[i, j].blName))
+                            else if (placed.ContainsKey(tile.TileName))
                             {
-                                placed[itemName]++;
+                                placed[tile.TileName]++;
                             }
                             else
                             {
-                                placed.Add(itemName, 1);
+                                placed.Add(tile.TileName, 1);
                             }
                         }
+
                     }
                 }
             }
             StatsWindow statsWindow = new StatsWindow(placed);
             statsWindow.ShowDialog();
-
         }
 
         /// <summary>
@@ -229,13 +218,13 @@ namespace PWPlanner
             if (MessageBox.Show("Are you sure to create a new world? You may lose all your unsaved progress!", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 MainCanvas.Children.Clear();
-                TileDB = new TileData(80, 60);
-                DrawGrid(TileDB.Height, TileDB.Width);
+                DB = new PlannerSettings(80, 60);
+                DrawGrid(DB.WorldWidth, DB.WorldHeight);
                 DrawBedrock();
-                MainCanvas.Background = BackgroundData.GetBackground(TileDB.MainBackground);
+                MainCanvas.Background = BackgroundData.GetBackground(DB.MainBackground);
                 defaultMatrix = MainCanvas.LayoutTransform.Value;
-                _selectedTile.Type = TileType.Background;
-                ComboTypes.SelectedIndex = 0;
+                //_selectedTile.TileName
+                ComboTypes.SelectedIndex = 1;
                 firstPlaced = false;
                 FirstSelected = false;
                 SaveButton.IsEnabled = false;
@@ -255,14 +244,15 @@ namespace PWPlanner
         {
             if (isLoading) return;
 
-            if (TileDB.MainBackground != BackgroundData.BackgroundType.None)
+            if (DB.MainBackground != BackgroundData.MainBackgroundType.None)
             {
-                TileDB.hasMainBackground = false;
-                TileDB.MainBackground = BackgroundData.BackgroundType.None;
+                DB.hasMainBackground = false;
+                DB.MainBackground = BackgroundData.MainBackgroundType.None;
             }
 
             MainCanvas.Background = new SolidColorBrush(e.NewValue.Value);
-            TileDB.ARGBBackgroundColor = Utils.ARGBColortoInt(e.NewValue.Value);
+            DB.ARGBBackgroundColor = Utils.ARGBColortoInt(e.NewValue.Value);
+            DB.hasCustomMainBackgroundColor = true;
         }
 
         /// <summary>
@@ -281,42 +271,42 @@ namespace PWPlanner
                 }
             }
 
-            BackgroundData.BackgroundType bt;
+            BackgroundData.MainBackgroundType bt;
             switch (mi.Name)
             {
                 case "Forest":
-                    bt = BackgroundData.BackgroundType.Forest;
+                    bt = BackgroundData.MainBackgroundType.Forest;
                     break;
                 case "Night":
-                    bt = BackgroundData.BackgroundType.Night;
+                    bt = BackgroundData.MainBackgroundType.Night;
                     break;
                 case "Star":
-                    bt = BackgroundData.BackgroundType.Star;
+                    bt = BackgroundData.MainBackgroundType.Star;
                     break;
                 case "Candy":
-                    bt = BackgroundData.BackgroundType.Candy;
+                    bt = BackgroundData.MainBackgroundType.Candy;
                     break;
                 case "Winter":
-                    bt = BackgroundData.BackgroundType.Winter;
+                    bt = BackgroundData.MainBackgroundType.Winter;
                     break;
                 case "Alien":
-                    bt = BackgroundData.BackgroundType.Alien;
+                    bt = BackgroundData.MainBackgroundType.Alien;
                     break;
                 case "Desert":
-                    bt = BackgroundData.BackgroundType.Desert;
+                    bt = BackgroundData.MainBackgroundType.Desert;
                     break;
                 case "Cemetery":
-                    bt = BackgroundData.BackgroundType.Cemetery;
+                    bt = BackgroundData.MainBackgroundType.Cemetery;
                     break;
 
                 default:
-                    bt = BackgroundData.BackgroundType.Forest;
+                    bt = BackgroundData.MainBackgroundType.Forest;
                     break;
             }
 
             MainCanvas.Background = BackgroundData.GetBackground(bt);
-            TileDB.hasMainBackground = true;
-            TileDB.MainBackground = bt;
+            DB.hasMainBackground = true;
+            DB.MainBackground = bt;
 
         }
 

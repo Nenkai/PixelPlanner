@@ -7,6 +7,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using PWPlanner.TileTypes;
+
 namespace PWPlanner
 {
     public partial class MainWindow
@@ -65,9 +67,9 @@ namespace PWPlanner
 
                 TileCanvas.Children.Remove(selectBorder);
 
-                SelectTile(entry.type, entry.Name);
+                SelectTile(entry.Name);
 
-                BitmapImage source = selectableTiles[index].source;
+                BitmapImage source = selectableTiles[index].Image.Source as BitmapImage;
 
                 TileHover.Content = entry.Name;
                 FirstSelected = true;
@@ -85,8 +87,7 @@ namespace PWPlanner
             SearchResultList.Visibility = Visibility.Visible;
             if (name.Length > 0 && SearchResultList.Visibility == Visibility.Hidden)
             {
-                SearchBackgrounds(name);
-                SearchBlocks(name);
+                SearchTile(name);
                 SearchResultList.Items.Refresh();
             }
             else if (name.Length == 0)
@@ -97,37 +98,20 @@ namespace PWPlanner
             else
             {
                 SearchResultList.Items.Clear();
-                SearchBackgrounds(name);
-                SearchBlocks(name);
+                SearchTile(name);
                 SearchResultList.Items.Refresh();
             }
         }
 
-        public void SearchBackgrounds(string name)
+        public void SearchTile(string name)
         {
-            foreach (KeyValuePair<BackgroundName, BitmapImage> entry in backgroundMap)
+            foreach (KeyValuePair<string, Tile> entry in tileMap)
             {
-                if (entry.Key.ToString().IndexOf(name, 0, StringComparison.InvariantCultureIgnoreCase) > -1)
+                if (entry.Key.IndexOf(name, 0, StringComparison.InvariantCultureIgnoreCase) > -1)
                 {
                     SearchEntry se = new SearchEntry();
-                    se.Name = entry.Key.ToString();
-                    se.Source = entry.Value;
-                    se.type = TileType.Background;
-                    SearchResultList.Items.Add(se);
-                }
-            }
-        }
-
-        public void SearchBlocks(string name)
-        {
-            foreach (KeyValuePair<BlockName, BitmapImage> entry in blockMap)
-            {
-                if (entry.Key.ToString().IndexOf(name, 0, StringComparison.InvariantCultureIgnoreCase) > -1)
-                {
-                    SearchEntry se = new SearchEntry();
-                    se.Name = entry.Key.ToString();
-                    se.Source = entry.Value;
-                    se.type = TileType.Foreground;
+                    se.Name = entry.Key;
+                    se.Source = entry.Value.Image.Source as BitmapImage;
                     SearchResultList.Items.Add(se);
                 }
             }
@@ -138,6 +122,5 @@ namespace PWPlanner
     {
         public string Name { get; set; }
         public BitmapSource Source { get; set; }
-        public TileType type;
     }
 }

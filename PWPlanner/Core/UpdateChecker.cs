@@ -55,7 +55,7 @@ namespace PWPlanner
                         return false;
                     }
                 }
-                catch (ThreadAbortException e)
+                catch (ThreadAbortException)
                 {
                     return false;
                 }

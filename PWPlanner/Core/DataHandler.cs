@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,11 +12,13 @@ using System.Windows.Media.Imaging;
 using System.ComponentModel;
 using System.Threading;
 
+using PWPlanner.TileTypes;
+
 namespace PWPlanner
 {
     public partial class MainWindow
     {
-        private static string SavedFileName = "world.pww";
+        private static string SavedFileName;
         private static string SavedPath = "";
 
         //Save Shortcut
@@ -45,13 +47,13 @@ namespace PWPlanner
             {
                 Filter = "Pixel Worlds World (*.pww)|*.pww",
                 DefaultExt = "pww",
-                FileName = SavedFileName,
+                FileName = "world.pww",
             };
             Nullable<bool> Selected = dialog.ShowDialog();
             string path = dialog.FileName;
             if (Selected == true)
             {
-                DataHandler.SaveWorld(TileDB, path);
+                DataHandler.SaveWorld(path);
                 SavedFileName = dialog.SafeFileName;
                 SavedPath = Path.GetDirectoryName(path);
                 MessageBox.Show("World saved successfully at\n" + path, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -61,9 +63,18 @@ namespace PWPlanner
 
         private void DirectWorldSave_Click(object sender, RoutedEventArgs e)
         {
-            string path = SavedPath + @"\" + SavedFileName;
-            DataHandler.SaveWorld(TileDB, path);
-            MessageBox.Show("World saved successfully at\n" + path, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            //Prompt user to actually select a file
+            if (String.IsNullOrEmpty(SavedFileName) || String.IsNullOrEmpty(SavedPath))
+            {
+                SaveWorld_Click(sender, e);
+            }
+            else
+            {
+                string path = SavedPath + @"\" + SavedFileName;
+                DataHandler.SaveWorld(path);
+                MessageBox.Show("World saved successfully at\n" + path, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            
         }
 
         //World Load
@@ -88,151 +99,196 @@ namespace PWPlanner
             if (Selected == true)
             {
 
-                MainCanvas.Children.Clear();
-                TileDB = (TileData)DataHandler.LoadWorld(path);
-                DrawGrid(TileDB.Height, TileDB.Width);
+                PlannerSettings newWorldDB;
+                DataHandler.LoadStatus status = DataHandler.TryLoadWorld(path, out newWorldDB);
 
-                if (!TileDB.hasMainBackground)
+                if (status == DataHandler.LoadStatus.VersionMismatch)
                 {
-                    MainCanvas.Background = new SolidColorBrush(Utils.IntToARGBColor(TileDB.ARGBBackgroundColor));
+                    MessageBox.Show("This world is not compatible with this planner version.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                else
+                else if (status == DataHandler.LoadStatus.InvalidMagic)
                 {
-                    MainCanvas.Background = BackgroundData.GetBackground(TileDB.MainBackground);
+                    MessageBox.Show("This is not a world file.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
+                else //Load-able
+                {
 
-                SortedList<string, int> invalids = new SortedList<string, int>();
-                for (int i = 0; i < TileDB.Tiles.GetLength(0); i++)
-                {
-                    for (int j = 0; j < TileDB.Tiles.GetLength(1); j++)
+                    MainCanvas.Children.Clear();
+                    DB = new PlannerSettings(newWorldDB);
+                    DrawGrid(DB.WorldWidth, DB.WorldHeight);
+
+                    if (status == DataHandler.LoadStatus.TileNotFound)
                     {
-                        if (TileDB.Tiles[i, j] != null)
+                        if (newWorldDB.InvalidTiles.Count > 0)
                         {
-                            if (TileDB.Tiles[i, j].Type == TileType.Background || TileDB.Tiles[i, j].Type == TileType.Both)
+                            StringBuilder sb = new StringBuilder();
+                            sb.AppendLine($"Could not load {newWorldDB.InvalidTiles.Count} tiles (Using an older version?)");
+                            foreach (KeyValuePair<string, int> entry in newWorldDB.InvalidTiles)
                             {
-                                Image image = new Image()
-                                {
-                                    Height = 32,
-                                    Width = 32
-                                };
-                                string dataName = TileDB.Tiles[i, j].bgName;
-                                BackgroundName name = SelectableTile.GetBackgroundNameByString(TileDB.Tiles[i, j].bgName);
-
-                                //If the sprite does not exist.
-                                bool exists = backgroundMap.TryGetValue(name, out BitmapImage src);
-                                if (!exists && dataName != null)
-                                {
-                                    if (invalids.ContainsKey(dataName))
-                                    {
-                                        invalids[dataName]++;
-                                    }
-                                    else
-                                    {
-                                        invalids.Add(dataName, 0);
-                                    }
-                                    TileDB.Tiles[i, j] = null;
-                                }
-                                else
-                                {
-                                    image.Source = src;
-
-                                    Canvas.SetTop(image, TileDB.Tiles[i, j].Positions.BackgroundY.Value * 32);
-                                    Canvas.SetLeft(image, TileDB.Tiles[i, j].Positions.BackgroundX.Value * 32);
-                                    image.SetValue(Canvas.ZIndexProperty, 10);
-                                    MainCanvas.Children.Add(image);
-                                    TileDB.Tiles[i, j].Background = image;
-                                }
+                                sb.AppendLine($"-{entry.Key} [x{entry.Value}]");
                             }
+                            MessageBox.Show(sb.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
 
-                            if (TileDB.Tiles[i, j].Type == TileType.Foreground || TileDB.Tiles[i, j].Type == TileType.Both)
+                    for (int y = 0; y < DB.WorldHeight; y++)
+                    {
+                        for (int x = 0; x < DB.WorldWidth; x++)
+                        {
+                            if (!AnyTileAt(newWorldDB, x, y)) continue;
+
+                            foreach (Tile t in newWorldDB.TileMap[x, y].Tiles.ToList())
                             {
                                 Image image = new Image()
                                 {
-                                    Height = 32,
-                                    Width = 32
+                                    Source = t.Image.Source
                                 };
-                                string dataName = TileDB.Tiles[i, j].blName;
-                                BlockName name = SelectableTile.GetBlockNameByString(TileDB.Tiles[i, j].blName);
+                                Canvas.SetTop(image, y * 32);
+                                Canvas.SetLeft(image, x * 32);
+                                image.SetValue(Canvas.ZIndexProperty, t.ZIndex);
+                                MainCanvas.Children.Add(image);
+                                if (DB.TileMap[x, y] == null) DB.TileMap[x, y] = new TileData();
 
-                                bool exists = blockMap.TryGetValue(name, out BitmapImage src);
-                                if (!exists && dataName != null)
+                                
+                                if (t is Foreground)
                                 {
-                                    if (invalids.ContainsKey(dataName))
-                                    {
-                                        invalids[dataName]++;
-                                    }
-                                    else
-                                    {
-                                        invalids.Add(dataName, 0);
-                                    }
-                                    TileDB.Tiles[i, j] = null;
+                                    DB.TileMap[x, y].Tiles.Add(new Foreground(image) { TileName = t.TileName });
+                                }
+                                else if (t is Background)
+                                {
+                                    DB.TileMap[x, y].Tiles.Add(new Background(image) { TileName = t.TileName });
                                 }
                                 else
                                 {
-                                    image.Source = src;
-
-                                    Canvas.SetTop(image, TileDB.Tiles[i, j].Positions.ForegroundY.Value * 32);
-                                    Canvas.SetLeft(image, TileDB.Tiles[i, j].Positions.ForegroundX.Value * 32);
-                                    image.SetValue(Canvas.ZIndexProperty, 20);
-                                    MainCanvas.Children.Add(image);
-                                    TileDB.Tiles[i, j].Foreground = image;
+                                    DB.TileMap[x, y].Tiles.Add(new Special(image) { TileName = t.TileName });
                                 }
+                                
                             }
                         }
-                    }  
-                }
-
-                ColorSelector.SelectedColor = Utils.IntToARGBColor(TileDB.ARGBBackgroundColor);
-                firstPlaced = false;
-                FirstSelected = false;
-                SaveButton.IsEnabled = false;
-                SavedPath = String.Empty;
-                PreviousTiles.Items.Clear();
-                PreviousTiles.SelectedItem = null;
-                _selectedTile.Reset();
-
-                if (invalids.Count > 0)
-                {
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine($"Could not load {invalids.Count} tiles (Using an older version?)");
-                    foreach (KeyValuePair<string, int> entry in invalids)
-                    {
-                        sb.AppendLine($"-{entry.Key} [x{entry.Value}]");
                     }
-                    MessageBox.Show(sb.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    if (!DB.hasMainBackground)
+                    {
+                        MainCanvas.Background = new SolidColorBrush(Utils.IntToARGBColor(DB.ARGBBackgroundColor));
+                    }
+                    else
+                    {
+                        MainCanvas.Background = BackgroundData.GetBackground(DB.MainBackground);
+                    }
+
+                    ColorSelector.SelectedColor = Utils.IntToARGBColor(DB.ARGBBackgroundColor);
+                    firstPlaced = false;
+                    FirstSelected = false;
+                    SaveButton.IsEnabled = false;
+                    SavedPath = String.Empty;
+                    PreviousTiles.Items.Clear();
+                    PreviousTiles.SelectedItem = null;
+                    _selectedTile.Reset();
+
                 }
             }
             isLoading = false;
 
         }
-    }
-    public static class DataHandler
-    {
-        /// <summary>
-        /// Deserialize any object to a file, for later loading.
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="path"></param>
-        public static void SaveWorld(object array, string path)
-        {
-            using (Stream stream = File.Open(path, FileMode.Create))
-            {
-                BinaryFormatter bformatter = new BinaryFormatter();
-                bformatter.Serialize(stream, array);
-            }
-        }
 
-        /// <summary>
-        /// Loads any file into an object.
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="path"></param>
-        public static object LoadWorld(string path)
+        public class DataHandler
         {
-            using (Stream stream = File.Open(path, FileMode.Open))
+            public static void SaveWorld(string path)
             {
-                BinaryFormatter bformatter = new BinaryFormatter();
-                return bformatter.Deserialize(stream);
+                using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.Create)))
+                {
+                    //Header (60 bytes)
+                    bw.Write(PlannerSettings.SaveMagic); //PWWORLD magic
+                    bw.Write(PlannerSettings.CurrentVersion); //2 bytes
+                    bw.Write(DB.WorldWidth); // 2 bytes
+                    bw.Write(DB.WorldHeight); //2 bytes
+                    bw.Write(DB.hasMainBackground); // 1 byte
+                    bw.Write((byte)DB.MainBackground); // 1 byte
+                    bw.Write(DB.hasCustomMainBackgroundColor); // 1 byte
+                    bw.Write(DB.ARGBBackgroundColor); // 4 bytes
+                    bw.Write(new byte[40]); // Reserved
+
+                    for (int y = 0; y < DB.WorldHeight; y++)
+                    {
+                        for (int x = 0; x < DB.WorldWidth; x++)
+                        {
+                            if (AnyTileAt(DB, x, y))
+                            {
+                                bw.Write((short)x); // 2 bytes X
+                                bw.Write((short)y); // 2 bytes Y
+                                bw.Write((byte)DB.TileMap[x, y].Tiles.Count); // 1 byte Tile Count 
+                                foreach (var tile in DB.TileMap[x, y].Tiles)
+                                {
+                                    bw.Write((byte)tile.ZIndex); // 1 byte Defines tile type using zindex
+                                    bw.Write(tile.TileName); // Write the tile name so we can load by name later
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Loads a world from path. Returns an error code.
+            /// </summary>
+            /// <param name="path"></param>
+            /// <returns></returns>
+            public static LoadStatus TryLoadWorld(string path, out PlannerSettings db)
+            {
+                using (BinaryReader br = new BinaryReader(File.Open(path, FileMode.Open)))
+                {
+                    //Header (60 bytes)
+                    db = new PlannerSettings(PlannerSettings.DefaultWorldWidth, PlannerSettings.DefaultWorldHeight);
+                    if (Encoding.ASCII.GetString(br.ReadBytes(7)) != Encoding.ASCII.GetString(PlannerSettings.SaveMagic)) return LoadStatus.InvalidMagic; //Invalid file magic
+                    if (br.ReadInt16() != PlannerSettings.CurrentVersion) return LoadStatus.VersionMismatch; //Different version
+                    db.WorldWidth = br.ReadInt16();
+                    db.WorldHeight = br.ReadInt16();
+                    db.hasMainBackground = br.ReadByte() == 1;
+                    db.MainBackground = (BackgroundData.MainBackgroundType)br.ReadByte();
+                    db.hasCustomMainBackgroundColor = br.ReadByte() == 1;
+                    db.ARGBBackgroundColor = br.ReadInt32();
+                    br.BaseStream.Seek(40, SeekOrigin.Current); //Skip reserved
+                    
+                    while (br.BaseStream.Position != br.BaseStream.Length)
+                    {
+                        int X = br.ReadInt16();
+                        int Y = br.ReadInt16();
+                        int tileCountAtPos = br.ReadByte();
+                        for (int i = 0; i < tileCountAtPos; i++)
+                        {
+                            byte index = br.ReadByte();
+                            string tileName = br.ReadString();
+                            bool existsInDatabase = tileMap.TryGetValue(tileName, out Tile t);
+                            if (existsInDatabase)
+                            {
+                                if (db.TileMap[X, Y] == null) db.TileMap[X, Y] = new TileData();
+                                db.TileMap[X, Y].Tiles.Add(t);
+                            }
+                            else
+                            {
+                                if (db.InvalidTiles.ContainsKey(tileName))
+                                {
+                                    db.InvalidTiles[tileName]++;
+                                }
+                                else
+                                {
+                                    db.InvalidTiles.Add(tileName, 0);
+                                }
+                            }
+                        }
+                    }
+                    if (db.InvalidTiles.Count > 0) return LoadStatus.TileNotFound; //At least one tile is not present in the current version
+
+                    return LoadStatus.OK;
+                }
+            }
+
+            public enum LoadStatus
+            {
+                OK,
+                InvalidMagic,
+                VersionMismatch,
+                TileNotFound
             }
         }
     }

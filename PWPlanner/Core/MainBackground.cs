@@ -16,34 +16,34 @@ namespace PWPlanner
         /// </summary>
         /// <param name="bt"></param>
         /// <returns></returns>
-        public static ImageBrush GetBackground(BackgroundType bt)
+        public static ImageBrush GetBackground(MainBackgroundType bt)
         {
             ImageBrush imagebrush = new ImageBrush();
 
             switch (bt)
             {
-                case BackgroundType.Forest:
+                case MainBackgroundType.Forest:
                     imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Forest.png"));
                     break;
-                case BackgroundType.Night:
+                case MainBackgroundType.Night:
                     imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Night.png"));
                     break;
-                case BackgroundType.Star:
+                case MainBackgroundType.Star:
                     imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Star.png"));
                     break;
-                case BackgroundType.Candy:
+                case MainBackgroundType.Candy:
                     imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Candy.png"));
                     break;
-                case BackgroundType.Winter:
+                case MainBackgroundType.Winter:
                     imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Winter.png"));
                     break;
-                case BackgroundType.Alien:
+                case MainBackgroundType.Alien:
                     imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Alien.png"));
                     break;
-                case BackgroundType.Desert:
+                case MainBackgroundType.Desert:
                     imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Desert.png"));
                     break;
-                case BackgroundType.Cemetery:
+                case MainBackgroundType.Cemetery:
                     imagebrush.ImageSource = new BitmapImage(new Uri(Resources + "/Backgrounds/Cemetery.png"));
                     break;
 
@@ -55,8 +55,9 @@ namespace PWPlanner
         }
 
         [Serializable()]
-        public enum BackgroundType
+        public enum MainBackgroundType
         {
+            None,
             Forest,
             Night,
             Star,
@@ -65,7 +66,6 @@ namespace PWPlanner
             Alien,
             Desert,
             Cemetery,
-            None
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using PWPlanner.TileTypes;
 namespace PWPlanner
 {
     public partial class MainWindow
@@ -25,10 +26,10 @@ namespace PWPlanner
 
                 TileCanvas.Children.Remove(selectBorder);
 
-                SelectTile(entry.type, entry.Name);
+                SelectTile(entry.Name);
 
                 //Index is changed in SelectTile.
-                BitmapImage source = selectableTiles[index].source;
+                BitmapImage source = selectableTiles[index].Image.Source as BitmapImage;
 
                 TileHover.Content = entry.Name;
                 LabelImg.Source = source;
@@ -37,31 +38,23 @@ namespace PWPlanner
             }
         }
 
-        private void AddToPreviousTilesSelected(Tile tile, TileType type)
+        private void AddToPreviousTilesSelected(Tile tile)
         {
             foreach (var previous in PreviousTiles.Items)
             {
                 var prev = previous as PreviousTile;
 
                 //Check if the tile placed is different, so we don't add duplicates
-                if (prev.Name == _selectedTile.bgName || prev.Name == _selectedTile.blName)
+                if (prev.Name == _selectedTile.TileName)
                 {
                     return;
                 }
             }
 
             PreviousTile se = new PreviousTile();
-            if (type == TileType.Background)
-            {
-                se.Name = tile.bgName;
-                se.Source = tile.Background.Source as BitmapImage;
-            }
-            else
-            {
-                se.Name = tile.blName;
-                se.Source = tile.Foreground.Source as BitmapImage;
-            }
-            se.type = type;
+            se.Name = tile.TileName;
+            se.Source = tile.Image.Source as BitmapImage;
+
             PreviousTiles.Items.Add(se);
         }
 
@@ -69,7 +62,6 @@ namespace PWPlanner
         {
             public string Name { get; set; }
             public BitmapSource Source { get; set; }
-            public TileType type;
         }
     }
 }

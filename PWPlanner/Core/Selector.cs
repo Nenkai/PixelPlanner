@@ -5,21 +5,31 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+using PWPlanner.TileTypes;
+
 namespace PWPlanner
 {
     public partial class MainWindow : Window
     {
 
-        private Tile _selectedTile = new Tile();
+        private Tile _selectedTile;
         public Border selectBorder = new Border();
         public bool FirstSelected = false;
         public int index;
 
+        /// <summary>
+        /// (Re)Generates the selector by loading all the tiles present in the resources.
+        /// </summary>
         private void GenerateSelector()
         {
             ComboTypes.Items.Add("Backgrounds");
             ComboTypes.Items.Add("Blocks");
-            ComboTypes.SelectedIndex = 0;
+            ComboTypes.Items.Add("Special");
+
+            //Load tile database
+            LoadResourcesIntoTileMap();
+
+            ComboTypes.SelectedIndex = 1;
             //LoadTilesForSelector --> SelectionChanged
 
         }
@@ -39,33 +49,39 @@ namespace PWPlanner
                     Height = 32,
                     Width = 32,
 
-                    Source = selectableTiles[index].source
+                    Source = selectableTiles[index].Image.Source as BitmapImage
                 };
 
-                TileType tt = TileType.None;
-                BlockName blockName;
-                BackgroundName backgroundName;
+                Foreground.ForegroundName blockName;
+                Background.BackgroundName backgroundName;
+                Special.SpecialName specialName;
 
                 switch (ComboTypes.SelectedIndex)
                 {
                     case 0:
-                        backgroundName = SelectableTile.GetBackgroundNameByString(selectableTiles[index].bgName);
-                        tt = TileType.Background;
+                        backgroundName = TileTypes.Background.GetBackgroundNameByString(selectableTiles[index].TileName);
 
                         //So we can use it for the prev. tiles later
-                        _selectedTile = new Tile(tt, image);
-                        _selectedTile.bgName = selectableTiles[index].bgName;
+                        _selectedTile = new Background(image);
+                        _selectedTile.TileName = selectableTiles[index].TileName;
 
-                        TileHover.Content = selectableTiles[index].bgName;
+                        TileHover.Content = selectableTiles[index].TileName;
                         break;
                     case 1:
-                        blockName = SelectableTile.GetBlockNameByString(selectableTiles[index].blName);
-                        tt = TileType.Foreground;
+                        blockName = TileTypes.Foreground.GetForegroundNameByString(selectableTiles[index].TileName);
 
-                        _selectedTile = new Tile(tt, image);
-                        _selectedTile.blName = selectableTiles[index].blName;
+                        _selectedTile = new Foreground(image);
+                        _selectedTile.TileName = selectableTiles[index].TileName;
 
-                        TileHover.Content = selectableTiles[index].blName;
+                        TileHover.Content = selectableTiles[index].TileName;
+                        break;
+                    case 2:
+                        specialName = TileTypes.Special.GetSpecialNameByString(selectableTiles[index].TileName);
+
+                        _selectedTile = new Special(image);
+                        _selectedTile.TileName = selectableTiles[index].TileName;
+
+                        TileHover.Content = selectableTiles[index].TileName;
                         break;
                 }
 
@@ -86,42 +102,55 @@ namespace PWPlanner
                 FirstSelected = true;
                 LabelImg.Source = image.Source;
 
-            } catch (IndexOutOfRangeException index)  { /* ;-; */ }
+            } catch (IndexOutOfRangeException)  { /* ;-; */ }
         }
 
         private void ComboTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FirstSelected = false;
             TileCanvas.Children.Clear();
-
-            LoadMap(TileType.Background);
-            LoadMap(TileType.Foreground);
-
-            if (ComboTypes.SelectedIndex == 0) {
-                LoadTilesForSelector(TileType.Background);
+            selectableTiles.Clear();
+            if (ComboTypes.SelectedIndex == 0)
+            {
+                MakeSpriteSheetForType(new Background());
             }
-            else if (ComboTypes.SelectedIndex == 1) {
-                LoadTilesForSelector(TileType.Foreground);
+            else if (ComboTypes.SelectedIndex == 1)
+            {
+                MakeSpriteSheetForType(new Foreground());
+            }
+            else if (ComboTypes.SelectedIndex == 2)
+            {
+                MakeSpriteSheetForType(new Special());
             }
         }
 
-        public void SelectTile(TileType type, string bgOrblName)
+        public void SelectTile(string tileNameToSelect)
         {
             TileCanvas.Children.Remove(selectBorder);
 
             int searchIndex;
-            if (type == TileType.Background)
+
+            foreach (var i in tileMap)
             {
-                ComboTypes.SelectedIndex = 0;
-                searchIndex = Array.FindIndex(selectableTiles, prop => prop.bgName == bgOrblName);
-            }
-            else
-            {
-                ComboTypes.SelectedIndex = 1;
-                searchIndex = Array.FindIndex(selectableTiles, prop => prop.blName == bgOrblName);
+                if (i.Key.Equals(tileNameToSelect))
+                {
+                    if (i.Value is Background)
+                    {
+                        ComboTypes.SelectedIndex = 0;
+                    }
+                    else if (i.Value is Foreground)
+                    {
+                        ComboTypes.SelectedIndex = 1;
+                    }
+                    else
+                    {
+                        ComboTypes.SelectedIndex = 2;
+                    }
+                }
             }
 
-            BitmapImage source = selectableTiles[searchIndex].source;
+            searchIndex = selectableTiles.FindIndex(prop => prop.TileName == tileNameToSelect);
+            BitmapImage source = selectableTiles[searchIndex].Image.Source as BitmapImage;
             selectBorder = new Border()
             {
                 BorderBrush = Brushes.SkyBlue,
@@ -133,8 +162,8 @@ namespace PWPlanner
             Canvas.SetTop(selectBorder, GetYFromIndex(searchIndex) * 32);
             Canvas.SetLeft(selectBorder, GetXFromIndex(searchIndex) * 32);
 
-            _selectedTile = new Tile(type, new Image() { Source = source });
-            _selectedTile.bgName = bgOrblName;
+            _selectedTile = new Background(new Image() { Source = source });
+            _selectedTile.TileName = tileNameToSelect;
 
             TileCanvas.Children.Add(selectBorder);
             index = searchIndex;
