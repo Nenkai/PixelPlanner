@@ -137,14 +137,17 @@ namespace PWPlanner
                     if (i.Value is Background)
                     {
                         ComboTypes.SelectedIndex = 0;
+                        break;
                     }
                     else if (i.Value is Foreground)
                     {
                         ComboTypes.SelectedIndex = 1;
+                        break;
                     }
                     else
                     {
                         ComboTypes.SelectedIndex = 2;
+                        break;
                     }
                 }
             }
@@ -162,8 +165,7 @@ namespace PWPlanner
             Canvas.SetTop(selectBorder, GetYFromIndex(searchIndex) * 32);
             Canvas.SetLeft(selectBorder, GetXFromIndex(searchIndex) * 32);
 
-            _selectedTile = new Background(new Image() { Source = source });
-            _selectedTile.TileName = tileNameToSelect;
+            _selectedTile = GetTileFromName(tileNameToSelect);
 
             TileCanvas.Children.Add(selectBorder);
             index = searchIndex;

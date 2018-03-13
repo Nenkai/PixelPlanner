@@ -34,7 +34,7 @@ namespace PWPlanner
             }
             else
             {
-                DrawGrid(DB.WorldHeight, DB.WorldWidth);
+                DrawGrid(DB.WorldWidth, DB.WorldHeight);
             }
         }
 
@@ -253,6 +253,14 @@ namespace PWPlanner
                 }
                 location--;
             }
+        }
+
+        private Tile GetTileFromName(string tileName)
+        {
+            tileMap.TryGetValue(tileName, out Tile tmp);
+            tmp.Image = new Image() { Source = tmp.Image.Source };
+            tmp.TileName = tileName;
+            return tmp;
         }
 
         private void PlaceAt(int X, int Y, Tile tile)
