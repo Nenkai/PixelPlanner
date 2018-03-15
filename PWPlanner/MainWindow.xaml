@@ -261,7 +261,7 @@
         </ToolBarTray>
 
         <!-- Left Tools -->
-        <Border DockPanel.Dock="Left" MaxWidth="240" BorderBrush="Gray" BorderThickness="0,0,0,0" Width="240">
+        <Border DockPanel.Dock="Left" MaxWidth="300" BorderBrush="Gray" BorderThickness="0,0,0,0" Width="300">
             <Grid>
                 <Border BorderBrush="Gray" BorderThickness="2" Margin="10,82,10,10">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -273,14 +273,13 @@
                 <!-- Search Bar -->
                 <Grid VerticalAlignment="Top" Margin="10,10,10,0" Height="31" >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="32" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" Click="SearchButton_Click">
+                    <Button Grid.Column="0" Style="{DynamicResource MaterialDesignToolButton}" Click="SearchButton_Click" >
                         <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                     </Button>
-                    <TextBox Grid.Column="2" MinWidth="180" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" x:Name ="SearchBar" materialDesign:HintAssist.Hint="Search Tiles..." TextWrapping="Wrap" TextChanged="SearchBar_TextChanged" LostFocus="SearchBar_LostFocus" GotFocus="SearchBar_GotFocus" Margin="0,1"/>
+                    <TextBox Grid.Column="1" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" x:Name ="SearchBar" materialDesign:HintAssist.Hint="Search Tiles..." TextWrapping="Wrap" TextChanged="SearchBar_TextChanged" LostFocus="SearchBar_LostFocus" GotFocus="SearchBar_GotFocus" Margin="0,1"/>
                 </Grid>
                 <!-- Search Panel -->
                 <ListBox x:Name="SearchResultList" HorizontalAlignment="Left" Height="250" Margin="10,52,0,0" VerticalAlignment="Top" Visibility="Hidden" LostFocus="SearchList_LostFocus" Background="{DynamicResource MaterialDesignPaper}" Width="220">
