@@ -733,7 +733,69 @@
     <EmbeddedResource Include="Resources\Tiles\Special\Water.png" />
     <EmbeddedResource Include="Resources\Tiles\Special\Water2.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\BlueBigTile.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\BlueNeonBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\BlueSpheresBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\BrokenRuinBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\BrownBigTile.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\DirtyWall1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\DirtyWall2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\GreenBigTile.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\GreenGlowWire.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\GreenNeonBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\GreenSpheresBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\GreyBigTile.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\GreySpheresBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\OrangeGlowWire.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\OrangeNeonBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\RedBigTile.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\RedSpheresBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\RuinBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\RuinTileBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\VioletNeonBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\WirefenceBackground.png" />
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\WoodenBeamBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BeigeBrick.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BloodClawMarks.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BloodSplash.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BlueBrick.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BrokenRuinWall.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\CoalBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\CobraStatue.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ConcretePlatform.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ConstructionBarricade.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\CrackedPottery.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\DarkRedBlock.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\DrippingBlood.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GluePlatform.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\GreenBrick.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\IcePlatform.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\LeaningPlanks.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\MayanStatue.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\MetalSlant.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\MossyRuinWall.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\OldBrickPile.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RedJelloPlatform.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RuinPatternBlock1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RuinPatternBlock2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RuinSlant.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RuinsPillar1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RuinsPillar2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RuinsPillar3.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RuinsPillar4.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\RuinTiles.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\ShovelInSand.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Shower.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TrafficCone.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TwistedTreePillar1.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TwistedTreePillar2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TwistedTreePillar3.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TwistedTreePillar4.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TwistedTreePillar5.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.7\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.7\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
