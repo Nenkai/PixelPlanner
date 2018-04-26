@@ -146,6 +146,7 @@ namespace PWPlanner.TileTypes
             GreySpheresBackground,
             GreenSpheresBackground,
             WirefenceBackground,
+            BlackMetalSheet,
             NONE
         }
     }

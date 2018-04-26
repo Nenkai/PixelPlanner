@@ -1,15 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <data>
-  <version>2.3.0</version>
+  <version>2.4.0</version>
   <changelog>
-    >>03/15/2018 (2.3.0)
-        \!/ NOT COMPATIBLE WITH OLDER WORLDS. Do not update if you have worlds being planned.
-        
-        Water/Special Layer added. You can finally put them above blocks.
-        
-        Lots of backend changes.
-        Save/Load reworked, faster and more reliable.
-        Updated with 1.2 tiles.
+    >>04/26/2018 (2.4.0)
+      Updated Tiles.
   </changelog>
 </data>
 

@@ -474,6 +474,16 @@ namespace PWPlanner.TileTypes
             TwistedTreePillar3,
             TwistedTreePillar4,
             TwistedTreePillar5,
+            BunnyLoco,
+            EasterChicks,
+            Moai,
+            PicnicTable,
+            SpringFlowers,
+            WillowCatkin,
+            SinisterCalendar,
+            TreeTrunk2,
+            TreeTrunk3,
+            TreeTrunk4,
             NONE
         }
     }

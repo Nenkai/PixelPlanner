@@ -796,6 +796,22 @@
     <EmbeddedResource Include="Resources\Tiles\Blocks\TwistedTreePillar4.png" />
     <EmbeddedResource Include="Resources\Tiles\Blocks\TwistedTreePillar5.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\BunnyLoco.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\EasterChicks.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\Moai.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\PicnicTable.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\SpringFlowers.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\WillowCatkin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Backgrounds\BlackMetalSheet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TreeTrunk2.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TreeTrunk3.png" />
+    <EmbeddedResource Include="Resources\Tiles\Blocks\TreeTrunk4.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.7\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.7\build\dotnet\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
