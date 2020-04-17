@@ -1,3 +1,7 @@
+NOTE The assets are outdated and no additional support will be provided. If you wish to update them yourself, please make the necessary changes and open a pull request.
+
+
+
 # PixelPlanner [![Build status](https://ci.appveyor.com/api/projects/status/p25yvbnoho0eoem1?svg=true)](https://ci.appveyor.com/project/Nenkai/pixelplanner)
 A World Planner for the game Pixel Worlds written in C#.
 The sprites are included here, and are obviously used with permission from Kukouri Mobile Entertainment. They should not be used anywhere else.
